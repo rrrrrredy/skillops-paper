@@ -6,6 +6,8 @@
 \usepackage{booktabs}
 \usepackage{enumitem}
 \usepackage{hyperref}
+\usepackage{array}
+\usepackage{tabularx}
 \usepackage[numbers,sort&compress]{natbib}
 
 \title{SkillOps: A Practical Framework for Designing, Testing, and Operating Modular Skills in Personal AI Agents}
@@ -13,7 +15,8 @@
 \author{
 Song Luo\\
 Independent Researcher\\
-\texttt{TODO: add email or contact URL}
+\texttt{luosongred@gmail.com}\\
+\texttt{https://github.com/rrrrrredy}
 }
 
 \date{\today}
@@ -23,138 +26,390 @@ Independent Researcher\\
 \maketitle
 
 \begin{abstract}
-Personal AI agents increasingly rely on reusable capability modules, often called skills, to perform tasks across writing, coding, memory management, security review, and workflow automation. However, the design and operation of such skills remain largely informal. In practice, a skill is not merely a prompt fragment or tool wrapper: it may include trigger conditions, contextual knowledge, execution constraints, safety rules, tests, and lifecycle procedures for revision or removal. This paper introduces SkillOps, a practical framework for designing, testing, and operating modular skills in personal AI agents. The framework is derived from a set of open-source artifacts developed through independent practice, including a skill design guide, a security guard, a persistent memory mechanism, a self-audit mechanism, and a guardrail-oriented operational tool. We formulate three research questions concerning skill structure, stability under trigger and context variation, and the role of automated linting, security scanning, and self-auditing in reducing operational risk. We present the framework, describe the artifacts, and outline an evaluation methodology based on benchmark tasks and ablation studies. The paper does not claim broad empirical validation; benchmark results are left as TODO placeholders for future completion. The contribution is a modest but concrete engineering framework for making agent skills more explicit, testable, and maintainable.
+Personal AI agents increasingly rely on reusable capability modules, often called
+skills, to perform tasks across writing, coding, memory management, security
+review, and workflow automation. However, the design and operation of such
+skills remain largely informal. In practice, a skill may include trigger
+conditions, contextual knowledge, execution constraints, safety rules, tests,
+and lifecycle procedures for revision or removal. This paper introduces
+SkillOps, a practical framework for designing, testing, and operating modular
+skills in personal AI agents. The framework is derived from a set of open-source
+artifacts developed through independent practice, including a skill design
+guide, a security guard, a persistent memory mechanism, a self-audit mechanism,
+and a guardrail-oriented operational tool. We formulate three research questions
+concerning skill structure, stability under trigger and context variation, and
+the role of automated linting, security scanning, and self-auditing in reducing
+operational risk. The paper contributes a skill component taxonomy, a lifecycle
+model, a failure-mode taxonomy, and an artifact-based evaluation design. The
+current preprint reports framework and benchmark design only; generated
+benchmark results are not yet included. The contribution is therefore a modest
+engineering framework for making agent skills more explicit, testable, and
+maintainable rather than a claim of broad empirical validation.
 \end{abstract}
 
 \section{Introduction}
 
-Large language model agents are increasingly used as interactive systems that can read instructions, call tools, edit files, use external APIs, and maintain task-specific context. In such systems, user-visible behavior is often shaped not only by the base model, but also by auxiliary capability modules. These modules may be called tools, plugins, agents, memories, workflows, or skills. This paper focuses on the skill as a practical unit of agent capability.
+Large language model agents are increasingly used as interactive systems that
+can read instructions, call tools, edit files, use external APIs, and maintain
+task-specific context. In such systems, user-visible behavior is shaped not
+only by the base model, but also by auxiliary capability modules. These modules
+may be called tools, plugins, agents, memories, workflows, or skills. This
+paper focuses on the skill as a practical unit of agent capability in personal
+agent environments.
 
-In many personal agent settings, skills are written and maintained by individual users or small teams rather than by centralized platform engineers. A skill may contain a trigger description, operational instructions, examples, constraints, memory rules, safety checks, and tests. When these elements are implicit or poorly specified, the agent may activate the wrong skill, inject excessive context, ignore constraints, retain obsolete information, or perform unsafe operations. These are not only model-quality issues; they are operational issues in the design, testing, and maintenance of modular agent capabilities.
+In many personal agent settings, skills are written and maintained by
+individual users or small teams rather than by centralized platform engineers.
+A skill may contain a trigger description, operational instructions, examples,
+constraints, memory rules, safety checks, and tests. When these elements are
+implicit or poorly specified, the agent may activate the wrong skill, inject
+excessive context, ignore constraints, retain obsolete information, or perform
+unsafe operations. These are not only model-quality issues; they are
+operational issues in the design, testing, and maintenance of modular agent
+capabilities.
 
-This paper introduces SkillOps, a practical framework for the lifecycle management of agent skills. The term is used by analogy to operational practices in software engineering, but the scope is narrower. SkillOps does not propose a new model architecture or a general theory of agents. Instead, it provides a structured way to define, test, audit, and revise skills as reusable capability units.
+This paper introduces SkillOps, a practical framework for the lifecycle
+management of agent skills. The term is used by analogy to operational practice
+in software engineering, but the scope is narrower. SkillOps does not propose a
+new model architecture or a general theory of agents. Instead, it provides a
+structured way to define, test, audit, and revise skills as reusable capability
+units.
 
 The framework is derived from five open-source artifacts:
 
 \begin{itemize}[leftmargin=*]
-    \item \texttt{skill-design-guide}: guidance for defining skill structure and usage boundaries.
-    \item \texttt{skill-security-guard}: checks for unsafe or ambiguous skill behavior.
-    \item \texttt{persistent-memory}: a file-based memory mechanism for continuity across agent sessions.
-    \item \texttt{agent-self-audit}: a self-auditing mechanism for reviewing agent outputs and operational risks.
-    \item \texttt{lobster-guard}: a guardrail-oriented tool for checking operational assumptions and failure modes.
+    \item \texttt{skill-design-guide}: guidance for defining skill structure
+    and usage boundaries.
+    \item \texttt{skill-security-guard}: checks for unsafe or ambiguous skill
+    behavior.
+    \item \texttt{persistent-memory}: a file-based memory mechanism for
+    continuity across agent sessions.
+    \item \texttt{agent-self-audit}: a self-auditing mechanism for reviewing
+    agent outputs and operational risks.
+    \item \texttt{lobster-guard}: a guardrail-oriented tool for checking
+    operational assumptions and failure modes.
 \end{itemize}
 
-The central claim is modest: personal agent skills can be made more reliable when they are treated as lifecycle-managed artifacts with explicit structure, tests, and operational controls. The paper contributes a framework, a taxonomy of skill components, a methodology for artifact-based study, and an evaluation plan. Empirical results are not yet reported.
+The central claim is modest: personal agent skills can be made more reliable
+when they are treated as lifecycle-managed artifacts with explicit structure,
+tests, and operational controls. The paper contributes a framework, a taxonomy
+of skill components, a methodology for artifact-based study, and an evaluation
+plan. Empirical results are not yet reported.
 
 \section{Background and Motivation}
 
 \subsection{From Prompts to Operational Skills}
 
-Prompt engineering is often discussed as the design of instructions for a language model. In personal agent systems, however, instructions are rarely isolated. They may be tied to tools, files, context windows, memory policies, or task-specific workflows. A skill can therefore be understood as a structured capability unit that combines instructions with operational assumptions.
+Prompt engineering is often discussed as the design of instructions for a
+language model. In personal agent systems, however, instructions are rarely
+isolated. They may be tied to tools, files, context windows, memory policies,
+or task-specific workflows. A skill can therefore be understood as a structured
+capability unit that combines instructions with operational assumptions.
 
-For example, a writing skill may define when it should be used, what tone it should adopt, what sources it may rely on, and how it should handle uncertainty. A code review skill may specify repository access assumptions, test execution rules, and failure reporting requirements. A memory skill may specify what information should be retained, where it should be stored, and how obsolete information should be forgotten. These examples suggest that a skill is closer to an operational module than to a single prompt.
+For example, a writing skill may define when it should be used, what tone it
+should adopt, what sources it may rely on, and how it should handle
+uncertainty. A code-review skill may specify repository access assumptions, test
+execution rules, and failure-reporting requirements. A memory skill may specify
+what information should be retained, where it should be stored, and how
+obsolete information should be forgotten. These examples suggest that a skill is
+closer to an operational module than to a single prompt.
 
 \subsection{Operational Failure Modes}
 
-Informal skills can fail in several recurring ways. First, a skill may be triggered too broadly or too narrowly. Second, it may inject irrelevant or stale context, causing the model to overfit to past assumptions. Third, it may contain constraints that are underspecified or not testable. Fourth, it may introduce safety risks when it authorizes file edits, command execution, credential handling, or external communication. Fifth, it may accumulate obsolete memory that conflicts with current user intent.
+Informal skills can fail in several recurring ways. A skill may be triggered too
+broadly or too narrowly. It may inject irrelevant or stale context, causing the
+model to overfit to past assumptions. It may contain constraints that are
+underspecified or not testable. It may introduce safety risks when it
+authorizes file edits, command execution, credential handling, or external
+communication. It may also accumulate obsolete memory that conflicts with
+current user intent.
 
-These failure modes motivate a more systematic approach. If skills are treated as artifacts, they can be linted, tested, reviewed, versioned, and retired. This does not eliminate model uncertainty, but it can make operational assumptions more visible and auditable.
+These failure modes motivate a more systematic approach. If skills are treated
+as artifacts, they can be linted, tested, reviewed, versioned, and retired.
+This does not eliminate model uncertainty, but it can make operational
+assumptions more visible and auditable. Table~\ref{tab:failure-modes}
+summarizes the recurring failure categories used throughout the framework.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\begin{tabularx}{\linewidth}{
+    >{\raggedright\arraybackslash}p{0.19\linewidth}
+    >{\raggedright\arraybackslash}X
+    >{\raggedright\arraybackslash}p{0.31\linewidth}
+}
+\toprule
+\textbf{Failure mode} & \textbf{Description} & \textbf{Typical mitigation} \\
+\midrule
+Over-triggering & The skill activates for requests that only superficially
+match its scope. & Narrower trigger language, explicit negative examples,
+boundary tests. \\
+Under-triggering & The skill fails to activate for valid requests. & Positive
+examples, paraphrase coverage, trigger recall checks. \\
+Context contamination & Irrelevant, stale, or conflicting context is injected
+into execution. & Source filtering, freshness checks, conflict-resolution
+rules. \\
+Constraint drift & The skill's constraints are vague, contradictory, or not
+enforced consistently. & Testable rules, lint checks, regression cases. \\
+Unsafe tool use & The skill authorizes risky file, command, network, or
+credential operations without sufficient guardrails. & Permission scoping,
+security scanning, post-run audit questions. \\
+Memory drift & Stored memory persists after the underlying assumption has
+changed. & Expiry rules, deletion paths, explicit retirement and forgetting
+policies. \\
+Audit blindness & Failures are not surfaced because the skill does not require
+self-review or evidence reporting. & Output contracts, self-audit prompts,
+artifact logging. \\
+\bottomrule
+\end{tabularx}
+\caption{Failure-mode taxonomy for skill-based personal agents.}
+\label{tab:failure-modes}
+\end{table}
 
 \subsection{Positioning of SkillOps}
 
-SkillOps is positioned between prompt design, tool-use agents, and software engineering practice. It does not attempt to replace agent architectures such as tool-use planning, reasoning-action loops, or autonomous software engineering agents. Instead, it addresses a complementary layer: how reusable skills should be specified and operated in a personal agent environment.
+SkillOps is positioned between prompt design, tool-use agents, and software
+engineering practice. It does not attempt to replace agent architectures such
+as tool-use planning, reasoning-action loops, or autonomous software
+engineering agents. Instead, it addresses a complementary layer: how reusable
+skills should be specified and operated in a personal agent environment.
 
-Prior work on tool-using agents studies how language models decide when and how to use external tools \citep{schick2023toolformer,yao2023react}. Work on agent-computer interfaces studies how environment design affects agent performance \citep{yang2024sweagent}. Work on skill libraries shows that agent capabilities can be stored and reused over time \citep{wang2023voyager}. SkillOps builds on this general direction but focuses on the practical lifecycle of user-defined skills: design, triggering, context injection, constraint enforcement, auditing, and forgetting.
+Prior work on tool-using agents studies how language models decide when and how
+to use external tools \citep{schick2023toolformer,yao2023react}. Work on
+agent-computer interfaces studies how environment design affects agent
+performance \citep{yang2024sweagent}. Work on reusable skill libraries shows
+that agent capabilities can be stored and reused over time
+\citep{wang2024voyager}. SkillOps builds on this general direction but focuses
+on the practical lifecycle of user-defined skills: design, triggering, context
+injection, constraint enforcement, auditing, and forgetting.
 
 \section{The SkillOps Framework}
 
 \subsection{Definition of a Skill}
 
-In this paper, a skill is defined as a reusable capability unit that guides an agent's behavior for a class of tasks. A skill may include natural-language instructions, examples, trigger conditions, context requirements, tool permissions, safety constraints, output contracts, and tests.
+In this paper, a skill is defined as a reusable capability unit that guides an
+agent's behavior for a class of tasks. A skill may include natural-language
+instructions, examples, trigger conditions, context requirements, tool
+permissions, safety constraints, output contracts, and tests.
 
-A SkillOps-managed skill should be explicit along the following dimensions:
+SkillOps-managed skills are intended to make these assumptions explicit rather
+than implicit. Table~\ref{tab:skill-components} summarizes the structural
+components used in the framework.
 
-\begin{enumerate}[leftmargin=*]
-    \item \textbf{Name and purpose}: what the skill is for.
-    \item \textbf{Trigger description}: when the skill should and should not be used.
-    \item \textbf{Input assumptions}: what information the skill expects from the user or environment.
-    \item \textbf{Context injection policy}: what background knowledge, files, or memory should be included.
-    \item \textbf{Execution constraints}: what the agent must, may, and must not do.
-    \item \textbf{Tool and file access rules}: which tools or resources are allowed.
-    \item \textbf{Output contract}: what form the result should take.
-    \item \textbf{Safety and security checks}: what risks should be detected or blocked.
-    \item \textbf{Tests and examples}: representative cases, edge cases, and negative cases.
-    \item \textbf{Versioning and retirement rules}: how the skill is updated, deprecated, or forgotten.
-\end{enumerate}
+\begin{table}[t]
+\centering
+\footnotesize
+\begin{tabularx}{\linewidth}{
+    >{\raggedright\arraybackslash}p{0.22\linewidth}
+    >{\raggedright\arraybackslash}X
+    >{\raggedright\arraybackslash}p{0.29\linewidth}
+}
+\toprule
+\textbf{Component} & \textbf{Operational role} & \textbf{Example question} \\
+\midrule
+Name and purpose & Defines the task class and intended value of the skill. &
+What problem is this skill meant to solve? \\
+Trigger boundary & States when the skill should and should not activate. &
+What requests are in scope, out of scope, or ambiguous? \\
+Input assumptions & Records required user or environment information. & What
+must be known before execution starts? \\
+Context policy & Specifies what prior context, files, or memory may be
+injected. & What supporting context is necessary, and how fresh must it be? \\
+Execution constraints & States required, optional, and forbidden actions. &
+What must the agent do, avoid, or verify? \\
+Tool and file permissions & Limits resource access during execution. & Which
+tools, files, networks, or services are allowed? \\
+Output contract & Defines the expected form of the answer or artifact. & What
+must the final output contain? \\
+Safety and security checks & Surfaces risks and policy-relevant conditions. &
+What unsafe actions, hidden assumptions, or trust-boundary issues must be
+checked? \\
+Tests and examples & Provides positive, negative, and edge cases. & How is the
+skill regression-tested? \\
+Lifecycle metadata & Records versioning, revision triggers, and retirement
+rules. & When should the skill be updated, deprecated, or forgotten? \\
+\bottomrule
+\end{tabularx}
+\caption{Structural components of a SkillOps-managed skill.}
+\label{tab:skill-components}
+\end{table}
 
-This list is intended as a practical checklist rather than a formal specification language.
+\begin{figure}[t]
+\centering
+\fbox{
+    \parbox{0.9\linewidth}{
+        \centering
+        \textbf{Placeholder: Skill anatomy}\\[0.5em]
+        Planned diagram showing a skill as an operational artifact with trigger
+        boundaries, input assumptions, context policy, execution constraints,
+        tool permissions, output contract, tests, and lifecycle metadata.
+        This boxed placeholder keeps the preprint compilable until the final
+        figure is drawn.
+    }
+}
+\caption{Placeholder for the skill-anatomy figure.}
+\label{fig:skill-anatomy}
+\end{figure}
 
 \subsection{Lifecycle Model}
 
 SkillOps organizes skill management into a lifecycle:
 
 \begin{enumerate}[leftmargin=*]
-    \item \textbf{Design}: define purpose, scope, triggers, constraints, and output expectations.
-    \item \textbf{Lint}: check for ambiguity, missing fields, conflicting instructions, unsafe permissions, and untestable claims.
-    \item \textbf{Test}: evaluate the skill on positive, negative, and adversarial examples.
-    \item \textbf{Deploy}: make the skill available to the agent under controlled activation conditions.
-    \item \textbf{Observe}: collect failures, unexpected activations, user corrections, and context conflicts.
-    \item \textbf{Audit}: review outputs and operational traces for risk, drift, and non-compliance.
+    \item \textbf{Design}: define purpose, scope, triggers, constraints, and
+    output expectations.
+    \item \textbf{Lint}: check for ambiguity, missing fields, conflicting
+    instructions, unsafe permissions, and untestable claims.
+    \item \textbf{Test}: evaluate the skill on positive, negative, boundary,
+    and adversarial examples.
+    \item \textbf{Deploy}: make the skill available to the agent under
+    controlled activation conditions.
+    \item \textbf{Observe}: collect failures, unexpected activations, user
+    corrections, and context conflicts.
+    \item \textbf{Audit}: review outputs and operational traces for risk,
+    drift, and non-compliance.
     \item \textbf{Revise}: update the skill based on observed failures.
-    \item \textbf{Forget or retire}: remove obsolete context, deprecated rules, or unsafe skills.
+    \item \textbf{Forget or retire}: remove obsolete context, deprecated rules,
+    or unsafe skills.
 \end{enumerate}
 
-The lifecycle emphasizes that a skill is not complete when it is written. Its behavior depends on activation, context, model behavior, and interaction with other skills.
+The lifecycle emphasizes that a skill is not complete when it is written. Its
+behavior depends on activation, context, model behavior, and interaction with
+other skills.
+
+\begin{figure}[t]
+\centering
+\fbox{
+    \parbox{0.9\linewidth}{
+        \centering
+        \textbf{Placeholder: SkillOps lifecycle}\\[0.5em]
+        Planned diagram showing the lifecycle stages design, lint, test,
+        deploy, observe, audit, revise, and forget or retire. The current
+        draft keeps a compilable placeholder until the final diagram is
+        produced.
+    }
+}
+\caption{Placeholder for the SkillOps lifecycle figure.}
+\label{fig:skillops-lifecycle}
+\end{figure}
 
 \subsection{Trigger Design}
 
-Trigger descriptions determine when a skill is activated. A broad trigger may increase recall but also cause irrelevant activation. A narrow trigger may reduce false positives but fail to activate in valid cases. SkillOps therefore recommends that trigger descriptions include both positive and negative examples.
+Trigger descriptions determine when a skill is activated. A broad trigger may
+increase recall but also cause irrelevant activation. A narrow trigger may
+reduce false positives but fail to activate in valid cases. SkillOps therefore
+recommends that trigger descriptions include both positive and negative
+examples.
 
 A trigger specification should answer three questions:
 
 \begin{itemize}[leftmargin=*]
     \item What user requests should activate the skill?
     \item What superficially similar requests should not activate it?
-    \item What ambiguity should cause the agent to ask for clarification or fall back to a general response?
+    \item What ambiguity should cause the agent to ask for clarification or
+    fall back to a general response?
 \end{itemize}
 
-Trigger quality can be evaluated through paraphrase tests, boundary tests, and multi-intent tests. This paper does not yet report such results; Section~\ref{sec:evaluation} describes the planned evaluation.
+Trigger quality can be evaluated through paraphrase tests, boundary tests, and
+multi-intent tests. This paper does not yet report such results;
+Section~\ref{sec:evaluation} describes the evaluation design.
 
 \subsection{Context Injection}
 
-Context injection is necessary when a skill depends on project conventions, user preferences, prior decisions, or repository structure. However, excessive context can degrade behavior by introducing stale assumptions or irrelevant constraints. SkillOps treats context injection as an explicit policy rather than an implicit accumulation of memory.
+Context injection is necessary when a skill depends on project conventions, user
+preferences, prior decisions, or repository structure. However, excessive
+context can degrade behavior by introducing stale assumptions or irrelevant
+constraints. SkillOps treats context injection as an explicit policy rather than
+an implicit accumulation of memory.
 
 A context injection policy should specify:
 
 \begin{itemize}[leftmargin=*]
     \item the minimum context needed for the skill to operate;
-    \item the source of the context, such as files, memory entries, or tool outputs;
+    \item the source of the context, such as files, memory entries, or tool
+    outputs;
     \item the freshness requirements for the context;
     \item the conditions under which context should be omitted;
-    \item the method for resolving conflicts between current user instructions and stored context.
+    \item the method for resolving conflicts between current user instructions
+    and stored context.
 \end{itemize}
 
-This is especially important for personal agents, where long-lived memory can improve continuity but also preserve outdated assumptions.
+This is especially important for personal agents, where long-lived memory can
+improve continuity but also preserve outdated assumptions.
 
 \subsection{Execution Constraints}
 
-Execution constraints define what the agent is allowed to do during skill use. For low-risk writing skills, constraints may concern tone, citation style, or formatting. For higher-risk skills, constraints may concern file modification, command execution, external communication, credential handling, or irreversible actions.
+Execution constraints define what the agent is allowed to do during skill use.
+For low-risk writing skills, constraints may concern tone, citation style, or
+formatting. For higher-risk skills, constraints may concern file modification,
+command execution, external communication, credential handling, or irreversible
+actions.
 
 SkillOps distinguishes between three types of constraints:
 
 \begin{itemize}[leftmargin=*]
-    \item \textbf{Behavioral constraints}: rules about tone, reasoning style, response structure, or uncertainty reporting.
-    \item \textbf{Operational constraints}: rules about tools, files, commands, commits, network access, and external services.
-    \item \textbf{Safety constraints}: rules about privacy, credentials, harmful actions, or irreversible operations.
+    \item \textbf{Behavioral constraints}: rules about tone, reasoning style,
+    response structure, or uncertainty reporting.
+    \item \textbf{Operational constraints}: rules about tools, files, commands,
+    commits, network access, and external services.
+    \item \textbf{Safety constraints}: rules about privacy, credentials,
+    harmful actions, or irreversible operations.
 \end{itemize}
 
-A constraint is more useful when it is testable. For example, ``do not claim success without evidence'' is more testable than ``be careful.'' SkillOps therefore favors constraints that can be checked through examples, lint rules, or audit questions.
+A constraint is more useful when it is testable. For example, ``do not claim
+success without evidence'' is more testable than ``be careful.'' SkillOps
+therefore favors constraints that can be checked through examples, lint rules,
+or audit questions.
 
 \subsection{Forgetting and Retirement}
 
-Forgetting is a necessary part of skill operation. A personal agent may retain preferences, project state, or procedural rules that later become obsolete. Without a forgetting mechanism, the agent may apply outdated instructions to new tasks.
+Forgetting is a necessary part of skill operation. A personal agent may retain
+preferences, project state, or procedural rules that later become obsolete.
+Without a forgetting mechanism, the agent may apply outdated instructions to
+new tasks.
 
-SkillOps treats forgetting at two levels. First, individual memory entries may need to be removed or revised. Second, entire skills may need to be deprecated when their scope changes or when they become unsafe. Retirement rules should specify how to identify obsolete skills, how to preserve historical context if needed, and how to prevent deprecated instructions from continuing to influence behavior.
+SkillOps treats forgetting at two levels. First, individual memory entries may
+need to be removed or revised. Second, entire skills may need to be deprecated
+when their scope changes or when they become unsafe. Retirement rules should
+specify how to identify obsolete skills, how to preserve historical context if
+needed, and how to prevent deprecated instructions from continuing to influence
+behavior.
+
+Table~\ref{tab:informal-vs-skillops} contrasts informal prompt-based skills with
+skills managed under the proposed framework.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\begin{tabularx}{\linewidth}{
+    >{\raggedright\arraybackslash}p{0.23\linewidth}
+    >{\raggedright\arraybackslash}p{0.34\linewidth}
+    >{\raggedright\arraybackslash}X
+}
+\toprule
+\textbf{Dimension} & \textbf{Informal skill} & \textbf{SkillOps-managed skill} \\
+\midrule
+Scope definition & Implicit task description embedded in prompt text. & Named
+purpose, explicit scope, and documented non-scope. \\
+Activation & Heuristic or ad hoc triggering. & Trigger contract with positive,
+negative, and boundary examples. \\
+Context handling & Opportunistic context accumulation. & Declared context
+sources, freshness rules, and conflict handling. \\
+Constraints & Broad instructions such as ``be careful.'' & Testable behavioral,
+operational, and safety constraints. \\
+Testing & Rare or manual spot checks. & Regression cases, adversarial examples,
+and lint coverage. \\
+Security review & Often absent or implicit. & Permission scoping, unsafe-action
+checks, and trust-boundary review. \\
+Memory handling & Persistent context without explicit expiry rules. & Defined
+write permissions, forgetting policy, and retirement criteria. \\
+Operational reporting & Minimal trace of what changed and why. & Output
+contract, audit fields, versioning, and revision history. \\
+\bottomrule
+\end{tabularx}
+\caption{Comparison between informal prompt-based skills and SkillOps-managed
+skills.}
+\label{tab:informal-vs-skillops}
+\end{table}
 
 \section{Research Questions}
 
@@ -162,37 +417,84 @@ This paper is organized around three research questions.
 
 \paragraph{RQ1: What structural components should a skill include as an agent capability unit?}
 
-This question examines whether a practical skill template can make agent capabilities easier to understand, test, and maintain. The expected output is a component taxonomy covering triggers, context, constraints, tool access, output contracts, tests, and lifecycle metadata.
+This question examines whether a practical skill template can make agent
+capabilities easier to understand, test, and maintain. The expected output is a
+component taxonomy covering triggers, context, constraints, tool access, output
+contracts, tests, and lifecycle metadata.
 
 \paragraph{RQ2: How do trigger descriptions, context injection, execution constraints, and forgetting affect agent stability?}
 
-This question examines how design choices influence activation behavior, consistency across paraphrases, constraint following, and resistance to stale context. The expected output is a benchmark suite with controlled variations of skill definitions.
+This question examines how design choices influence activation behavior,
+consistency across paraphrases, constraint following, and resistance to stale
+context. The expected output is a benchmark suite with controlled variations of
+skill definitions.
 
 \paragraph{RQ3: Can automated linting, security scanning, and self-auditing reduce operational risk?}
 
-This question examines whether automated checks can identify common skill risks before or after deployment. The expected output is an evaluation of lint rules, security checks, and self-audit prompts against manually constructed cases.
+This question examines whether automated checks can identify common skill risks
+before or after deployment. The expected output is an evaluation of lint rules,
+security checks, and self-audit prompts against manually constructed cases.
+
+Table~\ref{tab:rq-mapping} maps each research question to the corresponding
+framework component and planned evaluation method.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\begin{tabularx}{\linewidth}{
+    >{\raggedright\arraybackslash}p{0.18\linewidth}
+    >{\raggedright\arraybackslash}p{0.29\linewidth}
+    >{\raggedright\arraybackslash}X
+}
+\toprule
+\textbf{Research question} & \textbf{Framework component} &
+\textbf{Planned evaluation method} \\
+\midrule
+RQ1 & Skill structure and documentation fields & Artifact review, template
+comparison, and completeness analysis across the open-source repositories. \\
+RQ2 & Trigger design, context policy, execution constraints, and forgetting &
+Controlled benchmark cases covering activation boundaries, paraphrases,
+stale-context injections, and deprecated-memory scenarios. \\
+RQ3 & Linting, security scanning, and self-audit & Seeded failure cases,
+guardrail checks, and manual review of whether flagged issues are actionable. \\
+\bottomrule
+\end{tabularx}
+\caption{Mapping from research questions to framework components and evaluation
+methods.}
+\label{tab:rq-mapping}
+\end{table}
 
 \section{Artifacts and Methodology}
 
 \subsection{Artifact Base}
 
-The framework is derived from a set of open-source artifacts. Table~\ref{tab:artifacts} summarizes their intended roles.
+The framework is derived from a set of open-source artifacts.
+Table~\ref{tab:artifacts} summarizes their intended roles.
 
-\begin{table}[h]
+\begin{table}[t]
 \centering
-\small
-\begin{tabular}{p{0.28\linewidth}p{0.62\linewidth}}
+\footnotesize
+\begin{tabularx}{\linewidth}{
+    >{\raggedright\arraybackslash}p{0.29\linewidth}
+    >{\raggedright\arraybackslash}X
+}
 \toprule
 \textbf{Artifact} & \textbf{Role in SkillOps} \\
 \midrule
-\texttt{skill-design-guide} & Provides design guidance for structuring skills, defining scope, and writing trigger descriptions. \\
-\texttt{skill-security-guard} & Provides checks for unsafe, ambiguous, or overly permissive skill behavior. \\
-\texttt{persistent-memory} & Provides a file-based approach to retaining and distilling long-term agent context. \\
-\texttt{agent-self-audit} & Provides a mechanism for reviewing agent outputs, assumptions, and possible failure modes. \\
-\texttt{lobster-guard} & Provides operational guardrails for checking assumptions, reporting partial failure, and avoiding unsupported claims. \\
+\texttt{skill-design-guide} & Provides design guidance for structuring skills,
+defining scope, and writing trigger descriptions. \\
+\texttt{skill-security-guard} & Provides checks for unsafe, ambiguous, or
+overly permissive skill behavior. \\
+\texttt{persistent-memory} & Provides a file-based approach to retaining and
+distilling long-term agent context. \\
+\texttt{agent-self-audit} & Provides a mechanism for reviewing agent outputs,
+assumptions, and possible failure modes. \\
+\texttt{lobster-guard} & Provides operational guardrails for checking
+assumptions, reporting partial failure, and avoiding unsupported claims. \\
 \bottomrule
-\end{tabular}
-\caption{Open-source artifacts used as the practical basis for the SkillOps framework.}
+\end{tabularx}
+\caption{Open-source artifacts used as the practical basis for the SkillOps
+framework.}
 \label{tab:artifacts}
 \end{table}
 
@@ -214,50 +516,76 @@ The artifact repositories are:
 
 \subsection{Methodological Approach}
 
-This paper uses an artifact-based methodology. Rather than beginning with a large-scale user study, it derives a framework from the design and use of practical open-source tools. The methodology has four steps:
+This paper uses an artifact-based methodology. Rather than beginning with a
+large-scale user study, it derives a framework from the design and use of
+practical open-source tools. The methodology has four steps:
 
 \begin{enumerate}[leftmargin=*]
-    \item \textbf{Artifact review}: identify recurring structures and constraints across the repositories.
-    \item \textbf{Component abstraction}: generalize these structures into a skill component taxonomy.
-    \item \textbf{Failure-mode analysis}: identify common ways in which skills can misfire, become stale, or create operational risk.
-    \item \textbf{Benchmark design}: construct test cases that evaluate trigger behavior, context injection, constraint following, forgetting, linting, security scanning, and self-audit behavior.
+    \item \textbf{Artifact review}: identify recurring structures and
+    constraints across the repositories.
+    \item \textbf{Component abstraction}: generalize these structures into a
+    skill component taxonomy.
+    \item \textbf{Failure-mode analysis}: identify common ways in which skills
+    can misfire, become stale, or create operational risk.
+    \item \textbf{Benchmark design}: construct test cases that evaluate trigger
+    behavior, context injection, constraint following, forgetting, linting,
+    security scanning, and self-audit behavior.
 \end{enumerate}
 
-This approach is exploratory. It is appropriate for deriving an initial framework, but it cannot by itself establish broad generality. The limitations are discussed in Section~\ref{sec:limitations}.
+This approach is exploratory. It is appropriate for deriving an initial
+framework, but it cannot by itself establish broad generality. The limitations
+are discussed in Section~\ref{sec:limitations}.
 
 \subsection{Benchmark Construction Plan}
 
-The planned benchmark will include manually constructed cases in the following categories:
+The planned benchmark will include manually constructed cases in the following
+categories:
 
 \begin{itemize}[leftmargin=*]
     \item \textbf{Activation cases}: requests that should activate a skill.
-    \item \textbf{Non-activation cases}: requests that appear related but should not activate the skill.
-    \item \textbf{Boundary cases}: ambiguous requests requiring clarification or fallback.
-    \item \textbf{Context cases}: tasks requiring relevant context and tasks where injected context is harmful.
-    \item \textbf{Constraint cases}: tasks testing whether operational and safety constraints are followed.
-    \item \textbf{Forgetting cases}: tasks where obsolete memory or deprecated instructions should not be used.
-    \item \textbf{Security cases}: tasks containing unsafe permissions, credential exposure, prompt injection, or irreversible actions.
-    \item \textbf{Audit cases}: completed outputs requiring self-review for unsupported claims, missing evidence, or hidden assumptions.
+    \item \textbf{Non-activation cases}: requests that appear related but should
+    not activate the skill.
+    \item \textbf{Boundary cases}: ambiguous requests requiring clarification or
+    fallback.
+    \item \textbf{Context cases}: tasks requiring relevant context and tasks
+    where injected context is harmful.
+    \item \textbf{Constraint cases}: tasks testing whether operational and
+    safety constraints are followed.
+    \item \textbf{Forgetting cases}: tasks where obsolete memory or deprecated
+    instructions should not be used.
+    \item \textbf{Security cases}: tasks containing unsafe permissions,
+    credential exposure, prompt injection, or irreversible actions.
+    \item \textbf{Audit cases}: completed outputs requiring self-review for
+    unsupported claims, missing evidence, or hidden assumptions.
 \end{itemize}
 
-All benchmark files, scripts, tables, and figures should be added to the repository as the project develops. Manually constructed cases should be clearly labeled.
+The repository already allocates directories for benchmark cases, scripts,
+results, and figures. Generated benchmark artifacts will be added in later
+revisions as the benchmark implementation matures.
 
 \section{Evaluation}
 \label{sec:evaluation}
 
-The evaluation is designed to test the framework without claiming broad empirical validation. The goal is to determine whether SkillOps-style structure and checks are useful on a small but transparent set of cases.
+The evaluation is designed to test the framework without claiming broad
+empirical validation. The goal is to determine whether SkillOps-style structure
+and checks are useful on a small but transparent set of cases.
 
 \subsection{Evaluation Questions}
 
-The evaluation will address the following questions:
+The evaluation is intended to address the following questions:
 
 \begin{itemize}[leftmargin=*]
-    \item Does an explicit skill template improve activation precision and reduce false activation?
-    \item Does an explicit context injection policy reduce failures caused by irrelevant or stale context?
-    \item Do testable execution constraints improve compliance compared with informal constraints?
-    \item Can forgetting rules prevent obsolete memory from influencing later behavior?
+    \item Does an explicit skill template improve activation precision and
+    reduce false activation?
+    \item Does an explicit context injection policy reduce failures caused by
+    irrelevant or stale context?
+    \item Do testable execution constraints improve compliance compared with
+    informal constraints?
+    \item Can forgetting rules prevent obsolete memory from influencing later
+    behavior?
     \item Can linting and security scanning identify common skill design risks?
-    \item Can self-auditing identify unsupported claims or operational failures after generation?
+    \item Can self-auditing identify unsupported claims or operational failures
+    after generation?
 \end{itemize}
 
 \subsection{Experimental Conditions}
@@ -265,144 +593,217 @@ The evaluation will address the following questions:
 A minimal evaluation can compare the following conditions:
 
 \begin{enumerate}[leftmargin=*]
-    \item \textbf{Baseline prompt}: an informal skill description without structured fields.
-    \item \textbf{Structured skill}: a SkillOps-style skill template with explicit trigger, context, constraints, and output contract.
-    \item \textbf{Structured skill with tests}: the structured skill plus positive, negative, and boundary examples.
-    \item \textbf{Structured skill with guards}: the structured skill plus linting, security checks, and self-audit.
+    \item \textbf{Baseline prompt}: an informal skill description without
+    structured fields.
+    \item \textbf{Structured skill}: a SkillOps-style skill template with
+    explicit trigger, context, constraints, and output contract.
+    \item \textbf{Structured skill with tests}: the structured skill plus
+    positive, negative, and boundary examples.
+    \item \textbf{Structured skill with guards}: the structured skill plus
+    linting, security checks, and self-audit.
 \end{enumerate}
 
-The same task set should be run under each condition. Model, temperature, context, and tool access should be recorded.
+The same task set should be run under each condition. Model, temperature,
+context, and tool access should be recorded.
 
 \subsection{Metrics}
 
 The following metrics are proposed:
 
 \begin{itemize}[leftmargin=*]
-    \item \textbf{Activation precision}: proportion of activated cases that should have activated the skill.
-    \item \textbf{Activation recall}: proportion of valid cases in which the skill activated.
-    \item \textbf{False activation rate}: proportion of invalid cases that activated the skill.
-    \item \textbf{Constraint compliance}: proportion of outputs satisfying required constraints.
-    \item \textbf{Context relevance}: proportion of outputs using only relevant injected context.
-    \item \textbf{Stale-context error rate}: proportion of outputs influenced by obsolete context.
-    \item \textbf{Security issue detection}: proportion of seeded risks detected by the guard.
-    \item \textbf{Audit usefulness}: proportion of self-audit findings judged actionable by manual review.
+    \item \textbf{Activation precision}: proportion of activated cases that
+    should have activated the skill.
+    \item \textbf{Activation recall}: proportion of valid cases in which the
+    skill activated.
+    \item \textbf{False activation rate}: proportion of invalid cases that
+    activated the skill.
+    \item \textbf{Constraint compliance}: proportion of outputs satisfying
+    required constraints.
+    \item \textbf{Context relevance}: proportion of outputs using only relevant
+    injected context.
+    \item \textbf{Stale-context error rate}: proportion of outputs influenced
+    by obsolete context.
+    \item \textbf{Security issue detection}: proportion of seeded risks detected
+    by the guard.
+    \item \textbf{Audit usefulness}: proportion of self-audit findings judged
+    actionable by manual review.
 \end{itemize}
 
-These metrics are intended for small-scale exploratory evaluation. They should not be interpreted as evidence of general performance across all agents or tasks.
+These metrics are intended for small-scale exploratory evaluation. They should
+not be interpreted as evidence of general performance across all agents or
+tasks.
 
-\subsection{Planned Results Tables}
+\subsection{Implementation Status}
 
-Table~\ref{tab:activation-results} is a placeholder for activation and constraint results.
+The current repository contains the paper draft, the benchmark design, and the
+directory structure reserved for benchmark cases, scripts, results, and
+figures. Generated result tables are added after the benchmark cases and
+scripts are implemented and executed. Accordingly, this preprint reports the
+evaluation protocol and expected outputs, but it does not yet include numeric
+benchmark results.
 
-\begin{table}[h]
-\centering
-\small
-\begin{tabular}{lcccc}
-\toprule
-\textbf{Condition} & \textbf{Precision} & \textbf{Recall} & \textbf{False Activation} & \textbf{Constraint Compliance} \\
-\midrule
-Baseline prompt & TODO & TODO & TODO & TODO \\
-Structured skill & TODO & TODO & TODO & TODO \\
-Structured skill + tests & TODO & TODO & TODO & TODO \\
-Structured skill + guards & TODO & TODO & TODO & TODO \\
-\bottomrule
-\end{tabular}
-\caption{TODO: Activation and constraint-following results. Values should be filled after benchmark execution.}
-\label{tab:activation-results}
-\end{table}
+\subsection{Expected Outputs}
 
-Table~\ref{tab:guard-results} is a placeholder for guardrail and audit results.
-
-\begin{table}[h]
-\centering
-\small
-\begin{tabular}{lccc}
-\toprule
-\textbf{Check Type} & \textbf{Seeded Cases} & \textbf{Detected} & \textbf{False Positives} \\
-\midrule
-Linting & TODO & TODO & TODO \\
-Security scanning & TODO & TODO & TODO \\
-Self-audit & TODO & TODO & TODO \\
-Forgetting checks & TODO & TODO & TODO \\
-\bottomrule
-\end{tabular}
-\caption{TODO: Guardrail and audit results. Values should be filled after benchmark execution.}
-\label{tab:guard-results}
-\end{table}
-
-\subsection{Planned Figures}
-
-The paper should include at least two figures after the benchmark is implemented:
+Once the benchmark is implemented, the repository is expected to add:
 
 \begin{itemize}[leftmargin=*]
-    \item \textbf{Figure 1}: SkillOps lifecycle diagram, showing design, lint, test, deploy, observe, audit, revise, and forget.
-    \item \textbf{Figure 2}: Skill structure diagram, showing trigger, context, constraints, tools, output contract, tests, and lifecycle metadata.
+    \item generated activation and constraint-compliance tables;
+    \item generated guardrail and self-audit summaries;
+    \item benchmark case files documenting positive, negative, and adversarial
+    examples;
+    \item figures derived from the final framework and benchmark artifacts.
 \end{itemize}
-
-TODO: Add figures after finalizing the visual design.
 
 \section{Discussion}
 
-SkillOps frames personal agent skills as operational artifacts rather than isolated prompts. This framing has several implications.
+SkillOps frames personal agent skills as operational artifacts rather than
+isolated prompts. This framing has several implications.
 
-First, it makes skill design more inspectable. When trigger conditions, context policies, and constraints are written explicitly, they can be reviewed by humans and checked by tools. This is useful even when the underlying model remains uncertain.
+First, it makes skill design more inspectable. When trigger conditions, context
+policies, and constraints are written explicitly, they can be reviewed by
+humans and checked by tools. This is useful even when the underlying model
+remains uncertain.
 
-Second, it encourages test-driven skill development. A skill should include examples of intended activation, unintended activation, edge cases, and unsafe requests. These examples do not guarantee correct behavior, but they create a practical basis for regression testing.
+Second, it encourages test-driven skill development. A skill should include
+examples of intended activation, unintended activation, edge cases, and unsafe
+requests. These examples do not guarantee correct behavior, but they create a
+practical basis for regression testing.
 
-Third, it treats memory as both useful and risky. Persistent memory can improve continuity across sessions, but it can also preserve outdated preferences, project state, or unsafe assumptions. SkillOps therefore treats forgetting as a first-class operation rather than an afterthought.
+Third, it treats memory as both useful and risky. Persistent memory can improve
+continuity across sessions, but it can also preserve outdated preferences,
+project state, or unsafe assumptions. SkillOps therefore treats forgetting as a
+first-class operation rather than an afterthought.
 
-Fourth, it suggests that safety checks should be integrated into normal skill operation. Security scanning and self-auditing should not be reserved only for high-risk deployments. Even personal agents can perform file edits, repository operations, or external communications that require explicit safeguards.
+Fourth, it suggests that safety checks should be integrated into normal skill
+operation. Security scanning and self-auditing should not be reserved only for
+high-risk deployments. Even personal agents can perform file edits, repository
+operations, or external communications that require explicit safeguards.
 
-Finally, SkillOps may help bridge individual practice and more formal agent engineering. Many agent failures are not caused solely by model limitations. They also arise from unclear instructions, uncontrolled context, weak operational boundaries, and missing review procedures. A lightweight operational framework can make these issues easier to identify and improve.
+Finally, SkillOps may help bridge individual practice and more formal agent
+engineering. Many agent failures are not caused solely by model limitations.
+They also arise from unclear instructions, uncontrolled context, weak
+operational boundaries, and missing review procedures. A lightweight
+operational framework can make these issues easier to identify and improve.
 
 \section{Limitations}
 \label{sec:limitations}
 
 This paper has several limitations.
 
-First, the framework is derived from a single independent researcher's open-source practice. This provides concrete artifacts, but it limits the diversity of settings from which the framework is derived.
+First, the framework is derived from a single independent researcher's
+open-source practice. This provides concrete artifacts, but it limits the
+diversity of settings from which the framework is derived.
 
-Second, the evaluation is not yet complete. The paper currently includes TODO placeholders for benchmark results. It should not claim empirical improvement until benchmark data are collected and reported.
+Second, benchmark execution is not yet complete. This draft reports benchmark
+design and evaluation protocol, but it does not yet include generated result
+tables. It should not claim empirical improvement until benchmark data are
+collected and reported.
 
-Third, the planned benchmark is expected to be small-scale and manually constructed. Such a benchmark can reveal useful failure modes, but it cannot establish broad generality across all models, users, platforms, or agent architectures.
+Third, the planned benchmark is expected to be small-scale and manually
+constructed. Such a benchmark can reveal useful failure modes, but it cannot
+establish broad generality across all models, users, platforms, or agent
+architectures.
 
-Fourth, SkillOps focuses on the operational layer of skill design. It does not propose a new model architecture, training method, planner, or tool-use algorithm.
+Fourth, SkillOps focuses on the operational layer of skill design. It does not
+propose a new model architecture, training method, planner, or tool-use
+algorithm.
 
-Fifth, some evaluation criteria require human judgment. For example, audit usefulness and context relevance may be difficult to score objectively. The benchmark should therefore include clear annotation guidelines.
+Fifth, some evaluation criteria require human judgment. For example, audit
+usefulness and context relevance may be difficult to score objectively. The
+benchmark should therefore include clear annotation guidelines.
 
-Sixth, personal agent environments differ substantially in their tool access, memory mechanisms, security policies, and user expectations. A skill format that works in one environment may require adaptation in another.
+Sixth, personal agent environments differ substantially in their tool access,
+memory mechanisms, security policies, and user expectations. A skill format
+that works in one environment may require adaptation in another.
 
 \section{Related Work}
 
-\paragraph{Tool-using language model agents.}
+\paragraph{Tool-using and modular agents.}
 
-Work on tool-using language models studies how models can decide when to call external tools and how to integrate tool results into reasoning. Toolformer shows that language models can be trained to use external APIs through self-supervised data generation \citep{schick2023toolformer}. ReAct combines reasoning traces with actions in external environments \citep{yao2023react}. These works focus on model behavior and interaction patterns. SkillOps addresses a complementary question: how user-defined capabilities should be structured, tested, and operated as maintainable artifacts.
+SkillOps sits at the intersection of software modularity, hierarchical skills,
+and tool-using language model agents. Earlier work on software decomposition and
+reusable structure emphasized information hiding, design patterns, and
+component-based modularity \citep{parnas1972criteria,gamma1994design,szyperski2002component},
+while hierarchical reinforcement learning formalized reusable temporally
+extended skills \citep{sutton1999options,dietterich2000maxq}. In the LLM era,
+MRKL, Toolformer, and ReAct study how models call tools or coordinate reasoning
+with external actions \citep{karpas2022mrkl,schick2023toolformer,yao2023react}.
+Benchmark-oriented tool-use work such as API-Bank and ToolLLM evaluates API
+invocation over larger tool sets \citep{li2023apibank,qin2024toolllm}. SkillOps
+differs by treating a skill as a governed artifact with trigger contracts,
+context policy, constraints, tests, and lifecycle metadata rather than only as
+an action primitive or tool call.
 
-\paragraph{Agent-computer interfaces and software engineering agents.}
+\paragraph{Skill libraries and memory.}
 
-Recent work on software engineering agents emphasizes the importance of interfaces between agents and computational environments. SWE-agent argues that agent-computer interfaces can substantially affect the ability of language model agents to edit files, navigate repositories, and run tests \citep{yang2024sweagent}. Related systems evaluate agents on software engineering benchmarks such as issue resolution and program repair. SkillOps does not propose a new coding agent. Instead, it treats skills as reusable operational units that may govern coding, writing, memory, or security workflows.
+Reusable skill libraries appear in embodied and long-horizon agents such as
+Voyager, where executable skills are stored and reused over time
+\citep{wang2024voyager}. Conceptual architectures such as CoALA and memory
+systems such as MemoryBank and MemGPT show that long-running agents need
+explicit mechanisms for memory storage, retrieval, and control
+\citep{sumers2024coala,zhong2024memorybank,packer2023memgpt}. Work on reflective
+improvement, including Reflexion and Self-Refine, further suggests that agent
+behavior can be improved by structured feedback loops
+\citep{shinn2023reflexion,madaan2023selfrefine}. SkillOps extends this line by
+specifying which skills may write or consume memory, how staleness is handled,
+and how retirement or forgetting is enforced.
 
-\paragraph{Skill libraries and long-horizon agent behavior.}
+\paragraph{Agent security and prompt injection.}
 
-Some agent systems maintain reusable skills over time. Voyager, for example, uses a skill library as part of an embodied lifelong learning agent in Minecraft \citep{wang2023voyager}. This line of work shows that reusable capabilities can support long-horizon behavior. SkillOps differs by focusing on explicit skill metadata, trigger design, context injection, constraints, testing, auditing, and forgetting in personal AI agents rather than on autonomous exploration in a simulated environment.
+Security work on LLM-integrated applications highlights why skill-level context
+policy matters. Indirect prompt injection shows that untrusted content can
+override intended instructions when data and control are mixed
+\citep{greshake2023notwhat}. Red-teaming, formal prompt-injection benchmarking,
+instruction-priority training, structured-query defenses, and environments such
+as AgentDojo all study ways to characterize or mitigate these risks
+\citep{ganguli2022redteaming,liu2024formalizingprompt,wallace2024instructionhierarchy,chen2025struq,debenedetti2024agentdojo}.
+SkillOps does not claim to solve prompt injection; its narrower goal is to
+localize trust boundaries, permission scopes, memory-write rules, and audit
+fields within each skill.
 
-\paragraph{Software modularity, components, and operational practice.}
+\paragraph{Agent evaluation and software engineering.}
 
-The idea that complex systems should be decomposed into modules has a long history in software engineering. Classic work on modularization argues that module boundaries should hide design decisions likely to change \citep{parnas1972criteria}. Design patterns and component-based software engineering similarly emphasize reuse, interfaces, and maintainability \citep{gamma1994design,szyperski2002component}. SkillOps adapts this modularity perspective to agent skills, where the module boundary includes natural-language instructions, context policies, safety constraints, and tests rather than only code interfaces.
+Recent agent evaluation work increasingly uses interactive or executable
+environments rather than static question answering. SWE-bench and SWE-agent
+study real software tasks and the importance of agent-computer interfaces
+\citep{jimenez2024swebench,yang2024sweagent}, while AgentBench, GAIA, and
+\(\tau\)-bench broaden evaluation to multiple environments and tool-user
+interaction settings \citep{liu2024agentbench,mialon2023gaia,yao2025taubench}.
+SkillOps adopts the operational spirit of this literature but focuses on
+skill-level properties such as false-trigger rate, stale-context errors,
+constraint violations, and recovery after partial failure.
 
-\paragraph{Prompting, human-AI interaction, and safety evaluation.}
+\paragraph{Documentation, model cards, and operational reporting.}
 
-Prompting and human-AI interaction research studies how instructions, examples, and interface design influence model behavior \citep{brown2020language,ouyang2022training,amershi2019guidelines}. Safety and red-teaming work studies how systems can be evaluated for harmful, unintended, or policy-violating behavior \citep{ganguli2022redteaming}. SkillOps is related to these areas but narrower in scope. It focuses on the operational maintenance of personal agent skills, including linting, security checks, self-auditing, and forgetting.
-
-% TODO: Manually verify all citation keys and bibliographic entries before submission.
-% TODO: Consider adding recent work on agent evaluation, benchmark design, prompt injection, and memory systems.
-% TODO: Avoid citing non-academic blog posts unless they are explicitly discussed as practitioner context.
+SkillOps is also informed by work on documentation and operational discipline
+for AI systems. Large language models and instruction tuning make
+natural-language control surfaces central to system behavior
+\citep{brown2020language,ouyang2022training}, while human-AI interaction
+guidelines emphasize communicating system capabilities, uncertainty, and user
+expectations \citep{amershi2019guidelines}. Model Cards, Datasheets, Hidden
+Technical Debt, and the ML Test Score argue that AI systems need structured
+reporting, monitoring, and readiness checks
+\citep{mitchell2019modelcards,gebru2021datasheets,sculley2015hidden,breck2017mltestscore}.
+SkillOps transfers this documentation mindset to modular agent skills by making
+operational assumptions explicit and reviewable.
 
 \section{Conclusion}
 
-This paper introduced SkillOps, a practical framework for designing, testing, and operating modular skills in personal AI agents. The framework is derived from open-source artifacts and emphasizes explicit skill structure, trigger design, context injection, execution constraints, security checks, self-auditing, and forgetting. The paper formulates three research questions and outlines an evaluation plan based on benchmark tasks and ablation conditions.
+This paper introduced SkillOps, a practical framework for designing, testing,
+and operating modular skills in personal AI agents. The framework is derived
+from open-source artifacts and emphasizes explicit skill structure, trigger
+design, context injection, execution constraints, security checks,
+self-auditing, and forgetting. The paper formulates three research questions
+and outlines an evaluation plan based on benchmark tasks and ablation
+conditions.
 
-The current contribution is intentionally modest. SkillOps is not presented as a new agent architecture or as a broadly validated empirical result. Instead, it is a concrete operational framework intended to make personal agent skills more inspectable, testable, and maintainable. Future work should complete the benchmark, report results transparently, compare across models and agent environments, and refine the framework based on external use.
+The current contribution is intentionally modest. SkillOps is not presented as a
+new agent architecture or as a broadly validated empirical result. Instead, it
+is a concrete operational framework intended to make personal agent skills more
+inspectable, testable, and maintainable. Future work should implement the
+benchmark cases and scripts, generate the corresponding result tables and
+figures, compare across models and agent environments, and refine the framework
+based on external use.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
