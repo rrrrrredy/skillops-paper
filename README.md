@@ -1,6 +1,8 @@
 # SkillOps Paper
 
-This repository contains the paper draft, research logs, benchmark files, scripts, figures, and reproducible artifacts for the paper:
+This repository contains the working paper draft, research logs, benchmark
+design notes, bibliography, figures directory, and reproducibility scaffolding
+for:
 
 **SkillOps: A Practical Framework for Designing, Testing, and Operating Modular Skills in Personal AI Agents**
 
@@ -9,26 +11,19 @@ Affiliation: **Independent Researcher**
 
 ## Status
 
-Work in progress.
+This repository is an active first-preprint workspace.
 
-Current stage:
+The current draft is internally consistent enough for review as a preprint
+draft, but it is still incomplete in two important ways:
 
-- Paper specification created.
-- Related work notes drafted.
-- Initial references collected.
-- Artifact inventory, benchmark files, scripts, figures, and paper draft are still under development.
+- The paper now includes framework tables, figure placeholders, and a cleaned
+  bibliography.
+- Generated benchmark results are not yet included.
 
-## Research Questions
+## Linked Artifact Base
 
-**RQ1:** What structural components should a skill include as an agent capability unit?
-
-**RQ2:** How do trigger descriptions, context injection, execution constraints, and forgetting affect agent stability?
-
-**RQ3:** Can automated linting, security scanning, and self-auditing reduce operational risk?
-
-## Artifact Base
-
-This paper is based on the following open-source artifacts developed by the author:
+The paper is grounded in the following open-source artifacts maintained by the
+author:
 
 - [skill-design-guide](https://github.com/rrrrrredy/skill-design-guide)
 - [skill-security-guard](https://github.com/rrrrrredy/skill-security-guard)
@@ -36,59 +31,91 @@ This paper is based on the following open-source artifacts developed by the auth
 - [agent-self-audit](https://github.com/rrrrrredy/agent-self-audit)
 - [lobster-guard](https://github.com/rrrrrredy/lobster-guard)
 
-These artifacts are treated as exploratory engineering evidence and reproducible case material, not as proof of large-scale empirical validation.
+These repositories are treated as exploratory engineering evidence and case
+material. They are not presented as proof of broad empirical validation.
 
-## Planned Evaluation
+## Current Stage
 
-The initial evaluation will be small-scale, artifact-based, and reproducible.
+The project is currently at the following stage:
 
-Planned components:
+- Paper framing, research questions, and methodology draft are in place.
+- Related-work coverage is now substantially expanded and tied to the paper's
+  claims.
+- Conceptual framework tables are present in the LaTeX draft.
+- Benchmark design is specified, but benchmark cases, scripts, and generated
+  result tables are still pending.
+- Figure environments exist as compilable placeholders pending final artwork.
 
-1. Skill structure coverage analysis.
-2. Trigger robustness benchmark.
-3. Context injection and memory behavior analysis.
-4. Security scanning and self-audit case study.
-5. Failure case analysis.
+## Research Questions
+
+**RQ1:** What structural components should a skill include as an agent
+capability unit?
+
+**RQ2:** How do trigger descriptions, context injection, execution constraints,
+and forgetting affect agent stability?
+
+**RQ3:** Can automated linting, security scanning, and self-auditing reduce
+operational risk?
 
 ## Repository Structure
 
 ```text
-paper/          LaTeX source files and references
-benchmark/      Manually constructed benchmark cases
-scripts/        Reproducible analysis scripts
-results/        Generated tables and intermediate outputs
-figures/        Generated figures and diagrams
-research-log/   Research notes, design decisions, and audit logs
+paper/          LaTeX source files and bibliography
+benchmark/      Planned benchmark cases and evaluation inputs
+scripts/        Planned reproducible analysis scripts
+results/        Planned generated tables and intermediate outputs
+figures/        Planned diagrams and generated figures
+research-log/   Design notes, literature notes, and audit logs
 artifacts/      Artifact inventory and links to source repositories
 ```
 
 ## Target Venue Strategy
 
-The intended path is:
+The current publication strategy is staged rather than single-shot:
 
-1. GitHub artifact release.
-2. Zenodo artifact DOI.
-3. TechRxiv or OSF preprint.
-4. Workshop submission for feedback.
-5. arXiv submission after endorsement.
+1. Maintain the GitHub repository as the canonical artifact base.
+2. Prepare an OSF or TechRxiv-style preprint release once the benchmark
+   implementation is less skeletal.
+3. Seek workshop feedback on the framework and evaluation design.
+4. Submit a later revision to arXiv after the paper and artifact package are
+   more mature.
 
-Tentative arXiv category strategy:
-
-- Primary: `cs.SE`
-- Cross-list: `cs.AI`, `cs.CR`
+If the paper keeps its current operational framing, `cs.SE` remains a plausible
+primary category with `cs.AI` as a cross-list. If later revisions foreground
+agent design more strongly than engineering lifecycle, that balance may shift.
 
 ## Reproducibility
 
-All benchmark files, scripts, tables, and figures will be added to this repository as the project develops.
+The repository is intended to make the paper inspectable and incrementally
+reproducible.
 
-Manually constructed benchmark cases will be clearly labeled.
+Current reproducibility status:
 
-The repository is intended to make the paper's artifact base inspectable and reproducible, while keeping the limitations of a small-scale independent research project explicit.
+- The paper source and bibliography are versioned in this repository.
+- The benchmark design is documented in the paper and research logs.
+- Directory structure for benchmark cases, scripts, results, and figures is in
+  place.
+- Generated benchmark artifacts are not yet committed because the benchmark has
+  not yet been fully implemented or executed.
+
+Future revisions should add benchmark inputs, scripts, generated tables,
+figure-generation steps, and any annotation guidance needed for manual review.
 
 ## Limitations
 
-This project is based on a single independent researcher's open-source practice.
+This project remains intentionally modest:
 
-The initial evaluation is expected to be small-scale and exploratory.
+- It is based on a single independent researcher's open-source practice.
+- It does not yet report generated benchmark results.
+- It should not be read as evidence of broad empirical validation.
+- The benchmark is expected to be small-scale and partially manual even after it
+  is implemented.
 
-The paper will not claim broad empirical validation without additional external evidence.
+## Current Next Steps
+
+- Implement the benchmark cases described in the paper.
+- Add scripts that generate the planned evaluation tables.
+- Replace boxed figure placeholders with final diagrams.
+- Run a full LaTeX compilation pass once a compiler is available.
+- Prepare an external review pass focused on claim strength and evaluation
+  scope.
