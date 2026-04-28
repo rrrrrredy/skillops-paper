@@ -69,6 +69,20 @@ research-log/   Design notes, literature notes, and audit logs
 artifacts/      Artifact inventory and links to source repositories
 ```
 
+## Benchmark Files
+
+The first benchmark-design layer now lives in:
+
+- `artifacts/artifact_inventory.md`
+- `benchmark/README.md`
+- `benchmark/skill_samples.csv`
+- `benchmark/trigger_cases.csv`
+- `benchmark/risk_cases.csv`
+
+These files are manually constructed from public repository inspection. They
+document the benchmark inputs, but they do not contain generated results,
+evaluation tables, or figures.
+
 ## Target Venue Strategy
 
 The current publication strategy is staged rather than single-shot:
