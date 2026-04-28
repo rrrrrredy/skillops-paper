@@ -1,0 +1,10 @@
+component,documented_count,limited_count,absent_count,documented_artifacts,limited_artifacts,absent_artifacts
+metadata,5,0,0,skill-design-guide; skill-security-guard; persistent-memory; agent-self-audit; lobster-guard,,
+trigger_contract,5,0,0,skill-design-guide; skill-security-guard; persistent-memory; agent-self-audit; lobster-guard,,
+instructions,5,0,0,skill-design-guide; skill-security-guard; persistent-memory; agent-self-audit; lobster-guard,,
+context_boundary,5,0,0,skill-design-guide; skill-security-guard; persistent-memory; agent-self-audit; lobster-guard,,
+execution_constraints,5,0,0,skill-design-guide; skill-security-guard; persistent-memory; agent-self-audit; lobster-guard,,
+memory_interface,1,4,0,persistent-memory,skill-design-guide; skill-security-guard; agent-self-audit; lobster-guard,
+tests,3,2,0,skill-design-guide; persistent-memory; agent-self-audit,skill-security-guard; lobster-guard,
+security_checks,5,0,0,skill-design-guide; skill-security-guard; persistent-memory; agent-self-audit; lobster-guard,,
+failure_modes,5,0,0,skill-design-guide; skill-security-guard; persistent-memory; agent-self-audit; lobster-guard,,

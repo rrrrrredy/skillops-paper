@@ -18,7 +18,8 @@ draft, but it is still incomplete in two important ways:
 
 - The paper now includes framework tables, figure placeholders, and a cleaned
   bibliography.
-- Generated benchmark results are not yet included.
+- The benchmark remains manually constructed and exploratory rather than a
+  broad empirical evaluation.
 
 ## Linked Artifact Base
 
@@ -42,9 +43,10 @@ The project is currently at the following stage:
 - Related-work coverage is now substantially expanded and tied to the paper's
   claims.
 - Conceptual framework tables are present in the LaTeX draft.
-- Benchmark design is specified, but benchmark cases, scripts, and generated
-  result tables are still pending.
-- Figure environments exist as compilable placeholders pending final artwork.
+- Benchmark inputs, reproducible analysis scripts, generated summary tables,
+  and publication-friendly concept figures are now versioned in the repository.
+- The paper draft still needs a later integration pass for any final figure
+  placement and wording changes.
 
 ## Research Questions
 
@@ -61,10 +63,10 @@ operational risk?
 
 ```text
 paper/          LaTeX source files and bibliography
-benchmark/      Planned benchmark cases and evaluation inputs
-scripts/        Planned reproducible analysis scripts
-results/        Planned generated tables and intermediate outputs
-figures/        Planned diagrams and generated figures
+benchmark/      Manually constructed benchmark cases and evaluation inputs
+scripts/        Reproducible analysis and figure-generation scripts
+results/        Generated tables and intermediate outputs
+figures/        Generated diagrams and figure assets
 research-log/   Design notes, literature notes, and audit logs
 artifacts/      Artifact inventory and links to source repositories
 ```
@@ -82,6 +84,56 @@ The first benchmark-design layer now lives in:
 These files are manually constructed from public repository inspection. They
 document the benchmark inputs, but they do not contain generated results,
 evaluation tables, or figures.
+
+## Analysis Scripts and Generated Outputs
+
+The repository now includes reproducible scripts for converting the benchmark
+inputs into descriptive tables and publication-friendly figures:
+
+- `scripts/analyze_structure.py`
+- `scripts/analyze_trigger_cases.py`
+- `scripts/analyze_risk_cases.py`
+- `scripts/generate_figures.py`
+- `scripts/run_all.py`
+
+Generated outputs currently include:
+
+- `results/tables/artifact_coverage.md`
+- `results/tables/artifact_coverage.csv`
+- `results/tables/trigger_summary.md`
+- `results/tables/trigger_summary.csv`
+- `results/tables/risk_summary.md`
+- `results/tables/risk_summary.csv`
+- `figures/skillops_lifecycle.svg` or `figures/skillops_lifecycle.png`
+- `figures/skill_anatomy.svg` or `figures/skill_anatomy.png`
+- `figures/evaluation_pipeline.svg` or `figures/evaluation_pipeline.png`
+
+These generated results are descriptive summaries of manually constructed
+benchmark files. They should not be read as statistical significance claims or
+broad empirical validation.
+
+## Dependencies
+
+- Python 3.12 or newer
+- Python standard library only for the analysis scripts
+- `matplotlib` is optional; when unavailable, `scripts/generate_figures.py`
+  writes SVG files instead of PNG files
+
+## Reproducing the Analysis
+
+From the repository root:
+
+```bash
+python scripts/run_all.py
+```
+
+This command:
+
+- reads only `artifacts/artifact_inventory.md` and the CSV files under
+  `benchmark/`
+- regenerates the descriptive tables under `results/tables/`
+- regenerates the figures under `figures/`
+- prints the output paths it created
 
 ## Target Venue Strategy
 
@@ -107,10 +159,12 @@ Current reproducibility status:
 
 - The paper source and bibliography are versioned in this repository.
 - The benchmark design is documented in the paper and research logs.
-- Directory structure for benchmark cases, scripts, results, and figures is in
-  place.
-- Generated benchmark artifacts are not yet committed because the benchmark has
-  not yet been fully implemented or executed.
+- The benchmark input files are versioned under `benchmark/` and
+  `artifacts/`.
+- Reproducible scripts for descriptive summaries and figure generation are
+  versioned under `scripts/`.
+- Generated summary tables and figures are versioned under `results/` and
+  `figures/`.
 
 Future revisions should add benchmark inputs, scripts, generated tables,
 figure-generation steps, and any annotation guidance needed for manual review.
@@ -120,16 +174,20 @@ figure-generation steps, and any annotation guidance needed for manual review.
 This project remains intentionally modest:
 
 - It is based on a single independent researcher's open-source practice.
-- It does not yet report generated benchmark results.
+- It reports only descriptive summaries of manually constructed benchmark
+  files.
 - It should not be read as evidence of broad empirical validation.
 - The benchmark is expected to be small-scale and partially manual even after it
   is implemented.
 
 ## Current Next Steps
 
-- Implement the benchmark cases described in the paper.
-- Add scripts that generate the planned evaluation tables.
-- Replace boxed figure placeholders with final diagrams.
+- Decide which generated tables and figures should be cited directly in the
+  next paper revision.
+- Review whether additional benchmark cases are needed before claiming any
+  stronger evaluation scope.
+- Replace LaTeX figure placeholders with the generated diagrams in a later
+  paper-only patch.
 - Run a full LaTeX compilation pass once a compiler is available.
 - Prepare an external review pass focused on claim strength and evaluation
   scope.

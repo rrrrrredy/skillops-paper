@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="250" viewBox="0 0 1360 250">
+<defs>
+<marker id="arrowhead" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" fill="#0f172a" />
+</marker>
+</defs>
+<rect width="1360" height="250" fill="#ffffff" />
+<text x="680.0" y="34" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#0f172a">SkillOps Lifecycle</text>
+<line x1="196.0" y1="136.0" x2="214.0" y2="136.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="384.0" y1="136.0" x2="402.0" y2="136.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="572.0" y1="136.0" x2="590.0" y2="136.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="760.0" y1="136.0" x2="778.0" y2="136.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="948.0" y1="136.0" x2="966.0" y2="136.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="1136.0" y1="136.0" x2="1154.0" y2="136.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<rect x="26.0" y="92.0" width="170.0" height="88.0" rx="18" ry="18" fill="#dbeafe" stroke="#0f172a" stroke-width="2.2" />
+<text x="111.0" y="140.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">design</text>
+<rect x="214.0" y="92.0" width="170.0" height="88.0" rx="18" ry="18" fill="#ecfccb" stroke="#0f172a" stroke-width="2.2" />
+<text x="299.0" y="140.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">lint</text>
+<rect x="402.0" y="92.0" width="170.0" height="88.0" rx="18" ry="18" fill="#fae8ff" stroke="#0f172a" stroke-width="2.2" />
+<text x="487.0" y="130.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">security</text>
+<text x="487.0" y="150.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">scan</text>
+<rect x="590.0" y="92.0" width="170.0" height="88.0" rx="18" ry="18" fill="#dbeafe" stroke="#0f172a" stroke-width="2.2" />
+<text x="675.0" y="130.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">runtime</text>
+<text x="675.0" y="150.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">injection</text>
+<rect x="778.0" y="92.0" width="170.0" height="88.0" rx="18" ry="18" fill="#ecfccb" stroke="#0f172a" stroke-width="2.2" />
+<text x="863.0" y="140.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">execution</text>
+<rect x="966.0" y="92.0" width="170.0" height="88.0" rx="18" ry="18" fill="#fae8ff" stroke="#0f172a" stroke-width="2.2" />
+<text x="1051.0" y="140.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">self-audit</text>
+<rect x="1154.0" y="92.0" width="170.0" height="88.0" rx="18" ry="18" fill="#dbeafe" stroke="#0f172a" stroke-width="2.2" />
+<text x="1239.0" y="130.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">update or</text>
+<text x="1239.0" y="150.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">forgetting</text>
+</svg>
