@@ -92,8 +92,9 @@ Current count: 24 cases total, with 3 cases for each risk type.
   ecosystem.
 - No inter-annotator agreement or external label validation is provided yet.
 - The cases are designed to be realistic, but they are still synthetic.
-- The benchmark does not measure actual model behavior until a later execution
-  layer is added under `scripts/` and `results/`.
+- The current descriptive scripts and generated outputs do not measure actual
+  model behavior; that would require a later execution layer under `scripts/`
+  and `results/`.
 
 ## Why this benchmark is exploratory
 
@@ -108,6 +109,6 @@ framework claims and concrete public repositories:
 - it supports future scripted evaluation design
 - it does not support general performance claims on its own
 
-Future work should add executable scripts under `scripts/`, generated outputs
-under `results/`, and tables or figures only after the benchmark has actually
-been run.
+Future work should add a repeated-execution evaluation layer under `scripts/`
+and `results/`, plus annotation guidance for reviewing ambiguous cases and
+flagged risks.
