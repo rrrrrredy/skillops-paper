@@ -36,11 +36,12 @@ conditions, contextual knowledge, execution constraints, safety rules, tests,
 and lifecycle procedures for revision or removal. This paper introduces
 SkillOps, a practical framework for designing, testing, and operating modular
 skills in personal AI agents. The framework is derived from a set of open-source
-artifacts developed through independent practice, including a skill design
-guide, a security guard, a persistent memory mechanism, a self-audit mechanism,
-and a guardrail-oriented operational tool. We formulate three research questions
+artifacts developed by the author, including a skill design guide, a security
+guard, a persistent memory mechanism, a self-audit mechanism, and a
+guardrail-oriented operational tool. We formulate three research questions
 concerning skill structure, stability under trigger and context variation, and
-the operational role of automated linting, security scanning, and self-auditing.
+the role of reviewable linting, security scanning, and self-auditing checks in
+operational risk review.
 The paper contributes a skill component taxonomy, a lifecycle
 model, a failure-mode taxonomy, and an artifact-based evaluation design. The
 paper also includes descriptive benchmark summaries derived from a
@@ -246,18 +247,15 @@ rules. & When should the skill be updated, deprecated, or forgotten? \\
 \fbox{
     \parbox{0.9\linewidth}{
         \centering
-        \textbf{Placeholder: Skill anatomy}\\[0.5em]
-        Generated SVG artwork exists for this diagram in
-        \texttt{figures/skill\_anatomy.svg}. This boxed placeholder keeps the
-        paper compilable in a pdflatex-oriented workflow because no local
-        SVG-to-PDF or SVG-to-PNG conversion toolchain was run in this
-        repository state.
+        \textbf{Repository figure artifact: Skill anatomy}\\[0.5em]
+        \texttt{figures/skill\_anatomy.svg}. This boxed note records the
+        repository figure artifact while preserving pdflatex-friendly
+        compilation in the current repository state.
     }
 }
-\caption{Skill anatomy placeholder retained for pdflatex-friendly compilation.
-Generated SVG artwork is available in the repository but was not integrated as
-raster or PDF artwork because no local conversion toolchain was run in this
-repository state.}
+\caption{Skill anatomy repository figure artifact. SVG artwork is available in
+the repository but has not been integrated as raster or PDF artwork in the
+current repository state.}
 \label{fig:skill-anatomy}
 \end{figure}
 
@@ -293,18 +291,15 @@ stages as they are represented in the generated repository artwork.
 \fbox{
     \parbox{0.9\linewidth}{
         \centering
-        \textbf{Placeholder: SkillOps lifecycle}\\[0.5em]
-        Generated SVG artwork exists for this diagram in
-        \texttt{figures/skillops\_lifecycle.svg}. This boxed placeholder keeps
-        the paper compilable in a pdflatex-oriented workflow because no local
-        SVG-to-PDF or SVG-to-PNG conversion toolchain was run in this
-        repository state.
+        \textbf{Repository figure artifact: SkillOps lifecycle}\\[0.5em]
+        \texttt{figures/skillops\_lifecycle.svg}. This boxed note records the
+        repository figure artifact while preserving pdflatex-friendly
+        compilation in the current repository state.
     }
 }
-\caption{SkillOps lifecycle placeholder retained for pdflatex-friendly
-compilation. Generated SVG artwork is available in the repository but was not
-integrated as raster or PDF artwork because no local conversion toolchain was
-run in this repository state.}
+\caption{SkillOps lifecycle repository figure artifact. SVG artwork is
+available in the repository but has not been integrated as raster or PDF
+artwork in the current repository state.}
 \label{fig:skillops-lifecycle}
 \end{figure}
 
@@ -447,13 +442,14 @@ consistency across paraphrases, constraint following, and resistance to stale
 context. The expected output is a benchmark suite with controlled variations of
 skill definitions.
 
-\paragraph{RQ3: What role can automated linting, security scanning, and
-self-auditing play in operational risk review?}
+\paragraph{RQ3: How can linting, security scanning, and self-auditing support
+operational risk review through reviewable checks?}
 
-This question examines whether automated checks can identify common skill risks
-before or after deployment. The expected output is a manually constructed set
-of lint, security, and self-audit cases plus review criteria for later
-execution-oriented evaluation.
+This question examines how reviewable checks can surface common skill risks and
+make them easier to inspect. The expected output is a manually constructed set
+of lint, security, and self-audit cases together with repository-level checks
+and review criteria for operational risk review. It does not test whether these
+mechanisms reduce deployment risk or improve model behavior.
 
 Table~\ref{tab:rq-mapping} maps each research question to the corresponding
 framework component and evaluation method.
@@ -475,8 +471,9 @@ comparison, and completeness analysis across the open-source repositories. \\
 RQ2 & Trigger design, context policy, execution constraints, and forgetting &
 Manually constructed benchmark cases covering activation boundaries,
 stale-context injections, and deprecated-memory scenarios. \\
-RQ3 & Linting, security scanning, and self-audit & Seeded failure cases and
-manual review criteria for later executable checks. \\
+RQ3 & Linting, security scanning, and self-audit & Seeded failure cases,
+reviewable repository checks, and manual review criteria for operational risk
+inspection. \\
 \bottomrule
 \end{tabularx}
 \caption{Mapping from research questions to framework components and evaluation
@@ -589,12 +586,12 @@ cases. Running \texttt{scripts/run\_all.py} regenerates summary tables under
 benchmark is manually constructed and exploratory, these outputs should be read
 as descriptive summaries rather than as statistical evidence or broad empirical
 validation. The repository also includes executable repository-level
-consistency checks that verify deterministic schema, reproducibility,
-paper-claim consistency, SVG validity, public presentation, and evidence
-traceability. In the current repository state, this executable pass regenerates
-descriptive tables and schematic figures only; it does not execute the five
-source repositories against the benchmark cases or score model, scanner, or
-self-audit behavior.
+consistency checks that verify benchmark schema, result reproducibility,
+paper-claim consistency, public-presentation constraints, SVG validity, and
+evidence-matrix integrity. In the current repository state, this executable
+pass regenerates descriptive tables and schematic figures only; it does not
+execute the five source repositories against the benchmark cases or score
+model, scanner, or self-audit behavior.
 
 \subsection{Artifact Availability}
 
@@ -641,20 +638,29 @@ interpretation.
 \fbox{
     \parbox{0.9\linewidth}{
         \centering
-        \textbf{Placeholder: Evaluation pipeline}\\[0.5em]
-        Generated SVG artwork exists for this diagram in
-        \texttt{figures/evaluation\_pipeline.svg}. This boxed placeholder keeps
-        the paper compilable in a pdflatex-oriented workflow because no local
-        SVG-to-PDF or SVG-to-PNG conversion toolchain was run in this
-        repository state.
+        \textbf{Repository figure artifact: Evaluation pipeline}\\[0.5em]
+        \texttt{figures/evaluation\_pipeline.svg}. This boxed note records the
+        repository figure artifact while preserving pdflatex-friendly
+        compilation in the current repository state.
     }
 }
-\caption{Evaluation pipeline placeholder retained for pdflatex-friendly
-compilation. Generated SVG artwork is available in the repository but was not
-integrated as raster or PDF artwork because no local conversion toolchain was
-run in this repository state.}
+\caption{Evaluation pipeline repository figure artifact. SVG artwork is
+available in the repository but has not been integrated as raster or PDF
+artwork in the current repository state.}
 \label{fig:evaluation-pipeline}
 \end{figure}
+
+\subsection{Executable Repository Checks}
+
+The repository includes \texttt{scripts/run\_tests.py}, a deterministic
+repository-level test suite for consistency and traceability checks. In the
+current repository state, the suite covers benchmark schema, result
+reproducibility, paper-claim consistency, public-presentation constraints, SVG
+validity, and evidence-matrix integrity, and it passes 22/22 tests.
+
+These checks validate repository consistency and traceability only. They do not
+measure model behavior, scanner accuracy, user-study outcomes, production
+validation, precision, recall, F1, or statistical significance.
 
 \subsection{Artifact Coverage Summary}
 
@@ -780,6 +786,11 @@ SkillOps across models, users, or platforms.
 SkillOps frames personal agent skills as operational artifacts rather than
 isolated prompts. This framing has several implications.
 
+The main practical insight is not that SkillOps makes skill behavior
+deterministic. Rather, it makes failure analysis more inspectable by moving
+trigger cases, context policies, constraints, and evidence logs into reviewable
+artifacts.
+
 First, it makes skill design more inspectable. When trigger conditions, context
 policies, and constraints are written explicitly, they can be reviewed by
 humans and checked by tools. This is useful even when the underlying model
@@ -888,13 +899,7 @@ override intended instructions when data and control are mixed
 \citep{greshake2023notwhat}. Red-teaming, formal prompt-injection benchmarking,
 instruction-priority training, structured-query defenses, and environments such
 as AgentDojo all study ways to characterize or mitigate these risks
-\citep{
-    ganguli2022redteaming,
-    liu2024formalizingprompt,
-    wallace2024instructionhierarchy,
-    chen2025struq,
-    debenedetti2024agentdojo
-}.
+\citep{ganguli2022redteaming,liu2024formalizingprompt,wallace2024instructionhierarchy,chen2025struq,debenedetti2024agentdojo}.
 SkillOps does not claim to solve prompt injection; its narrower goal is to
 localize trust boundaries, permission scopes, memory-write rules, and audit
 fields within each skill.
