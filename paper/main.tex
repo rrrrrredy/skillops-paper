@@ -41,10 +41,12 @@ concerning skill structure, stability under trigger and context variation, and
 the role of automated linting, security scanning, and self-auditing in reducing
 operational risk. The paper contributes a skill component taxonomy, a lifecycle
 model, a failure-mode taxonomy, and an artifact-based evaluation design. The
-current preprint reports framework and benchmark design only; generated
-benchmark results are not yet included. The contribution is therefore a modest
-engineering framework for making agent skills more explicit, testable, and
-maintainable rather than a claim of broad empirical validation.
+current draft also includes descriptive benchmark summaries derived from a
+manually constructed exploratory benchmark covering artifact structure,
+trigger-routing cases, and operational-risk cases. These summaries document
+benchmark composition only; they do not claim statistical significance or broad
+empirical validation. The contribution is therefore a modest engineering
+framework for making agent skills more explicit, testable, and maintainable.
 \end{abstract}
 
 \section{Introduction}
@@ -92,8 +94,10 @@ The framework is derived from five open-source artifacts:
 The central claim is modest: personal agent skills can be made more reliable
 when they are treated as lifecycle-managed artifacts with explicit structure,
 tests, and operational controls. The paper contributes a framework, a taxonomy
-of skill components, a methodology for artifact-based study, and an evaluation
-plan. Empirical results are not yet reported.
+of skill components, a methodology for artifact-based study, and an initial
+descriptive evaluation layer built from manually constructed benchmark inputs.
+The reported tables document benchmark composition and artifact coverage, not
+multi-model execution performance or broad empirical validation.
 
 \section{Background and Motivation}
 
@@ -193,7 +197,8 @@ permissions, safety constraints, output contracts, and tests.
 
 SkillOps-managed skills are intended to make these assumptions explicit rather
 than implicit. Table~\ref{tab:skill-components} summarizes the structural
-components used in the framework.
+components used in the framework, and Figure~\ref{fig:skill-anatomy} provides a
+schematic view of how those components fit together in a skill package.
 
 \begin{table}[t]
 \centering
@@ -239,14 +244,16 @@ rules. & When should the skill be updated, deprecated, or forgotten? \\
     \parbox{0.9\linewidth}{
         \centering
         \textbf{Placeholder: Skill anatomy}\\[0.5em]
-        Planned diagram showing a skill as an operational artifact with trigger
-        boundaries, input assumptions, context policy, execution constraints,
-        tool permissions, output contract, tests, and lifecycle metadata.
-        This boxed placeholder keeps the preprint compilable until the final
-        figure is drawn.
+        Generated SVG artwork exists for this diagram in
+        \texttt{figures/skill\_anatomy.svg}. This boxed placeholder keeps the
+        paper compilable in a pdflatex-oriented workflow because no local
+        SVG-to-PDF or SVG-to-PNG conversion toolchain was available during
+        this integration pass.
     }
 }
-\caption{Placeholder for the skill-anatomy figure.}
+\caption{Skill anatomy placeholder retained for pdflatex-friendly compilation.
+Generated SVG artwork is available in the repository but was not integrated as
+raster or PDF artwork because no local conversion toolchain was available.}
 \label{fig:skill-anatomy}
 \end{figure}
 
@@ -274,7 +281,8 @@ SkillOps organizes skill management into a lifecycle:
 
 The lifecycle emphasizes that a skill is not complete when it is written. Its
 behavior depends on activation, context, model behavior, and interaction with
-other skills.
+other skills. Figure~\ref{fig:skillops-lifecycle} summarizes the lifecycle
+stages as they are represented in the generated repository artwork.
 
 \begin{figure}[t]
 \centering
@@ -282,13 +290,17 @@ other skills.
     \parbox{0.9\linewidth}{
         \centering
         \textbf{Placeholder: SkillOps lifecycle}\\[0.5em]
-        Planned diagram showing the lifecycle stages design, lint, test,
-        deploy, observe, audit, revise, and forget or retire. The current
-        draft keeps a compilable placeholder until the final diagram is
-        produced.
+        Generated SVG artwork exists for this diagram in
+        \texttt{figures/skillops\_lifecycle.svg}. This boxed placeholder keeps
+        the paper compilable in a pdflatex-oriented workflow because no local
+        SVG-to-PDF or SVG-to-PNG conversion toolchain was available during
+        this integration pass.
     }
 }
-\caption{Placeholder for the SkillOps lifecycle figure.}
+\caption{SkillOps lifecycle placeholder retained for pdflatex-friendly
+compilation. Generated SVG artwork is available in the repository but was not
+integrated as raster or PDF artwork because no local conversion toolchain was
+available.}
 \label{fig:skillops-lifecycle}
 \end{figure}
 
@@ -310,8 +322,9 @@ A trigger specification should answer three questions:
 \end{itemize}
 
 Trigger quality can be evaluated through paraphrase tests, boundary tests, and
-multi-intent tests. This paper does not yet report such results;
-Section~\ref{sec:evaluation} describes the evaluation design.
+multi-intent tests. This paper reports only the descriptive composition of a
+manually constructed trigger benchmark; Section~\ref{sec:evaluation}
+summarizes the current counts and their limitations.
 
 \subsection{Context Injection}
 
@@ -536,9 +549,9 @@ This approach is exploratory. It is appropriate for deriving an initial
 framework, but it cannot by itself establish broad generality. The limitations
 are discussed in Section~\ref{sec:limitations}.
 
-\subsection{Benchmark Construction Plan}
+\subsection{Benchmark Construction and Current Outputs}
 
-The planned benchmark will include manually constructed cases in the following
+The current benchmark includes manually constructed cases in the following
 categories:
 
 \begin{itemize}[leftmargin=*]
@@ -559,100 +572,190 @@ categories:
     unsupported claims, missing evidence, or hidden assumptions.
 \end{itemize}
 
-The repository already allocates directories for benchmark cases, scripts,
-results, and figures. Generated benchmark artifacts will be added in later
-revisions as the benchmark implementation matures.
+The current repository now includes manually constructed benchmark inputs and
+generated descriptive outputs. \texttt{benchmark/skill\_samples.csv} profiles
+five artifacts, \texttt{benchmark/trigger\_cases.csv} contains 36 trigger
+cases, and \texttt{benchmark/risk\_cases.csv} contains 24 operational-risk
+cases. Running \texttt{scripts/run\_all.py} regenerates summary tables under
+\texttt{results/tables/} and SVG figures under \texttt{figures/}. Because the
+benchmark is manually constructed and exploratory, these outputs should be read
+as descriptive summaries rather than as statistical evidence or broad empirical
+validation.
+
+\subsection{Artifact Availability}
+
+The public repository for this paper is
+\url{https://github.com/rrrrrredy/skillops-paper}. The artifact inventory is
+documented in \texttt{artifacts/artifact\_inventory.md}. Benchmark inputs are
+stored in \texttt{benchmark/skill\_samples.csv},
+\texttt{benchmark/trigger\_cases.csv}, and
+\texttt{benchmark/risk\_cases.csv}. Reproducible scripts live under
+\texttt{scripts/}, generated result tables under \texttt{results/tables/}, and
+generated figure artwork under \texttt{figures/}. These materials are intended
+to make the exploratory benchmark inspectable, but the benchmark remains
+manually constructed and should not be interpreted as broad empirical
+validation.
 
 \section{Evaluation}
 \label{sec:evaluation}
 
-The evaluation is designed to test the framework without claiming broad
-empirical validation. The goal is to determine whether SkillOps-style structure
-and checks are useful on a small but transparent set of cases.
+This revision reports only descriptive summaries of the benchmark artifacts
+currently versioned in the repository. The benchmark cases are manually
+constructed from public artifact inspection rather than sampled from deployment
+logs or an external user study. The reported counts are descriptive summaries
+generated by \texttt{scripts/run\_all.py}. The evaluation is exploratory, no
+statistical significance is claimed, and no broad empirical validation is
+claimed.
 
-\subsection{Evaluation Questions}
+\subsection{Evaluation Scope}
 
-The evaluation is intended to address the following questions:
+The descriptive layer combines \texttt{benchmark/skill\_samples.csv},
+\texttt{benchmark/trigger\_cases.csv}, and
+\texttt{benchmark/risk\_cases.csv} with the cross-checking notes in
+\texttt{artifacts/artifact\_inventory.md}. The current inputs cover five
+artifact profiles, 36 trigger-routing cases, and 24 operational-risk cases.
+All trigger and risk cases use the \texttt{manual-} prefix, making the manual
+construction of the benchmark explicit. Figure~\ref{fig:evaluation-pipeline}
+captures this descriptive evaluation flow from artifact inventory to cautious
+interpretation.
 
-\begin{itemize}[leftmargin=*]
-    \item Does an explicit skill template improve activation precision and
-    reduce false activation?
-    \item Does an explicit context injection policy reduce failures caused by
-    irrelevant or stale context?
-    \item Do testable execution constraints improve compliance compared with
-    informal constraints?
-    \item Can forgetting rules prevent obsolete memory from influencing later
-    behavior?
-    \item Can linting and security scanning identify common skill design risks?
-    \item Can self-auditing identify unsupported claims or operational failures
-    after generation?
-\end{itemize}
+\begin{figure}[t]
+\centering
+\fbox{
+    \parbox{0.9\linewidth}{
+        \centering
+        \textbf{Placeholder: Evaluation pipeline}\\[0.5em]
+        Generated SVG artwork exists for this diagram in
+        \texttt{figures/evaluation\_pipeline.svg}. This boxed placeholder keeps
+        the paper compilable in a pdflatex-oriented workflow because no local
+        SVG-to-PDF or SVG-to-PNG conversion toolchain was available during
+        this integration pass.
+    }
+}
+\caption{Evaluation pipeline placeholder retained for pdflatex-friendly
+compilation. Generated SVG artwork is available in the repository but was not
+integrated as raster or PDF artwork because no local conversion toolchain was
+available.}
+\label{fig:evaluation-pipeline}
+\end{figure}
 
-\subsection{Experimental Conditions}
+\subsection{Artifact Coverage Summary}
 
-A minimal evaluation can compare the following conditions:
+Table~\ref{tab:artifact-coverage-summary} summarizes the descriptive coding of
+nine SkillOps-relevant components across the five inspected artifacts.
+Metadata, trigger contracts, instructions, context boundaries, execution
+constraints, security checks, and failure modes are documented in all five
+artifacts. Memory interfaces are documented in one artifact and limited in
+four, while tests are documented in three artifacts and limited in two.
 
-\begin{enumerate}[leftmargin=*]
-    \item \textbf{Baseline prompt}: an informal skill description without
-    structured fields.
-    \item \textbf{Structured skill}: a SkillOps-style skill template with
-    explicit trigger, context, constraints, and output contract.
-    \item \textbf{Structured skill with tests}: the structured skill plus
-    positive, negative, and boundary examples.
-    \item \textbf{Structured skill with guards}: the structured skill plus
-    linting, security checks, and self-audit.
-\end{enumerate}
+\begin{table}[t]
+\centering
+\footnotesize
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Component} & \textbf{Documented} & \textbf{Limited} & \textbf{Absent} \\
+\midrule
+Metadata & 5 & 0 & 0 \\
+Trigger contract & 5 & 0 & 0 \\
+Instructions & 5 & 0 & 0 \\
+Context boundary & 5 & 0 & 0 \\
+Execution constraints & 5 & 0 & 0 \\
+Memory interface & 1 & 4 & 0 \\
+Tests & 3 & 2 & 0 \\
+Security checks & 5 & 0 & 0 \\
+Failure modes & 5 & 0 & 0 \\
+\bottomrule
+\end{tabular}
+\caption{Descriptive artifact-coverage counts generated from the manually
+constructed artifact profiles.}
+\label{tab:artifact-coverage-summary}
+\end{table}
 
-The same task set should be run under each condition. Model, temperature,
-context, and tool access should be recorded.
+\subsection{Trigger Case Summary}
 
-\subsection{Metrics}
+The trigger benchmark contains 36 manually written cases: 15 labeled
+\texttt{should\_trigger}, 12 labeled \texttt{should\_not\_trigger}, and 9
+labeled \texttt{ambiguous}. The cases are distributed across the five
+inspected skills plus seven \texttt{none} cases that are intended not to route
+to any of them. Table~\ref{tab:trigger-summary} reports these counts directly
+from the generated summary files.
 
-The following metrics are proposed:
+\begin{table}[t]
+\centering
+\footnotesize
+\begin{tabularx}{\linewidth}{
+    >{\raggedright\arraybackslash}p{0.24\linewidth}
+    >{\raggedright\arraybackslash}X
+    >{\raggedleft\arraybackslash}p{0.12\linewidth}
+}
+\toprule
+\textbf{Dimension} & \textbf{Category} & \textbf{Count} \\
+\midrule
+Expected label & \texttt{should\_trigger} & 15 \\
+Expected label & \texttt{should\_not\_trigger} & 12 \\
+Expected label & \texttt{ambiguous} & 9 \\
+Relevant skill & \texttt{skill-design-guide} & 7 \\
+Relevant skill & \texttt{skill-security-guard} & 6 \\
+Relevant skill & \texttt{persistent-memory} & 7 \\
+Relevant skill & \texttt{agent-self-audit} & 4 \\
+Relevant skill & \texttt{lobster-guard} & 5 \\
+Relevant skill & \texttt{none} & 7 \\
+\bottomrule
+\end{tabularx}
+\caption{Descriptive trigger-case counts generated from the manually
+constructed trigger benchmark.}
+\label{tab:trigger-summary}
+\end{table}
 
-\begin{itemize}[leftmargin=*]
-    \item \textbf{Activation precision}: proportion of activated cases that
-    should have activated the skill.
-    \item \textbf{Activation recall}: proportion of valid cases in which the
-    skill activated.
-    \item \textbf{False activation rate}: proportion of invalid cases that
-    activated the skill.
-    \item \textbf{Constraint compliance}: proportion of outputs satisfying
-    required constraints.
-    \item \textbf{Context relevance}: proportion of outputs using only relevant
-    injected context.
-    \item \textbf{Stale-context error rate}: proportion of outputs influenced
-    by obsolete context.
-    \item \textbf{Security issue detection}: proportion of seeded risks detected
-    by the guard.
-    \item \textbf{Audit usefulness}: proportion of self-audit findings judged
-    actionable by manual review.
-\end{itemize}
+\subsection{Risk Case Summary}
 
-These metrics are intended for small-scale exploratory evaluation. They should
-not be interpreted as evidence of general performance across all agents or
-tasks.
+The risk benchmark contains 24 manually written cases. The case inventory is
+evenly split across eight risk types, with three cases each for prompt
+injection, over-broad triggers, unsafe file access, missing constraints, stale
+memory, missing tests, identity confusion, and privacy leakage. Table~\ref{tab:risk-summary} also reports the artifact emphasis of the current case
+set, with six cases tied most directly to \texttt{persistent-memory}, five
+each to \texttt{skill-security-guard} and \texttt{lobster-guard}, and four
+each to \texttt{skill-design-guide} and \texttt{agent-self-audit}.
 
-\subsection{Implementation Status}
+\begin{table}[t]
+\centering
+\footnotesize
+\begin{tabularx}{\linewidth}{
+    >{\raggedright\arraybackslash}p{0.24\linewidth}
+    >{\raggedright\arraybackslash}X
+    >{\raggedleft\arraybackslash}p{0.12\linewidth}
+}
+\toprule
+\textbf{Dimension} & \textbf{Category} & \textbf{Count} \\
+\midrule
+Risk type & \texttt{prompt\_injection} & 3 \\
+Risk type & \texttt{over\_broad\_trigger} & 3 \\
+Risk type & \texttt{unsafe\_file\_access} & 3 \\
+Risk type & \texttt{missing\_constraints} & 3 \\
+Risk type & \texttt{stale\_memory} & 3 \\
+Risk type & \texttt{missing\_tests} & 3 \\
+Risk type & \texttt{identity\_confusion} & 3 \\
+Risk type & \texttt{privacy\_leakage} & 3 \\
+Relevant artifact & \texttt{skill-security-guard} & 5 \\
+Relevant artifact & \texttt{lobster-guard} & 5 \\
+Relevant artifact & \texttt{skill-design-guide} & 4 \\
+Relevant artifact & \texttt{persistent-memory} & 6 \\
+Relevant artifact & \texttt{agent-self-audit} & 4 \\
+\bottomrule
+\end{tabularx}
+\caption{Descriptive risk-case counts generated from the manually constructed
+operational-risk benchmark.}
+\label{tab:risk-summary}
+\end{table}
 
-The current repository contains the paper draft, the benchmark design, and the
-directory structure reserved for benchmark cases, scripts, results, and
-figures. Generated result tables are added after the benchmark cases and
-scripts are implemented and executed. Accordingly, this preprint reports the
-evaluation protocol and expected outputs, but it does not yet include numeric
-benchmark results.
+\subsection{Interpretation}
 
-\subsection{Expected Outputs}
-
-Once the benchmark is implemented, the repository is expected to add:
-
-\begin{itemize}[leftmargin=*]
-    \item generated activation and constraint-compliance tables;
-    \item generated guardrail and self-audit summaries;
-    \item benchmark case files documenting positive, negative, and adversarial
-    examples;
-    \item figures derived from the final framework and benchmark artifacts.
-\end{itemize}
+These tables describe benchmark composition and artifact coverage only. They do
+not measure activation precision, activation recall, constraint compliance,
+detector accuracy, or user outcomes under repeated execution. They are useful
+as traceability artifacts for an exploratory benchmark, but they should not be
+read as statistically significant evidence or as broad empirical validation of
+SkillOps across models, users, or platforms.
 
 \section{Discussion}
 
@@ -690,29 +793,40 @@ operational framework can make these issues easier to identify and improve.
 
 This paper has several limitations.
 
-First, the framework is derived from a single independent researcher's
-open-source practice. This provides concrete artifacts, but it limits the
-diversity of settings from which the framework is derived.
+First, the artifact base is authored and interpreted by a single independent
+researcher. The current paper therefore reflects a single-author artifact base
+rather than a multi-lab or multi-organization corpus.
 
-Second, benchmark execution is not yet complete. This draft reports benchmark
-design and evaluation protocol, but it does not yet include generated result
-tables. It should not claim empirical improvement until benchmark data are
-collected and reported.
+Second, the artifact evidence comes from five public repositories. This is
+enough to motivate a framework, but it is not enough to establish generality
+across the broader agent ecosystem.
 
-Third, the planned benchmark is expected to be small-scale and manually
-constructed. Such a benchmark can reveal useful failure modes, but it cannot
-establish broad generality across all models, users, platforms, or agent
-architectures.
+Third, the benchmark cases are manually constructed and exploratory. The counts
+reported in Section~\ref{sec:evaluation} describe benchmark composition, not
+observed production traffic or statistically powered experiments.
 
-Fourth, SkillOps focuses on the operational layer of skill design. It does not
+Fourth, the current repository does not yet include a multi-model execution
+benchmark. The paper therefore cannot compare trigger stability, constraint
+following, or guard behavior across model families or repeated runs.
+
+Fifth, the work does not include an external user study. It does not measure
+how other users understand the skill format, apply the workflow, or experience
+the proposed guardrails in practice.
+
+Sixth, several artifacts encode OpenClaw-oriented assumptions about directory
+layout, skill packaging, cron usage, and local agent control. These assumptions
+may not transfer directly to hosted agents, enterprise workflows, or
+non-OpenClaw environments.
+
+Seventh, SkillOps focuses on the operational layer of skill design. It does not
 propose a new model architecture, training method, planner, or tool-use
 algorithm.
 
-Fifth, some evaluation criteria require human judgment. For example, audit
-usefulness and context relevance may be difficult to score objectively. The
-benchmark should therefore include clear annotation guidelines.
+Eighth, some evaluation criteria still require human judgment. For example,
+audit usefulness and context relevance may be difficult to score objectively.
+Later benchmark revisions should therefore include clear annotation guidelines.
 
-Sixth, personal agent environments differ substantially in their tool access,
+Ninth, personal agent environments differ substantially in their tool access,
 memory mechanisms, security policies, and user expectations. A skill format
 that works in one environment may require adaptation in another.
 
@@ -794,16 +908,16 @@ and operating modular skills in personal AI agents. The framework is derived
 from open-source artifacts and emphasizes explicit skill structure, trigger
 design, context injection, execution constraints, security checks,
 self-auditing, and forgetting. The paper formulates three research questions
-and outlines an evaluation plan based on benchmark tasks and ablation
-conditions.
+and reports an initial descriptive evaluation layer based on manually
+constructed benchmark artifacts and reproducible summary scripts.
 
 The current contribution is intentionally modest. SkillOps is not presented as a
 new agent architecture or as a broadly validated empirical result. Instead, it
 is a concrete operational framework intended to make personal agent skills more
-inspectable, testable, and maintainable. Future work should implement the
-benchmark cases and scripts, generate the corresponding result tables and
-figures, compare across models and agent environments, and refine the framework
-based on external use.
+inspectable, testable, and maintainable. Future work should turn the benchmark
+into a repeated execution study, add multi-model comparisons, integrate the
+generated figure artwork into a full PDF toolchain, compare across models and
+agent environments, and refine the framework based on external use.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
