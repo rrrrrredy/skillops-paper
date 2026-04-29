@@ -4,7 +4,8 @@ This repository contains the working paper draft, research logs, benchmark
 design notes, bibliography, figures directory, and reproducibility scaffolding
 for:
 
-**SkillOps: A Practical Framework for Designing, Testing, and Operating Modular Skills in Personal AI Agents**
+**SkillOps: A Practical Framework for Designing, Testing, and Operating
+Modular Skills in Personal AI Agents**
 
 Author: **Song Luo**  
 Affiliation: **Independent Researcher**
@@ -16,8 +17,9 @@ This repository is an active first-preprint workspace.
 The current draft is internally consistent enough for review as a preprint
 draft, but it is still incomplete in two important ways:
 
-- The paper now includes framework tables, figure placeholders, and a cleaned
-  bibliography.
+- The paper now includes framework tables, integrated descriptive benchmark
+  summary tables, figure placeholders linked to generated SVG artwork, and a
+  cleaned bibliography.
 - The benchmark remains manually constructed and exploratory rather than a
   broad empirical evaluation.
 
@@ -45,8 +47,11 @@ The project is currently at the following stage:
 - Conceptual framework tables are present in the LaTeX draft.
 - Benchmark inputs, reproducible analysis scripts, generated summary tables,
   and publication-friendly concept figures are now versioned in the repository.
-- The paper draft still needs a later integration pass for any final figure
-  placement and wording changes.
+- `paper/main.tex` now integrates the generated descriptive result summaries
+  from `results/tables/`.
+- SVG figure files remain separate from the LaTeX source because this
+  workspace does not currently have a local SVG-to-PDF/PNG conversion toolchain
+  or LaTeX build toolchain.
 
 ## Research Questions
 
@@ -112,9 +117,13 @@ These generated results are descriptive summaries of manually constructed
 benchmark files. They should not be read as statistical significance claims or
 broad empirical validation.
 
+The current LaTeX draft now integrates the generated summary tables from
+`results/tables/`. The generated SVG figures are referenced indirectly through
+boxed placeholders until a PDF/PNG conversion path is available.
+
 ## Dependencies
 
-- Python 3.12 or newer
+- Python 3.11 or newer
 - Python standard library only for the analysis scripts
 - `matplotlib` is optional; when unavailable, `scripts/generate_figures.py`
   writes SVG files instead of PNG files
@@ -186,8 +195,8 @@ This project remains intentionally modest:
   next paper revision.
 - Review whether additional benchmark cases are needed before claiming any
   stronger evaluation scope.
-- Replace LaTeX figure placeholders with the generated diagrams in a later
-  paper-only patch.
+- Add an SVG-to-PDF/PNG conversion path so the generated figures can replace
+  the current LaTeX placeholders.
 - Run a full LaTeX compilation pass once a compiler is available.
 - Prepare an external review pass focused on claim strength and evaluation
   scope.
