@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="540" viewBox="0 0 1200 540">
+<defs>
+<marker id="arrowhead" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" fill="#0f172a" />
+</marker>
+</defs>
+<rect width="1200" height="540" fill="#ffffff" />
+<text x="600.0" y="34" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#0f172a">Skill Anatomy</text>
+<line x1="290.0" y1="124.0" x2="440.0" y2="245.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="290.0" y1="244.0" x2="440.0" y2="245.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="290.0" y1="364.0" x2="440.0" y2="245.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="910.0" y1="124.0" x2="760.0" y2="245.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="910.0" y1="244.0" x2="760.0" y2="245.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="910.0" y1="364.0" x2="760.0" y2="245.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="450.0" y1="410.0" x2="600.0" y2="305.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="650.0" y1="410.0" x2="600.0" y2="305.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="760.0" y1="448.0" x2="760.0" y2="245.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<rect x="70.0" y="80.0" width="220.0" height="88.0" rx="18" ry="18" fill="#dbeafe" stroke="#0f172a" stroke-width="2.2" />
+<text x="180.0" y="128.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">metadata</text>
+<rect x="70.0" y="200.0" width="220.0" height="88.0" rx="18" ry="18" fill="#ecfccb" stroke="#0f172a" stroke-width="2.2" />
+<text x="180.0" y="238.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">trigger</text>
+<text x="180.0" y="258.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">contract</text>
+<rect x="70.0" y="320.0" width="220.0" height="88.0" rx="18" ry="18" fill="#fae8ff" stroke="#0f172a" stroke-width="2.2" />
+<text x="180.0" y="368.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">instructions</text>
+<rect x="440.0" y="185.0" width="320.0" height="120.0" rx="18" ry="18" fill="#f8fafc" stroke="#0f172a" stroke-width="2.2" />
+<text x="600.0" y="239.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">skill package</text>
+<text x="600.0" y="259.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">SKILL.md + repo contract</text>
+<rect x="910.0" y="80.0" width="220.0" height="88.0" rx="18" ry="18" fill="#dbeafe" stroke="#0f172a" stroke-width="2.2" />
+<text x="1020.0" y="118.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">context</text>
+<text x="1020.0" y="138.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">boundary</text>
+<rect x="910.0" y="200.0" width="220.0" height="88.0" rx="18" ry="18" fill="#ecfccb" stroke="#0f172a" stroke-width="2.2" />
+<text x="1020.0" y="238.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">execution</text>
+<text x="1020.0" y="258.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">constraints</text>
+<rect x="910.0" y="320.0" width="220.0" height="88.0" rx="18" ry="18" fill="#fae8ff" stroke="#0f172a" stroke-width="2.2" />
+<text x="1020.0" y="358.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">memory</text>
+<text x="1020.0" y="378.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">interface</text>
+<rect x="360.0" y="410.0" width="180.0" height="76.0" rx="18" ry="18" fill="#ecfccb" stroke="#0f172a" stroke-width="2.2" />
+<text x="450.0" y="452.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">tests</text>
+<rect x="560.0" y="410.0" width="180.0" height="76.0" rx="18" ry="18" fill="#fae8ff" stroke="#0f172a" stroke-width="2.2" />
+<text x="650.0" y="442.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">security</text>
+<text x="650.0" y="462.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">checks</text>
+<rect x="760.0" y="410.0" width="180.0" height="76.0" rx="18" ry="18" fill="#dbeafe" stroke="#0f172a" stroke-width="2.2" />
+<text x="850.0" y="442.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">failure</text>
+<text x="850.0" y="462.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">modes</text>
+</svg>
