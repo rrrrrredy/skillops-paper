@@ -115,6 +115,21 @@ This command:
 - regenerates the figures under `figures/`
 - prints the output paths it created
 
+## Running the Executable Checks
+
+From the repository root:
+
+```bash
+python scripts/run_tests.py
+```
+
+This executable suite verifies repository consistency, benchmark schema, result
+reproducibility, paper-claim consistency, SVG validity, evidence-matrix
+integrity, and public presentation constraints.
+
+These tests do not measure model performance, scanner accuracy, user-study
+outcomes, or production validation.
+
 ## Limitations
 
 - The evaluation is exploratory.
