@@ -10,7 +10,10 @@
 \usepackage{tabularx}
 \usepackage[numbers,sort&compress]{natbib}
 
-\title{SkillOps: A Practical Framework for Designing, Testing, and Operating Modular Skills in Personal AI Agents}
+\title{
+SkillOps: A Practical Framework for Designing, Testing, and Operating
+Modular Skills in Personal AI Agents
+}
 
 \author{
 Song Luo\\
@@ -435,14 +438,16 @@ capabilities easier to understand, test, and maintain. The expected output is a
 component taxonomy covering triggers, context, constraints, tool access, output
 contracts, tests, and lifecycle metadata.
 
-\paragraph{RQ2: How do trigger descriptions, context injection, execution constraints, and forgetting affect agent stability?}
+\paragraph{RQ2: How do trigger descriptions, context injection, execution
+constraints, and forgetting affect agent stability?}
 
 This question examines how design choices influence activation behavior,
 consistency across paraphrases, constraint following, and resistance to stale
 context. The expected output is a benchmark suite with controlled variations of
 skill definitions.
 
-\paragraph{RQ3: Can automated linting, security scanning, and self-auditing reduce operational risk?}
+\paragraph{RQ3: Can automated linting, security scanning, and self-auditing
+reduce operational risk?}
 
 This question examines whether automated checks can identify common skill risks
 before or after deployment. The expected output is an evaluation of lint rules,
@@ -712,7 +717,8 @@ constructed trigger benchmark.}
 The risk benchmark contains 24 manually written cases. The case inventory is
 evenly split across eight risk types, with three cases each for prompt
 injection, over-broad triggers, unsafe file access, missing constraints, stale
-memory, missing tests, identity confusion, and privacy leakage. Table~\ref{tab:risk-summary} also reports the artifact emphasis of the current case
+memory, missing tests, identity confusion, and privacy leakage.
+Table~\ref{tab:risk-summary} also reports the artifact emphasis of the current case
 set, with six cases tied most directly to \texttt{persistent-memory}, five
 each to \texttt{skill-security-guard} and \texttt{lobster-guard}, and four
 each to \texttt{skill-design-guide} and \texttt{agent-self-audit}.
@@ -870,7 +876,13 @@ override intended instructions when data and control are mixed
 \citep{greshake2023notwhat}. Red-teaming, formal prompt-injection benchmarking,
 instruction-priority training, structured-query defenses, and environments such
 as AgentDojo all study ways to characterize or mitigate these risks
-\citep{ganguli2022redteaming,liu2024formalizingprompt,wallace2024instructionhierarchy,chen2025struq,debenedetti2024agentdojo}.
+\citep{
+    ganguli2022redteaming,
+    liu2024formalizingprompt,
+    wallace2024instructionhierarchy,
+    chen2025struq,
+    debenedetti2024agentdojo
+}.
 SkillOps does not claim to solve prompt injection; its narrower goal is to
 localize trust boundaries, permission scopes, memory-write rules, and audit
 fields within each skill.

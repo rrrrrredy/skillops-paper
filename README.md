@@ -4,7 +4,8 @@ This repository contains the working paper draft, research logs, benchmark
 design notes, bibliography, figures directory, and reproducibility scaffolding
 for:
 
-**SkillOps: A Practical Framework for Designing, Testing, and Operating Modular Skills in Personal AI Agents**
+**SkillOps: A Practical Framework for Designing, Testing, and Operating
+Modular Skills in Personal AI Agents**
 
 Author: **Song Luo**  
 Affiliation: **Independent Researcher**
