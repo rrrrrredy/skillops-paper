@@ -150,7 +150,7 @@ Over-triggering & The skill activates for requests that only superficially
 match its scope. & Narrower trigger language, explicit negative examples,
 boundary tests. \\
 Under-triggering & The skill fails to activate for valid requests. & Positive
-examples, paraphrase coverage, trigger recall checks. \\
+examples, paraphrase coverage, and missed-activation checks. \\
 Context contamination & Irrelevant, stale, or conflicting context is injected
 into execution. & Source filtering, freshness checks, conflict-resolution
 rules. \\
@@ -309,7 +309,7 @@ available.}
 \subsection{Trigger Design}
 
 Trigger descriptions determine when a skill is activated. A broad trigger may
-increase recall but also cause irrelevant activation. A narrow trigger may
+widen activation coverage but also cause irrelevant activation. A narrow trigger may
 reduce false positives but fail to activate in valid cases. SkillOps therefore
 recommends that trigger descriptions include both positive and negative
 examples.
@@ -586,7 +586,10 @@ cases. Running \texttt{scripts/run\_all.py} regenerates summary tables under
 \texttt{results/tables/} and SVG figures under \texttt{figures/}. Because the
 benchmark is manually constructed and exploratory, these outputs should be read
 as descriptive summaries rather than as statistical evidence or broad empirical
-validation. In the current repository state, this executable pass regenerates
+validation. The repository also includes executable repository-level
+consistency checks that verify deterministic schema, reproducibility,
+paper-claim consistency, SVG validity, public presentation, and evidence
+traceability. In the current repository state, this executable pass regenerates
 descriptive tables and schematic figures only; it does not execute the five
 source repositories against the benchmark cases or score model, scanner, or
 self-audit behavior.
