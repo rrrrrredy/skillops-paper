@@ -2,8 +2,8 @@
 
 This directory contains the manually constructed benchmark inputs for the
 SkillOps paper. The purpose of this layer is to make the paper's artifact base
-inspectable and reproducible without claiming experimental results that have
-not yet been generated.
+inspectable and reproducible without presenting the benchmark as an executed
+performance study.
 
 These files are exploratory inputs only. They are not model outputs, result
 tables, or figures.
@@ -37,7 +37,7 @@ identifier in `trigger_cases.csv` and `risk_cases.csv` begins with `manual-`.
 ### Artifact-level samples
 
 `skill_samples.csv` captures repository-level features that map the paper's
-framework claims back to inspected artifact evidence. The current columns are:
+framework claims back to inspected artifact evidence. The columns are:
 
 - artifact name and repository URL
 - purpose and metadata
@@ -60,7 +60,7 @@ Labels:
 - `ambiguous`: the request plausibly touches a skill but needs more context or
   policy clarification
 
-Current count: 36 cases total.
+Count: 36 cases total.
 
 - `should_trigger`: 15
 - `should_not_trigger`: 12
@@ -69,7 +69,7 @@ Current count: 36 cases total.
 ### Risk cases
 
 `risk_cases.csv` is a small operational risk set aimed at static review,
-policy checks, and future benchmark scripts.
+policy checks, and benchmark scripting.
 
 Risk types currently included:
 
@@ -82,7 +82,7 @@ Risk types currently included:
 - `identity_confusion`
 - `privacy_leakage`
 
-Current count: 24 cases total, with 3 cases for each risk type.
+Count: 24 cases total, with 3 cases for each risk type.
 
 ## Limitations
 
@@ -90,25 +90,21 @@ Current count: 24 cases total, with 3 cases for each risk type.
   from executed experiments.
 - The artifact base comes from one author's public repositories in one agent
   ecosystem.
-- No inter-annotator agreement or external label validation is provided yet.
+- No inter-annotator agreement or external label validation is provided.
 - The cases are designed to be realistic, but they are still synthetic.
-- The current descriptive scripts and generated outputs do not measure actual
+- The descriptive scripts and generated outputs do not measure actual
   model behavior; that would require a later execution layer under `scripts/`
   and `results/`.
 
 ## Why this benchmark is exploratory
 
 This benchmark is intended to support artifact inspection, benchmark design,
-and future reproducible evaluation. It is not broad validation of modular
+and reproducible evaluation extensions. It is not broad validation of modular
 skills, agent safety, or long-term memory systems in general.
 
 The benchmark should therefore be read as a modest bridge between the paper's
 framework claims and concrete public repositories:
 
 - it supports traceability from paper claims to inspected artifacts
-- it supports future scripted evaluation design
+- it supports scripted evaluation design
 - it does not support general performance claims on its own
-
-Future work should add a repeated-execution evaluation layer under `scripts/`
-and `results/`, plus annotation guidance for reviewing ambiguous cases and
-flagged risks.

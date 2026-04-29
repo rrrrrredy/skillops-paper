@@ -86,7 +86,7 @@ but they do not by themselves establish broad empirical validation.
 ## persistent-memory
 
 - Repository URL: <https://github.com/rrrrrredy/persistent-memory>
-- Purpose: Adds long-term memory to an agent through daily logs, distilled
+- Purpose: Provides long-term memory to an agent through daily logs, distilled
   facts, and a compact session-loaded memory file.
 - Files inspected: `README.md`, `SKILL.md`, `scripts/memory_manager.py`
 - SkillOps components supported:

@@ -17,7 +17,6 @@ Modular Skills in Personal AI Agents
 
 \author{
 Song Luo\\
-Independent Researcher\\
 \texttt{luosongred@gmail.com}\\
 \texttt{https://github.com/rrrrrredy}
 }
@@ -44,7 +43,7 @@ concerning skill structure, stability under trigger and context variation, and
 the role of automated linting, security scanning, and self-auditing in reducing
 operational risk. The paper contributes a skill component taxonomy, a lifecycle
 model, a failure-mode taxonomy, and an artifact-based evaluation design. The
-current draft also includes descriptive benchmark summaries derived from a
+paper also includes descriptive benchmark summaries derived from a
 manually constructed exploratory benchmark covering artifact structure,
 trigger-routing cases, and operational-risk cases. These summaries document
 benchmark composition only; they do not claim statistical significance or broad
@@ -97,7 +96,7 @@ The framework is derived from five open-source artifacts:
 The central claim is modest: personal agent skills can be made more reliable
 when they are treated as lifecycle-managed artifacts with explicit structure,
 tests, and operational controls. The paper contributes a framework, a taxonomy
-of skill components, a methodology for artifact-based study, and an initial
+of skill components, a methodology for artifact-based study, and a
 descriptive evaluation layer built from manually constructed benchmark inputs.
 The reported tables document benchmark composition and artifact coverage, not
 multi-model execution performance or broad empirical validation.
@@ -327,7 +326,7 @@ A trigger specification should answer three questions:
 Trigger quality can be evaluated through paraphrase tests, boundary tests, and
 multi-intent tests. This paper reports only the descriptive composition of a
 manually constructed trigger benchmark; Section~\ref{sec:evaluation}
-summarizes the current counts and their limitations.
+summarizes the reported counts and their limitations.
 
 \subsection{Context Injection}
 
@@ -454,7 +453,7 @@ before or after deployment. The expected output is an evaluation of lint rules,
 security checks, and self-audit prompts against manually constructed cases.
 
 Table~\ref{tab:rq-mapping} maps each research question to the corresponding
-framework component and planned evaluation method.
+framework component and evaluation method.
 
 \begin{table}[t]
 \centering
@@ -466,7 +465,7 @@ framework component and planned evaluation method.
 }
 \toprule
 \textbf{Research question} & \textbf{Framework component} &
-\textbf{Planned evaluation method} \\
+\textbf{Evaluation method} \\
 \midrule
 RQ1 & Skill structure and documentation fields & Artifact review, template
 comparison, and completeness analysis across the open-source repositories. \\
@@ -550,13 +549,13 @@ practical open-source tools. The methodology has four steps:
     security scanning, and self-audit behavior.
 \end{enumerate}
 
-This approach is exploratory. It is appropriate for deriving an initial
+This approach is exploratory. It is appropriate for deriving a
 framework, but it cannot by itself establish broad generality. The limitations
 are discussed in Section~\ref{sec:limitations}.
 
-\subsection{Benchmark Construction and Current Outputs}
+\subsection{Benchmark Construction and Descriptive Outputs}
 
-The current benchmark includes manually constructed cases in the following
+The benchmark includes manually constructed cases in the following
 categories:
 
 \begin{itemize}[leftmargin=*]
@@ -577,7 +576,7 @@ categories:
     unsupported claims, missing evidence, or hidden assumptions.
 \end{itemize}
 
-The current repository now includes manually constructed benchmark inputs and
+The repository includes manually constructed benchmark inputs and
 generated descriptive outputs. \texttt{benchmark/skill\_samples.csv} profiles
 five artifacts, \texttt{benchmark/trigger\_cases.csv} contains 36 trigger
 cases, and \texttt{benchmark/risk\_cases.csv} contains 24 operational-risk
@@ -617,7 +616,7 @@ claimed.
 The descriptive layer combines \texttt{benchmark/skill\_samples.csv},
 \texttt{benchmark/trigger\_cases.csv}, and
 \texttt{benchmark/risk\_cases.csv} with the cross-checking notes in
-\texttt{artifacts/artifact\_inventory.md}. The current inputs cover five
+\texttt{artifacts/artifact\_inventory.md}. The inputs cover five
 artifact profiles, 36 trigger-routing cases, and 24 operational-risk cases.
 All trigger and risk cases use the \texttt{manual-} prefix, making the manual
 construction of the benchmark explicit. Figure~\ref{fig:evaluation-pipeline}
@@ -718,7 +717,7 @@ The risk benchmark contains 24 manually written cases. The case inventory is
 evenly split across eight risk types, with three cases each for prompt
 injection, over-broad triggers, unsafe file access, missing constraints, stale
 memory, missing tests, identity confusion, and privacy leakage.
-Table~\ref{tab:risk-summary} also reports the artifact emphasis of the current case
+Table~\ref{tab:risk-summary} also reports the artifact emphasis of the case
 set, with six cases tied most directly to \texttt{persistent-memory}, five
 each to \texttt{skill-security-guard} and \texttt{lobster-guard}, and four
 each to \texttt{skill-design-guide} and \texttt{agent-self-audit}.
@@ -800,7 +799,7 @@ operational framework can make these issues easier to identify and improve.
 This paper has several limitations.
 
 First, the artifact base is authored and interpreted by a single independent
-researcher. The current paper therefore reflects a single-author artifact base
+researcher. This paper therefore reflects a single-author artifact base
 rather than a multi-lab or multi-organization corpus.
 
 Second, the artifact evidence comes from five public repositories. This is
@@ -811,7 +810,7 @@ Third, the benchmark cases are manually constructed and exploratory. The counts
 reported in Section~\ref{sec:evaluation} describe benchmark composition, not
 observed production traffic or statistically powered experiments.
 
-Fourth, the current repository does not yet include a multi-model execution
+Fourth, the repository does not include a multi-model execution
 benchmark. The paper therefore cannot compare trigger stability, constraint
 following, or guard behavior across model families or repeated runs.
 
@@ -920,16 +919,16 @@ and operating modular skills in personal AI agents. The framework is derived
 from open-source artifacts and emphasizes explicit skill structure, trigger
 design, context injection, execution constraints, security checks,
 self-auditing, and forgetting. The paper formulates three research questions
-and reports an initial descriptive evaluation layer based on manually
+and reports a descriptive evaluation layer based on manually
 constructed benchmark artifacts and reproducible summary scripts.
 
-The current contribution is intentionally modest. SkillOps is not presented as a
+The contribution is intentionally modest. SkillOps is not presented as a
 new agent architecture or as a broadly validated empirical result. Instead, it
 is a concrete operational framework intended to make personal agent skills more
-inspectable, testable, and maintainable. Future work should turn the benchmark
-into a repeated execution study, add multi-model comparisons, integrate the
-generated figure artwork into a full PDF toolchain, compare across models and
-agent environments, and refine the framework based on external use.
+inspectable, testable, and maintainable. Broader empirical follow-up would
+require a repeated execution study, multi-model comparisons, integration of
+the generated figure artwork into a full PDF toolchain, comparison across
+models and agent environments, and refinement based on external use.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
