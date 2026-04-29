@@ -175,8 +175,9 @@ Current reproducibility status:
 - Generated summary tables and figures are versioned under `results/` and
   `figures/`.
 
-Future revisions should add benchmark inputs, scripts, generated tables,
-figure-generation steps, and any annotation guidance needed for manual review.
+Future revisions should add a repeated-execution benchmark layer, clearer
+annotation guidance for manual review, and a portable LaTeX/SVG build path for
+release packaging.
 
 ## Limitations
 
