@@ -1,0 +1,11 @@
+prompt_variant,metric,value,numerator,denominator,notes
+skillops,precision,0.681818,15,22,
+skillops,recall,1.000000,15,15,
+skillops,f1,0.810811,15,22,
+skillops,false_trigger_rate_on_should_not_trigger,0.000000,0,12,
+skillops,ambiguity_handling_rate,0.222222,2,9,
+freeform,precision,0.714286,15,21,
+freeform,recall,1.000000,15,15,
+freeform,f1,0.833333,15,21,
+freeform,false_trigger_rate_on_should_not_trigger,0.000000,0,12,
+freeform,ambiguity_handling_rate,0.333333,3,9,

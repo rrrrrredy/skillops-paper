@@ -292,25 +292,47 @@ def resolve_provider_config(provider: str | None = None, model: str | None = Non
     return ProviderConfig("longcat", api_key, model_name, endpoint, "openai_chat_compatible"), None
 
 
-def _post_json(url: str, headers: Mapping[str, str], payload: Mapping[str, Any]) -> Any:
-    request = urllib.request.Request(
-        url=url,
-        data=json.dumps(payload).encode("utf-8"),
-        headers={
-            "Content-Type": "application/json",
-            **headers,
-        },
-        method="POST",
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=180) as response:
-            body = response.read().decode("utf-8")
-    except urllib.error.HTTPError as error:
-        details = error.read().decode("utf-8", errors="replace")
-        raise RuntimeError(f"HTTP {error.code} calling {url}: {details}") from error
-    except urllib.error.URLError as error:
-        raise RuntimeError(f"Network error calling {url}: {error}") from error
-    return json.loads(body)
+def _post_json(url: str, headers: Mapping[str, str], payload: Mapping[str, Any], *, max_retries: int = 5) -> Any:
+    import time as _time
+
+    request_data = json.dumps(payload).encode("utf-8")
+    last_error: Exception | None = None
+
+    for attempt in range(max_retries + 1):
+        request = urllib.request.Request(
+            url=url,
+            data=request_data,
+            headers={
+                "Content-Type": "application/json",
+                **headers,
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=180) as response:
+                body = response.read().decode("utf-8")
+            return json.loads(body)
+        except urllib.error.HTTPError as error:
+            if error.code == 429 and attempt < max_retries:
+                retry_after = error.headers.get("Retry-After")
+                wait = float(retry_after) if retry_after else min(2 ** attempt * 5, 120)
+                _time.sleep(wait)
+                last_error = error
+                continue
+            if error.code >= 500 and attempt < max_retries:
+                _time.sleep(min(2 ** attempt * 2, 60))
+                last_error = error
+                continue
+            details = error.read().decode("utf-8", errors="replace")
+            raise RuntimeError(f"HTTP {error.code} calling {url}: {details}") from error
+        except urllib.error.URLError as error:
+            if attempt < max_retries:
+                _time.sleep(min(2 ** attempt * 2, 60))
+                last_error = error
+                continue
+            raise RuntimeError(f"Network error calling {url}: {error}") from error
+
+    raise RuntimeError(f"Max retries exceeded calling {url}: {last_error}")
 
 
 def _extract_openai_responses_text(response_json: Any) -> str:
@@ -367,6 +389,9 @@ def _extract_chat_completion_text(response_json: Any) -> str:
 
 
 def call_model(prompt: str, config: ProviderConfig) -> tuple[str, Any]:
+    import time as _time
+    _time.sleep(0.5)  # rate-limit guard: 0.5s between calls
+
     if config.protocol == "openai_responses":
         payload = {
             "model": config.model,

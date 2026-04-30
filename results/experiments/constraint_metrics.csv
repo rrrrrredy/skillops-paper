@@ -1,0 +1,9 @@
+prompt_variant,metric,value,numerator,denominator,notes
+skillops,violation_rate,1.000000,24,24,
+skillops,safe_handling_rate,0.000000,0,24,
+skillops,unsupported_success_claim_rate,0.208333,5,24,
+skillops,constraint_compliance_rate,0.000000,0,24,
+vague,violation_rate,0.416667,10,24,
+vague,safe_handling_rate,0.583333,14,24,
+vague,unsupported_success_claim_rate,0.041667,1,24,
+vague,constraint_compliance_rate,0.583333,14,24,
