@@ -10,6 +10,10 @@
 \usepackage{tabularx}
 \usepackage[numbers,sort&compress]{natbib}
 
+\newcommand{\diagrambox}[2]{%
+    \fbox{\parbox[c][4.6em][c]{#1}{\centering\footnotesize #2}}%
+}
+
 \title{
 SkillOps: A Practical Framework for Designing, Testing, and Operating
 Modular Skills in Personal AI Agents
@@ -245,17 +249,31 @@ rules. & When should the skill be updated, deprecated, or forgotten? \\
 \begin{figure}[t]
 \centering
 \fbox{
-    \parbox{0.9\linewidth}{
+    \parbox{0.94\linewidth}{
         \centering
-        \textbf{Repository figure artifact: Skill anatomy}\\[0.5em]
-        \texttt{figures/skill\_anatomy.svg}. This boxed note records the
-        repository figure artifact while preserving pdflatex-friendly
-        compilation in the current repository state.
+        \fbox{\parbox{0.58\linewidth}{\centering\textbf{Skill package}}}\\[0.8em]
+        \setlength{\tabcolsep}{5pt}
+        \renewcommand{\arraystretch}{1.05}
+        \begin{tabular}{ccc}
+            \diagrambox{0.25\linewidth}{\textbf{Metadata}} &
+            \diagrambox{0.25\linewidth}{\textbf{Trigger}\\\textbf{contract}} &
+            \diagrambox{0.25\linewidth}{\textbf{Instructions}} \\
+            [0.5em]
+            \diagrambox{0.25\linewidth}{\textbf{Context}\\\textbf{boundary}} &
+            \diagrambox{0.25\linewidth}{\textbf{Execution}\\\textbf{constraints}} &
+            \diagrambox{0.25\linewidth}{\textbf{Memory}\\\textbf{interface}} \\
+            [0.5em]
+            \diagrambox{0.25\linewidth}{\textbf{Tests}} &
+            \diagrambox{0.25\linewidth}{\textbf{Security}\\\textbf{checks}} &
+            \diagrambox{0.25\linewidth}{\textbf{Failure}\\\textbf{modes}}
+        \end{tabular}
     }
 }
-\caption{Skill anatomy repository figure artifact. SVG artwork is available in
-the repository but has not been integrated as raster or PDF artwork in the
-current repository state.}
+\caption{LaTeX-native rendering of a SkillOps skill package, with the package
+boundary enclosing metadata, trigger contract, instructions, context
+boundary, execution constraints, memory interface, tests, security checks, and
+failure modes. Corresponding SVG artwork is also available in
+\texttt{figures/skill\_anatomy.svg}.}
 \label{fig:skill-anatomy}
 \end{figure}
 
@@ -284,22 +302,38 @@ SkillOps organizes skill management into a lifecycle:
 The lifecycle emphasizes that a skill is not complete when it is written. Its
 behavior depends on activation, context, model behavior, and interaction with
 other skills. Figure~\ref{fig:skillops-lifecycle} summarizes the lifecycle
-stages as they are represented in the generated repository artwork.
+stages from design through forgetting or retirement.
 
 \begin{figure}[t]
 \centering
 \fbox{
-    \parbox{0.9\linewidth}{
+    \parbox{0.94\linewidth}{
         \centering
-        \textbf{Repository figure artifact: SkillOps lifecycle}\\[0.5em]
-        \texttt{figures/skillops\_lifecycle.svg}. This boxed note records the
-        repository figure artifact while preserving pdflatex-friendly
-        compilation in the current repository state.
+        \setlength{\tabcolsep}{4pt}
+        \renewcommand{\arraystretch}{1.05}
+        \begin{tabular}{c c c c c c c}
+            \diagrambox{0.12\linewidth}{\textbf{Design}} &
+            $\rightarrow$ &
+            \diagrambox{0.12\linewidth}{\textbf{Lint}} &
+            $\rightarrow$ &
+            \diagrambox{0.12\linewidth}{\textbf{Test}} &
+            $\rightarrow$ &
+            \diagrambox{0.14\linewidth}{\textbf{Deploy}} \\
+            &&&&&& $\downarrow$ \\
+            \diagrambox{0.18\linewidth}{\textbf{Forget or retire}} &
+            $\leftarrow$ &
+            \diagrambox{0.12\linewidth}{\textbf{Revise}} &
+            $\leftarrow$ &
+            \diagrambox{0.12\linewidth}{\textbf{Audit}} &
+            $\leftarrow$ &
+            \diagrambox{0.14\linewidth}{\textbf{Observe}}
+        \end{tabular}
     }
 }
-\caption{SkillOps lifecycle repository figure artifact. SVG artwork is
-available in the repository but has not been integrated as raster or PDF
-artwork in the current repository state.}
+\caption{LaTeX-native rendering of the SkillOps lifecycle, showing the linked
+sequence of design, lint, test, deploy, observe, audit, revise, and forgetting
+or retirement. Corresponding SVG artwork is also available in
+\texttt{figures/skillops\_lifecycle.svg}.}
 \label{fig:skillops-lifecycle}
 \end{figure}
 
@@ -636,17 +670,30 @@ interpretation.
 \begin{figure}[t]
 \centering
 \fbox{
-    \parbox{0.9\linewidth}{
+    \parbox{0.94\linewidth}{
         \centering
-        \textbf{Repository figure artifact: Evaluation pipeline}\\[0.5em]
-        \texttt{figures/evaluation\_pipeline.svg}. This boxed note records the
-        repository figure artifact while preserving pdflatex-friendly
-        compilation in the current repository state.
+        \setlength{\tabcolsep}{4pt}
+        \renewcommand{\arraystretch}{1.05}
+        \begin{tabular}{c c c c c}
+            \diagrambox{0.21\linewidth}{\textbf{Artifact}\\\textbf{inventory}} &
+            $\rightarrow$ &
+            \diagrambox{0.21\linewidth}{\textbf{Manual benchmark}\\\textbf{cases}} &
+            $\rightarrow$ &
+            \diagrambox{0.21\linewidth}{\textbf{Reproducibility}\\\textbf{scripts}} \\
+            &&&& $\downarrow$ \\
+            \diagrambox{0.21\linewidth}{\textbf{Cautious}\\\textbf{interpretation}} &
+            $\leftarrow$ &
+            \diagrambox{0.21\linewidth}{\textbf{Descriptive result}\\\textbf{tables}} &
+            $\leftarrow$ &
+            \diagrambox{0.21\linewidth}{\textbf{Repository-level}\\\textbf{tests}}
+        \end{tabular}
     }
 }
-\caption{Evaluation pipeline repository figure artifact. SVG artwork is
-available in the repository but has not been integrated as raster or PDF
-artwork in the current repository state.}
+\caption{LaTeX-native rendering of the descriptive evaluation pipeline from
+artifact inventory and manual benchmark cases through reproducibility scripts,
+repository-level tests, descriptive result tables, and cautious
+interpretation. Corresponding SVG artwork is also available in
+\texttt{figures/evaluation\_pipeline.svg}.}
 \label{fig:evaluation-pipeline}
 \end{figure}
 
