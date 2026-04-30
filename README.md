@@ -130,6 +130,20 @@ integrity, and public presentation constraints.
 These tests do not measure model performance, scanner accuracy, user-study
 outcomes, or production validation.
 
+## Empirical Experiments
+
+The repository includes harnesses for three empirical experiment tracks:
+
+- Trigger Routing Accuracy
+- Constraint Compliance Rate
+- Security Guard Detection Rate
+
+Live model or API execution requires credentials and explicit approval.
+Dry-run validation can run locally without credentials.
+No empirical metrics are reported unless result files are generated from actual
+execution.
+Repository-level tests remain separate from model or guard experiments.
+
 ## Limitations
 
 - The evaluation is exploratory.
