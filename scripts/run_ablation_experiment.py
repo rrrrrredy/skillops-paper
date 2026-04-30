@@ -399,6 +399,8 @@ def run_experiment(
     records: list[dict[str, Any]] = []
 
     for variant_name, skill_def in variant_texts.items():
+        variant_path = ABLATION_VARIANTS_DIR / f"{variant_name}.md"
+        variant_path_display = relative_display(variant_path)
         # Trigger cases
         for case_row in trigger_rows:
             prompt = render_prompt_template(TRIGGER_PROMPT_TEMPLATE, {
@@ -411,9 +413,16 @@ def run_experiment(
             response_text, provider_response_json = call_model(prompt, config)
             completed_at = utc_timestamp()
             parsed_json = parse_json_object(response_text)
+            parsed_ok = isinstance(parsed_json, dict)
             predicted_label = ""
-            if isinstance(parsed_json, dict):
+            predicted_skill = ""
+            confidence = ""
+            rationale = ""
+            if parsed_ok:
                 predicted_label = str(parsed_json.get("predicted_label", "")).strip()
+                predicted_skill = str(parsed_json.get("predicted_skill", "")).strip()
+                confidence = str(parsed_json.get("confidence", "")).strip()
+                rationale = str(parsed_json.get("rationale", "")).strip()
             if predicted_label not in ALLOWED_TRIGGER_LABELS:
                 predicted_label = "invalid"
 
@@ -425,6 +434,8 @@ def run_experiment(
                     "experiment_type": "trigger",
                     "provider": config.provider,
                     "model": config.model,
+                    "variant_path": variant_path_display,
+                    "case_input": case_row,
                     "response_text": response_text,
                     "response_json": provider_response_json,
                     "started_at_utc": started_at,
@@ -435,6 +446,10 @@ def run_experiment(
                 "case_id": case_row["case_id"],
                 "expected_label": case_row["expected_label"],
                 "predicted_label": predicted_label,
+                "predicted_skill": predicted_skill,
+                "confidence": confidence,
+                "rationale": rationale,
+                "parsed_ok": parsed_ok,
             })
 
         # Risk/constraint cases
@@ -449,13 +464,16 @@ def run_experiment(
             response_text, provider_response_json = call_model(prompt, config)
             completed_at = utc_timestamp()
             parsed_json = parse_json_object(response_text)
+            parsed_ok = isinstance(parsed_json, dict)
             risk_detected = False
             safe_response = False
             unsupported_success_claim = False
-            if isinstance(parsed_json, dict):
+            rationale = ""
+            if parsed_ok:
                 risk_detected = coerce_bool(parsed_json.get("risk_detected"))
                 safe_response = coerce_bool(parsed_json.get("safe_response"))
                 unsupported_success_claim = coerce_bool(parsed_json.get("unsupported_success_claim"))
+                rationale = str(parsed_json.get("rationale", "")).strip()
 
             records.append({
                 "raw_output": {
@@ -465,6 +483,8 @@ def run_experiment(
                     "experiment_type": "constraint",
                     "provider": config.provider,
                     "model": config.model,
+                    "variant_path": variant_path_display,
+                    "case_input": case_row,
                     "response_text": response_text,
                     "response_json": provider_response_json,
                     "started_at_utc": started_at,
@@ -476,6 +496,8 @@ def run_experiment(
                 "risk_detected": risk_detected,
                 "safe_response": safe_response,
                 "unsupported_success_claim": unsupported_success_claim,
+                "rationale": rationale,
+                "parsed_ok": parsed_ok,
             })
 
         # Memory drift cases
@@ -494,13 +516,16 @@ def run_experiment(
             response_text, provider_response_json = call_model(prompt, config)
             completed_at = utc_timestamp()
             parsed_json = parse_json_object(response_text)
+            parsed_ok = isinstance(parsed_json, dict)
             used_stale_info = False
             followed_current_instruction = False
             applied_forgetting = False
-            if isinstance(parsed_json, dict):
+            rationale = ""
+            if parsed_ok:
                 used_stale_info = coerce_bool(parsed_json.get("used_stale_info"))
                 followed_current_instruction = coerce_bool(parsed_json.get("followed_current_instruction"))
                 applied_forgetting = coerce_bool(parsed_json.get("applied_forgetting"))
+                rationale = str(parsed_json.get("rationale", "")).strip()
 
             records.append({
                 "raw_output": {
@@ -510,6 +535,8 @@ def run_experiment(
                     "experiment_type": "memory",
                     "provider": config.provider,
                     "model": config.model,
+                    "variant_path": variant_path_display,
+                    "case_input": case_row,
                     "response_text": response_text,
                     "response_json": provider_response_json,
                     "started_at_utc": started_at,
@@ -521,6 +548,8 @@ def run_experiment(
                 "used_stale_info": used_stale_info,
                 "followed_current_instruction": followed_current_instruction,
                 "applied_forgetting": applied_forgetting,
+                "rationale": rationale,
+                "parsed_ok": parsed_ok,
             })
 
     raw_output_path = RAW_RESULTS_DIR / f"ablation_{filename_timestamp()}.jsonl"

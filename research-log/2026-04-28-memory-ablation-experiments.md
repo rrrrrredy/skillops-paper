@@ -1,7 +1,7 @@
 # Research Log: Memory Drift Detection and SkillOps Ablation Experiments
 
-**Date:** 2026-04-28  
-**Author:** Song Luo  
+**Date:** 2026-04-28
+**Author:** Song Luo
 **Status:** Harness prepared; dry-run validated; live runs not yet executed
 
 ## Summary
