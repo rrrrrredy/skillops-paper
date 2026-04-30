@@ -3,12 +3,14 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{times}
 \usepackage{url}
+\usepackage{xurl}
 \usepackage{booktabs}
 \usepackage{enumitem}
 \usepackage{hyperref}
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage[numbers,sort&compress]{natbib}
+\hypersetup{hidelinks,breaklinks=true}
 
 \newcommand{\diagrambox}[2]{%
     \fbox{\parbox[c][4.6em][c]{#1}{\centering\footnotesize #2}}%
@@ -25,7 +27,7 @@ Song Luo\\
 \texttt{https://github.com/rrrrrredy}
 }
 
-\date{\today}
+\date{April 2026}
 
 \begin{document}
 
@@ -628,16 +630,22 @@ model, scanner, or self-audit behavior.
 \subsection{Artifact Availability}
 
 The public repository for this paper is
-\url{https://github.com/rrrrrredy/skillops-paper}. The artifact inventory is
-documented in \texttt{artifacts/artifact\_inventory.md}. Benchmark inputs are
-stored in \texttt{benchmark/skill\_samples.csv},
-\texttt{benchmark/trigger\_cases.csv}, and
-\texttt{benchmark/risk\_cases.csv}. Reproducible scripts live under
-\texttt{scripts/}, generated result tables under \texttt{results/tables/}, and
-generated figure artwork under \texttt{figures/}. These materials are intended
-to make the exploratory benchmark inspectable, but the benchmark remains
-manually constructed and should not be interpreted as broad empirical
-validation.
+\url{https://github.com/rrrrrredy/skillops-paper}.
+
+Supporting materials are organized as follows:
+\begin{itemize}[leftmargin=*]
+    \item Artifact inventory: \path{artifacts/artifact_inventory.md}
+    \item Benchmark input: \path{benchmark/skill_samples.csv}
+    \item Benchmark input: \path{benchmark/trigger_cases.csv}
+    \item Benchmark input: \path{benchmark/risk_cases.csv}
+    \item Reproducible scripts: \path{scripts/}
+    \item Generated result tables: \path{results/tables/}
+    \item Generated figure artwork: \path{figures/}
+\end{itemize}
+
+These materials are intended to make the exploratory benchmark inspectable,
+but the benchmark remains manually constructed and should not be interpreted as
+broad empirical validation.
 
 \section{Evaluation}
 \label{sec:evaluation}
@@ -655,15 +663,19 @@ validation is claimed.
 
 \subsection{Evaluation Scope}
 
-The descriptive layer combines \texttt{benchmark/skill\_samples.csv},
-\texttt{benchmark/trigger\_cases.csv}, and
-\texttt{benchmark/risk\_cases.csv} with the cross-checking notes in
-\texttt{artifacts/artifact\_inventory.md}. The inputs cover five
-artifact profiles, 36 trigger-routing cases, and 24 operational-risk cases.
-All trigger and risk cases use the \texttt{manual-} prefix, making the manual
-construction of the benchmark explicit. Figure~\ref{fig:evaluation-pipeline}
-captures this descriptive evaluation flow from artifact inventory to cautious
-interpretation.
+The descriptive layer combines the following versioned inputs:
+\begin{itemize}[leftmargin=*]
+    \item Skill samples: \path{benchmark/skill_samples.csv}
+    \item Trigger cases: \path{benchmark/trigger_cases.csv}
+    \item Risk cases: \path{benchmark/risk_cases.csv}
+    \item Cross-checking notes: \path{artifacts/artifact_inventory.md}
+\end{itemize}
+
+These inputs cover five artifact profiles, 36 trigger-routing cases, and 24
+operational-risk cases. All trigger and risk cases use the \texttt{manual-}
+prefix, making the manual construction of the benchmark explicit.
+Figure~\ref{fig:evaluation-pipeline} captures this descriptive evaluation flow
+from artifact inventory to cautious interpretation.
 
 \begin{figure}[t]
 \centering
