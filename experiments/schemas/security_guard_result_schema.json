@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Security Guard Detection Experiment Record",
+  "type": "object",
+  "required": [
+    "raw_output",
+    "normalized_result"
+  ],
+  "properties": {
+    "raw_output": {
+      "$ref": "#/$defs/raw_output_record"
+    },
+    "normalized_result": {
+      "$ref": "#/$defs/normalized_result_record"
+    }
+  },
+  "$defs": {
+    "raw_output_record": {
+      "type": "object",
+      "required": [
+        "experiment",
+        "case_id",
+        "guard_mode",
+        "provider",
+        "model",
+        "prompt_path",
+        "case_input",
+        "response_text",
+        "response_json",
+        "started_at_utc",
+        "completed_at_utc"
+      ],
+      "properties": {
+        "experiment": {
+          "const": "security_guard_detection_rate"
+        },
+        "case_id": {
+          "type": "string"
+        },
+        "guard_mode": {
+          "enum": [
+            "local-rules",
+            "model"
+          ]
+        },
+        "provider": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "model": {
+          "type": "string"
+        },
+        "prompt_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "case_input": {
+          "type": "object"
+        },
+        "response_text": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "response_json": {
+          "type": [
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "started_at_utc": {
+          "type": "string"
+        },
+        "completed_at_utc": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "normalized_result_record": {
+      "type": "object",
+      "required": [
+        "case_id",
+        "guard_mode",
+        "risk_type",
+        "relevant_artifact",
+        "guard_decision",
+        "detected_risk_types",
+        "triggered_signals",
+        "parsed_ok",
+        "risk_type_detected"
+      ],
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "guard_mode": {
+          "enum": [
+            "local-rules",
+            "model"
+          ]
+        },
+        "risk_type": {
+          "type": "string"
+        },
+        "relevant_artifact": {
+          "type": "string"
+        },
+        "guard_decision": {
+          "enum": [
+            "detect",
+            "allow"
+          ]
+        },
+        "detected_risk_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "triggered_signals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "parsed_ok": {
+          "type": "boolean"
+        },
+        "risk_type_detected": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

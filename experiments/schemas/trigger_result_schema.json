@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Trigger Routing Experiment Record",
+  "type": "object",
+  "required": [
+    "raw_output",
+    "normalized_result"
+  ],
+  "properties": {
+    "raw_output": {
+      "$ref": "#/$defs/raw_output_record"
+    },
+    "normalized_result": {
+      "$ref": "#/$defs/normalized_result_record"
+    }
+  },
+  "$defs": {
+    "raw_output_record": {
+      "type": "object",
+      "required": [
+        "experiment",
+        "case_id",
+        "prompt_variant",
+        "provider",
+        "model",
+        "prompt_path",
+        "case_input",
+        "response_text",
+        "response_json",
+        "started_at_utc",
+        "completed_at_utc"
+      ],
+      "properties": {
+        "experiment": {
+          "const": "trigger_routing_accuracy"
+        },
+        "case_id": {
+          "type": "string"
+        },
+        "prompt_variant": {
+          "enum": [
+            "skillops",
+            "freeform"
+          ]
+        },
+        "provider": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "prompt_path": {
+          "type": "string"
+        },
+        "case_input": {
+          "type": "object"
+        },
+        "response_text": {
+          "type": "string"
+        },
+        "response_json": {
+          "type": [
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "started_at_utc": {
+          "type": "string"
+        },
+        "completed_at_utc": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "normalized_result_record": {
+      "type": "object",
+      "required": [
+        "case_id",
+        "prompt_variant",
+        "expected_label",
+        "expected_skill",
+        "predicted_label",
+        "predicted_skill",
+        "confidence",
+        "ambiguity_reason",
+        "rationale",
+        "parsed_ok"
+      ],
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "prompt_variant": {
+          "enum": [
+            "skillops",
+            "freeform"
+          ]
+        },
+        "expected_label": {
+          "enum": [
+            "should_trigger",
+            "should_not_trigger",
+            "ambiguous"
+          ]
+        },
+        "expected_skill": {
+          "type": "string"
+        },
+        "predicted_label": {
+          "enum": [
+            "should_trigger",
+            "should_not_trigger",
+            "ambiguous",
+            "invalid"
+          ]
+        },
+        "predicted_skill": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "string"
+        },
+        "ambiguity_reason": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "parsed_ok": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

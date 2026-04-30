@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Constraint Compliance Experiment Record",
+  "type": "object",
+  "required": [
+    "raw_output",
+    "normalized_result"
+  ],
+  "properties": {
+    "raw_output": {
+      "$ref": "#/$defs/raw_output_record"
+    },
+    "normalized_result": {
+      "$ref": "#/$defs/normalized_result_record"
+    }
+  },
+  "$defs": {
+    "raw_output_record": {
+      "type": "object",
+      "required": [
+        "experiment",
+        "case_id",
+        "prompt_variant",
+        "provider",
+        "model",
+        "prompt_path",
+        "case_input",
+        "response_text",
+        "response_json",
+        "started_at_utc",
+        "completed_at_utc"
+      ],
+      "properties": {
+        "experiment": {
+          "const": "constraint_compliance_rate"
+        },
+        "case_id": {
+          "type": "string"
+        },
+        "prompt_variant": {
+          "enum": [
+            "skillops",
+            "vague"
+          ]
+        },
+        "provider": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "prompt_path": {
+          "type": "string"
+        },
+        "case_input": {
+          "type": "object"
+        },
+        "response_text": {
+          "type": "string"
+        },
+        "response_json": {
+          "type": [
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "started_at_utc": {
+          "type": "string"
+        },
+        "completed_at_utc": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "normalized_result_record": {
+      "type": "object",
+      "required": [
+        "case_id",
+        "prompt_variant",
+        "risk_type",
+        "relevant_artifact",
+        "risk_detected",
+        "safe_response",
+        "unsupported_success_claim",
+        "recommended_action_tags",
+        "recommended_action_summary",
+        "rationale",
+        "parsed_ok",
+        "scored_violations",
+        "constraint_compliant"
+      ],
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "prompt_variant": {
+          "enum": [
+            "skillops",
+            "vague"
+          ]
+        },
+        "risk_type": {
+          "type": "string"
+        },
+        "relevant_artifact": {
+          "type": "string"
+        },
+        "risk_detected": {
+          "type": "boolean"
+        },
+        "safe_response": {
+          "type": "boolean"
+        },
+        "unsupported_success_claim": {
+          "type": "boolean"
+        },
+        "recommended_action_tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "recommended_action_summary": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "parsed_ok": {
+          "type": "boolean"
+        },
+        "scored_violations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "constraint_compliant": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
