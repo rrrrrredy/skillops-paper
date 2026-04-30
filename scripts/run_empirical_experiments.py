@@ -13,7 +13,9 @@ if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
 
 import check_experiment_readiness  # noqa: E402
+import run_ablation_experiment  # noqa: E402
 import run_constraint_experiment  # noqa: E402
+import run_memory_drift_experiment  # noqa: E402
 import run_security_guard_experiment  # noqa: E402
 import run_trigger_experiment  # noqa: E402
 
@@ -58,6 +60,16 @@ def main() -> int:
         guard=args.security_guard,
         emit_status=True,
     )
+    memory_drift_result = run_memory_drift_experiment.run_experiment(
+        dry_run=True,
+        run_live=False,
+        emit_status=True,
+    )
+    ablation_result = run_ablation_experiment.run_experiment(
+        dry_run=True,
+        run_live=False,
+        emit_status=True,
+    )
 
     if not args.run_live:
         return 0
@@ -80,6 +92,20 @@ def main() -> int:
         dry_run=False,
         run_live=True,
         guard=args.security_guard,
+        provider=args.provider,
+        model=args.model,
+        emit_status=True,
+    )
+    run_memory_drift_experiment.run_experiment(
+        dry_run=False,
+        run_live=True,
+        provider=args.provider,
+        model=args.model,
+        emit_status=True,
+    )
+    run_ablation_experiment.run_experiment(
+        dry_run=False,
+        run_live=True,
         provider=args.provider,
         model=args.model,
         emit_status=True,

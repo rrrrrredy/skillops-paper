@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Memory Drift Detection Result",
+  "description": "Schema for a single memory drift detection experiment result.",
+  "type": "object",
+  "required": [
+    "case_id",
+    "condition",
+    "response_action",
+    "used_stale_info",
+    "followed_current_instruction",
+    "applied_forgetting",
+    "conflict_resolution_applied",
+    "rationale"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "description": "Echoed case identifier."
+    },
+    "condition": {
+      "type": "string",
+      "enum": [
+        "full_skillops_memory_policy",
+        "no_forgetting_policy",
+        "current_context_only"
+      ],
+      "description": "Experimental condition name."
+    },
+    "response_action": {
+      "type": "string",
+      "description": "Recommended action in 1-2 sentences."
+    },
+    "used_stale_info": {
+      "type": "boolean",
+      "description": "Whether the response relies on retired/stale information."
+    },
+    "followed_current_instruction": {
+      "type": "boolean",
+      "description": "Whether the response adheres to the current instruction."
+    },
+    "applied_forgetting": {
+      "type": "boolean",
+      "description": "Whether the model correctly ignored stale memory."
+    },
+    "conflict_resolution_applied": {
+      "type": "boolean",
+      "description": "Whether current instruction overrode conflicting memory."
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Brief rationale for the response."
+    }
+  },
+  "additionalProperties": false
+}

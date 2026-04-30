@@ -132,11 +132,13 @@ outcomes, or production validation.
 
 ## Empirical Experiments
 
-The repository includes harnesses for three empirical experiment tracks:
+The repository includes harnesses for five empirical experiment tracks:
 
 - Trigger Routing Accuracy
 - Constraint Compliance Rate
 - Security Guard Detection Rate
+- Memory Drift Detection
+- SkillOps Ablation Study
 
 Live model or API execution requires credentials and explicit approval.
 Dry-run validation can run locally without credentials.

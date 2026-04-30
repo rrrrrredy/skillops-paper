@@ -1,11 +1,13 @@
 # Empirical Experiment Harness
 
-This repository includes executable harnesses for three empirical experiment
+This repository includes executable harnesses for five empirical experiment
 tracks:
 
 1. Trigger Routing Accuracy
 2. Constraint Compliance Rate
 3. Security Guard Detection Rate
+4. Memory Drift Detection
+5. SkillOps Ablation Study
 
 The harnesses are designed to separate preparation, dry-run validation, and
 live execution. No empirical metrics should be cited from this repository
@@ -51,11 +53,53 @@ Metrics:
 - category recall by `risk_type`
 - coverage by `relevant_artifact`
 
+### Memory Drift Detection
+
+Compare three memory policy conditions to measure how well the agent avoids
+using stale information when retirement markers and conflict resolution rules
+are present vs. absent.
+
+Conditions:
+
+- `full_skillops_memory_policy`: current memory + stale memory + retirement marker + conflict resolution rule
+- `no_forgetting_policy`: current memory + stale memory + NO retirement marker + NO conflict resolution
+- `current_context_only`: only current valid context, no stale memory
+
+Metrics:
+
+- stale_info_usage_rate
+- current_instruction_adherence_rate
+- correct_forgetting_rate
+- conflict_resolution_success_rate
+- unsupported_memory_claim_rate
+
+### SkillOps Ablation Study
+
+Systematically remove individual SkillOps components to measure their marginal
+contribution. Six ablation variants are tested across trigger routing,
+constraint compliance, and memory drift dimensions.
+
+Variants:
+
+- `full_skillops`: complete skill definition (all components)
+- `no_trigger_boundary`: remove positive/negative/ambiguous trigger boundaries
+- `no_execution_constraints`: remove testable execution constraints
+- `no_security_checks`: remove explicit security checks
+- `no_memory_interface`: remove memory/forgetting interface
+- `freeform_only`: keep only a short natural-language description
+
+Metrics per variant:
+
+- Trigger: precision, recall, F1, false_trigger_rate, ambiguity_handling_rate
+- Constraint: violation_rate, safe_handling_rate, unsupported_success_claim_rate
+- Memory: stale_info_usage_rate, correct_forgetting_rate, current_instruction_adherence_rate
+
 ## Input Files
 
 - `benchmark/trigger_cases.csv`
 - `benchmark/risk_cases.csv`
 - `benchmark/skill_samples.csv`
+- `experiments/memory_drift_cases.csv`
 
 ## Experimental Conditions
 
@@ -74,42 +118,69 @@ Metrics:
 - `security_guard_detection.md`: model-based guard prompt
 - local rule-based guard in `scripts/run_security_guard_experiment.py`
 
+### Memory Drift Detection
+
+- `memory_drift_full_skillops.md`: full SkillOps memory policy with retirement markers
+- `memory_drift_no_forgetting.md`: no forgetting policy (all memory treated equally)
+- `memory_drift_current_only.md`: current context only (no stale memory exposed)
+
+### SkillOps Ablation Study
+
+- `experiments/ablation/variants/full_skillops.md`
+- `experiments/ablation/variants/no_trigger_boundary.md`
+- `experiments/ablation/variants/no_execution_constraints.md`
+- `experiments/ablation/variants/no_security_checks.md`
+- `experiments/ablation/variants/no_memory_interface.md`
+- `experiments/ablation/variants/freeform_only.md`
+
 ## How to Run
 
 Readiness check:
 
 ```bash
-python scripts/check_experiment_readiness.py
+python3 scripts/check_experiment_readiness.py
 ```
 
 Dry-run validation only:
 
 ```bash
-python scripts/run_empirical_experiments.py --dry-run
+python3 scripts/run_empirical_experiments.py --dry-run
 ```
 
 Live trigger routing run:
 
 ```bash
-python scripts/run_trigger_experiment.py --run-live --provider openai --model YOUR_MODEL_NAME
+python3 scripts/run_trigger_experiment.py --run-live --provider openai --model YOUR_MODEL_NAME
 ```
 
 Live constraint compliance run:
 
 ```bash
-python scripts/run_constraint_experiment.py --run-live --provider openai --model YOUR_MODEL_NAME
+python3 scripts/run_constraint_experiment.py --run-live --provider openai --model YOUR_MODEL_NAME
 ```
 
 Live security guard run with the local rule-based guard:
 
 ```bash
-python scripts/run_security_guard_experiment.py --run-live --guard local-rules
+python3 scripts/run_security_guard_experiment.py --run-live --guard local-rules
 ```
 
 Live security guard run with a model-backed guard:
 
 ```bash
-python scripts/run_security_guard_experiment.py --run-live --guard model --provider openai --model YOUR_MODEL_NAME
+python3 scripts/run_security_guard_experiment.py --run-live --guard model --provider openai --model YOUR_MODEL_NAME
+```
+
+Live memory drift run:
+
+```bash
+python3 scripts/run_memory_drift_experiment.py --run-live --provider openai --model YOUR_MODEL_NAME
+```
+
+Live ablation study run:
+
+```bash
+python3 scripts/run_ablation_experiment.py --run-live --provider openai --model YOUR_MODEL_NAME
 ```
 
 ## What Requires Credentials
@@ -119,6 +190,8 @@ The following live runs require model or API credentials:
 - `scripts/run_trigger_experiment.py --run-live`
 - `scripts/run_constraint_experiment.py --run-live`
 - `scripts/run_security_guard_experiment.py --run-live --guard model`
+- `scripts/run_memory_drift_experiment.py --run-live`
+- `scripts/run_ablation_experiment.py --run-live`
 
 The harness checks for `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, and
 `LONGCAT_API_KEY`, and it also reports other provider credential variables that
@@ -134,6 +207,8 @@ The following commands run without model credentials:
 - `scripts/run_constraint_experiment.py --dry-run`
 - `scripts/run_security_guard_experiment.py --dry-run`
 - `scripts/run_security_guard_experiment.py --run-live --guard local-rules`
+- `scripts/run_memory_drift_experiment.py --dry-run`
+- `scripts/run_ablation_experiment.py --dry-run`
 
 ## Result Files
 
@@ -148,6 +223,12 @@ These files are produced only after an actual live run:
 - `results/experiments/raw/security_guard_*.jsonl`
 - `results/experiments/security_guard_metrics.csv`
 - `results/experiments/security_guard_metrics.md`
+- `results/experiments/raw/memory_drift_*.jsonl`
+- `results/experiments/memory_drift_metrics.csv`
+- `results/experiments/memory_drift_metrics.md`
+- `results/experiments/raw/ablation_*.jsonl`
+- `results/experiments/ablation_metrics.csv`
+- `results/experiments/ablation_metrics.md`
 
 Dry-run validation does not create those metric files.
 
@@ -160,4 +241,8 @@ Dry-run validation does not create those metric files.
   explicit risk patterns encoded in the script.
 - False-positive rate for the security guard is only computed when a
   normal/control case file is supplied for that run.
+- Memory drift detection measures self-reported model behavior; actual drift
+  may require external ground-truth verification.
+- Ablation study results are sensitive to the specific skill definition used
+  as the base case.
 - No paper claims should be broadened until live result files exist.

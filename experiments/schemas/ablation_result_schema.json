@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ablation Study Result",
+  "description": "Schema for a single ablation study experiment result.",
+  "type": "object",
+  "required": [
+    "case_id",
+    "variant",
+    "experiment_type",
+    "response"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "description": "Echoed case identifier."
+    },
+    "variant": {
+      "type": "string",
+      "enum": [
+        "full_skillops",
+        "no_trigger_boundary",
+        "no_execution_constraints",
+        "no_security_checks",
+        "no_memory_interface",
+        "freeform_only"
+      ],
+      "description": "Ablation variant name."
+    },
+    "experiment_type": {
+      "type": "string",
+      "enum": ["trigger", "constraint", "memory"],
+      "description": "Which experiment dimension is being tested."
+    },
+    "response": {
+      "type": "object",
+      "description": "The model's structured response for the given case."
+    }
+  },
+  "additionalProperties": true
+}
