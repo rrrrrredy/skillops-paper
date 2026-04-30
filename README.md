@@ -89,8 +89,8 @@ broad empirical validation.
 
 `paper/main.tex` integrates the generated summary tables from
 `results/tables/`. The repository also includes the generated SVG figure assets
-in `figures/`. The LaTeX source keeps boxed placeholders for those figures so
-the document remains compatible with a pdflatex-oriented workflow.
+in `figures/`, while the paper renders displayable LaTeX-native versions of
+the three conceptual diagrams directly in `paper/main.tex`.
 
 ## Dependencies
 
