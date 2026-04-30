@@ -1,0 +1,67 @@
+variant,experiment_type,metric,value,numerator,denominator,notes
+full_skillops,trigger,precision,0.000000,0,1,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+full_skillops,trigger,recall,0.000000,0,15,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+full_skillops,trigger,f1,0.000000,0,36,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+full_skillops,trigger,false_trigger_rate,0.083333,1,12,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+full_skillops,trigger,ambiguity_handling_rate,0.000000,0,9,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+full_skillops,constraint,violation_rate,0.083333,2,24,
+full_skillops,constraint,safe_handling_rate,0.958333,23,24,
+full_skillops,constraint,unsupported_success_claim_rate,0.000000,0,24,
+full_skillops,memory,stale_info_usage_rate,0.000000,0,22,
+full_skillops,memory,correct_forgetting_rate,1.000000,22,22,
+full_skillops,memory,current_instruction_adherence_rate,1.000000,22,22,
+no_trigger_boundary,trigger,precision,0.000000,0,1,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_trigger_boundary,trigger,recall,0.000000,0,15,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_trigger_boundary,trigger,f1,0.000000,0,36,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_trigger_boundary,trigger,false_trigger_rate,0.083333,1,12,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_trigger_boundary,trigger,ambiguity_handling_rate,0.000000,0,9,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_trigger_boundary,constraint,violation_rate,0.041667,1,24,
+no_trigger_boundary,constraint,safe_handling_rate,1.000000,24,24,
+no_trigger_boundary,constraint,unsupported_success_claim_rate,0.000000,0,24,
+no_trigger_boundary,memory,stale_info_usage_rate,0.000000,0,22,
+no_trigger_boundary,memory,correct_forgetting_rate,1.000000,22,22,
+no_trigger_boundary,memory,current_instruction_adherence_rate,1.000000,22,22,
+no_execution_constraints,trigger,precision,0.000000,0,1,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_execution_constraints,trigger,recall,0.000000,0,15,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_execution_constraints,trigger,f1,0.000000,0,36,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_execution_constraints,trigger,false_trigger_rate,0.083333,1,12,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_execution_constraints,trigger,ambiguity_handling_rate,0.000000,0,9,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_execution_constraints,constraint,violation_rate,0.083333,2,24,
+no_execution_constraints,constraint,safe_handling_rate,0.958333,23,24,
+no_execution_constraints,constraint,unsupported_success_claim_rate,0.000000,0,24,
+no_execution_constraints,memory,stale_info_usage_rate,0.000000,0,22,
+no_execution_constraints,memory,correct_forgetting_rate,1.000000,22,22,
+no_execution_constraints,memory,current_instruction_adherence_rate,1.000000,22,22,
+no_security_checks,trigger,precision,0.000000,0,1,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_security_checks,trigger,recall,0.000000,0,15,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_security_checks,trigger,f1,0.000000,0,36,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_security_checks,trigger,false_trigger_rate,0.083333,1,12,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_security_checks,trigger,ambiguity_handling_rate,0.000000,0,9,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_security_checks,constraint,violation_rate,0.083333,2,24,
+no_security_checks,constraint,safe_handling_rate,0.750000,18,24,
+no_security_checks,constraint,unsupported_success_claim_rate,0.000000,0,24,
+no_security_checks,memory,stale_info_usage_rate,0.000000,0,22,
+no_security_checks,memory,correct_forgetting_rate,1.000000,22,22,
+no_security_checks,memory,current_instruction_adherence_rate,1.000000,22,22,
+no_memory_interface,trigger,precision,0.000000,0,1,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_memory_interface,trigger,recall,0.000000,0,15,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_memory_interface,trigger,f1,0.000000,0,36,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_memory_interface,trigger,false_trigger_rate,0.083333,1,12,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_memory_interface,trigger,ambiguity_handling_rate,0.000000,0,9,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+no_memory_interface,constraint,violation_rate,0.083333,2,24,
+no_memory_interface,constraint,safe_handling_rate,1.000000,24,24,
+no_memory_interface,constraint,unsupported_success_claim_rate,0.000000,0,24,
+no_memory_interface,memory,stale_info_usage_rate,0.000000,0,22,
+no_memory_interface,memory,correct_forgetting_rate,1.000000,22,22,
+no_memory_interface,memory,current_instruction_adherence_rate,1.000000,22,22,
+freeform_only,trigger,precision,0.000000,0,1,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+freeform_only,trigger,recall,0.000000,0,15,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+freeform_only,trigger,f1,0.000000,0,36,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+freeform_only,trigger,false_trigger_rate,0.083333,1,12,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+freeform_only,trigger,ambiguity_handling_rate,0.000000,0,9,retained for traceability; benchmark/variant mismatch makes this trigger slice inconclusive
+freeform_only,constraint,violation_rate,0.041667,1,24,
+freeform_only,constraint,safe_handling_rate,0.958333,23,24,
+freeform_only,constraint,unsupported_success_claim_rate,0.000000,0,24,
+freeform_only,memory,stale_info_usage_rate,0.000000,0,22,
+freeform_only,memory,correct_forgetting_rate,1.000000,22,22,
+freeform_only,memory,current_instruction_adherence_rate,1.000000,22,22,
