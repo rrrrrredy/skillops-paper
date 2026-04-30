@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Memory Drift Detection Experiment Record",
+  "type": "object",
+  "required": [
+    "raw_output",
+    "normalized_result"
+  ],
+  "properties": {
+    "raw_output": {
+      "$ref": "#/$defs/raw_output_record"
+    },
+    "normalized_result": {
+      "$ref": "#/$defs/normalized_result_record"
+    }
+  },
+  "$defs": {
+    "raw_output_record": {
+      "type": "object",
+      "required": [
+        "experiment",
+        "case_id",
+        "condition",
+        "provider",
+        "model",
+        "prompt_path",
+        "case_input",
+        "response_text",
+        "response_json",
+        "started_at_utc",
+        "completed_at_utc"
+      ],
+      "properties": {
+        "experiment": {
+          "const": "memory_drift_detection"
+        },
+        "case_id": {
+          "type": "string"
+        },
+        "condition": {
+          "enum": [
+            "full_skillops_memory_policy",
+            "no_forgetting_policy",
+            "current_context_only"
+          ]
+        },
+        "provider": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "prompt_path": {
+          "type": "string"
+        },
+        "case_input": {
+          "type": "object"
+        },
+        "response_text": {
+          "type": "string"
+        },
+        "response_json": {
+          "type": [
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "started_at_utc": {
+          "type": "string"
+        },
+        "completed_at_utc": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "normalized_result_record": {
+      "type": "object",
+      "required": [
+        "case_id",
+        "condition",
+        "expected_behavior",
+        "stale_info_trap",
+        "used_stale_info",
+        "followed_current_instruction",
+        "applied_forgetting",
+        "conflict_resolution_applied",
+        "response_action",
+        "rationale",
+        "parsed_ok"
+      ],
+      "properties": {
+        "case_id": {
+          "type": "string"
+        },
+        "condition": {
+          "enum": [
+            "full_skillops_memory_policy",
+            "no_forgetting_policy",
+            "current_context_only"
+          ]
+        },
+        "expected_behavior": {
+          "type": "string"
+        },
+        "stale_info_trap": {
+          "type": "string"
+        },
+        "used_stale_info": {
+          "type": "boolean"
+        },
+        "followed_current_instruction": {
+          "type": "boolean"
+        },
+        "applied_forgetting": {
+          "type": "boolean"
+        },
+        "conflict_resolution_applied": {
+          "type": "boolean"
+        },
+        "response_action": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "parsed_ok": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

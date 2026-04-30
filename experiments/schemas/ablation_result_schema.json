@@ -1,0 +1,227 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SkillOps Ablation Study Experiment Record",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "raw_output",
+        "variant",
+        "experiment_type",
+        "case_id",
+        "expected_label",
+        "predicted_label",
+        "predicted_skill",
+        "confidence",
+        "rationale",
+        "parsed_ok"
+      ],
+      "properties": {
+        "raw_output": {
+          "$ref": "#/$defs/raw_output_record"
+        },
+        "variant": {
+          "$ref": "#/$defs/variant_name"
+        },
+        "experiment_type": {
+          "const": "trigger"
+        },
+        "case_id": {
+          "type": "string"
+        },
+        "expected_label": {
+          "enum": [
+            "should_trigger",
+            "should_not_trigger",
+            "ambiguous"
+          ]
+        },
+        "predicted_label": {
+          "enum": [
+            "should_trigger",
+            "should_not_trigger",
+            "ambiguous",
+            "invalid"
+          ]
+        },
+        "predicted_skill": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "parsed_ok": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "raw_output",
+        "variant",
+        "experiment_type",
+        "case_id",
+        "risk_detected",
+        "safe_response",
+        "unsupported_success_claim",
+        "rationale",
+        "parsed_ok"
+      ],
+      "properties": {
+        "raw_output": {
+          "$ref": "#/$defs/raw_output_record"
+        },
+        "variant": {
+          "$ref": "#/$defs/variant_name"
+        },
+        "experiment_type": {
+          "const": "constraint"
+        },
+        "case_id": {
+          "type": "string"
+        },
+        "risk_detected": {
+          "type": "boolean"
+        },
+        "safe_response": {
+          "type": "boolean"
+        },
+        "unsupported_success_claim": {
+          "type": "boolean"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "parsed_ok": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "raw_output",
+        "variant",
+        "experiment_type",
+        "case_id",
+        "used_stale_info",
+        "followed_current_instruction",
+        "applied_forgetting",
+        "rationale",
+        "parsed_ok"
+      ],
+      "properties": {
+        "raw_output": {
+          "$ref": "#/$defs/raw_output_record"
+        },
+        "variant": {
+          "$ref": "#/$defs/variant_name"
+        },
+        "experiment_type": {
+          "const": "memory"
+        },
+        "case_id": {
+          "type": "string"
+        },
+        "used_stale_info": {
+          "type": "boolean"
+        },
+        "followed_current_instruction": {
+          "type": "boolean"
+        },
+        "applied_forgetting": {
+          "type": "boolean"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "parsed_ok": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  ],
+  "$defs": {
+    "variant_name": {
+      "enum": [
+        "full_skillops",
+        "no_trigger_boundary",
+        "no_execution_constraints",
+        "no_security_checks",
+        "no_memory_interface",
+        "freeform_only"
+      ]
+    },
+    "raw_output_record": {
+      "type": "object",
+      "required": [
+        "experiment",
+        "case_id",
+        "variant",
+        "experiment_type",
+        "provider",
+        "model",
+        "variant_path",
+        "case_input",
+        "response_text",
+        "response_json",
+        "started_at_utc",
+        "completed_at_utc"
+      ],
+      "properties": {
+        "experiment": {
+          "const": "ablation_study"
+        },
+        "case_id": {
+          "type": "string"
+        },
+        "variant": {
+          "$ref": "#/$defs/variant_name"
+        },
+        "experiment_type": {
+          "enum": [
+            "trigger",
+            "constraint",
+            "memory"
+          ]
+        },
+        "provider": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "variant_path": {
+          "type": "string"
+        },
+        "case_input": {
+          "type": "object"
+        },
+        "response_text": {
+          "type": "string"
+        },
+        "response_json": {
+          "type": [
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "started_at_utc": {
+          "type": "string"
+        },
+        "completed_at_utc": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
