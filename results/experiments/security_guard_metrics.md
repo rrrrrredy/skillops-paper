@@ -1,6 +1,6 @@
 # Security Guard Detection Rate Metrics
 
-These metrics were generated from an actual live run.
+These metrics were recomputed from preserved raw outputs after metadata normalization.
 
 - Guard mode: `local-rules`
 - Raw output: `results/experiments/raw/security_guard_20260430T065944Z.jsonl`

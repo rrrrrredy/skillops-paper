@@ -1,6 +1,6 @@
 # Memory Drift Detection Metrics
 
-These metrics were generated from an actual live run.
+These metrics were recomputed from preserved raw outputs after metadata normalization.
 
 - Provider: `longcat`
 - Model: `LongCat-Flash-Chat`
