@@ -214,7 +214,7 @@ def run_experiment(cases: list[dict], variant_texts: dict[str, str], config: dic
     done = 0
 
     for variant_name, skill_def in variant_texts.items():
-        print(f"\n--- Variant: {variant_name} ({len(cases)} cases × {repeats} repeats) ---")
+        print(f"\n--- Variant: {variant_name} ({len(cases)} cases x {repeats} repeats) ---")
 
         for case_row in cases:
             for repeat_idx in range(repeats):
@@ -222,11 +222,10 @@ def run_experiment(cases: list[dict], variant_texts: dict[str, str], config: dic
 
                 started_at = utc_timestamp()
                 try:
-                    response_text, response_json = call_api(prompt, config)
+                    response_text, _response_json = call_api(prompt, config)
                     error_msg = ""
                 except Exception as e:
                     response_text = ""
-                    response_json = {}
                     error_msg = str(e)
                 completed_at = utc_timestamp()
 
@@ -351,7 +350,7 @@ def write_metrics_csv(metrics: list[dict], path: Path):
         return
     fieldnames = list(metrics[0].keys())
     with open(path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(metrics)
 
@@ -364,15 +363,16 @@ def write_metrics_md(metrics: list[dict], config: dict, raw_path: Path, md_path:
         f"- Model: `{config['model']}`",
         f"- Raw output: `{raw_path.relative_to(REPO_ROOT)}`",
         f"- Experiment: `ablation_trigger_aligned`",
+        "- Scope: single-run pilot on 36 trigger cases per variant; descriptive only; no statistical significance or broad empirical validation.",
         "",
-        "| Variant | Precision | Recall | F1 | False Trigger Rate | Ambiguity Handling | Skill Routing Acc | Cases | Parse Fail |",
-        "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+        "| Variant | Precision | Recall | F1 | False Trigger Rate | Ambiguity Handling | Skill Routing Acc | Cases | Parse Fail | Exec Fail |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     for m in metrics:
         lines.append(
             f"| {m['variant']} | {m['precision']} | {m['recall']} | {m['f1']} | "
             f"{m['false_trigger_rate']} | {m['ambiguity_handling_rate']} | "
-            f"{m['skill_routing_accuracy']} | {m['cases']} | {m['parse_failures']} |"
+            f"{m['skill_routing_accuracy']} | {m['cases']} | {m['parse_failures']} | {m['execution_failures']} |"
         )
     lines.append("")
     md_path.write_text("\n".join(lines), encoding="utf-8")
@@ -395,7 +395,7 @@ def main() -> int:
     print("=" * 60)
 
     cases, variant_texts = validate_inputs()
-    print("\n✅ Dry-run validation passed.")
+    print("\n[ok] Dry-run validation passed.")
 
     if args.dry_run and not args.run_live:
         print("Live run skipped (--dry-run only).")
@@ -422,9 +422,9 @@ def main() -> int:
     print("\nTesting API connectivity...")
     try:
         test_resp, _ = call_api("Reply with exactly: {\"status\": \"ok\"}", config)
-        print(f"  ✅ API responding: {test_resp[:50]}")
+        print(f"  [ok] API responding: {test_resp[:50]}")
     except Exception as e:
-        print(f"  ❌ API test failed: {e}")
+        print(f"  [error] API test failed: {e}")
         return 1
 
     # Run experiment
@@ -436,7 +436,7 @@ def main() -> int:
     records = run_experiment(cases, variant_texts, config, args.repeats)
 
     elapsed = time.time() - start_time
-    print(f"\n✅ Experiment complete. {len(records)} records in {elapsed:.1f}s")
+    print(f"\n[ok] Experiment complete. {len(records)} records in {elapsed:.1f}s")
 
     # Write raw output
     ts = utc_file_timestamp()
@@ -467,6 +467,7 @@ def main() -> int:
         f"Repeats: {args.repeats}",
         f"Total records: {len(records)}",
         f"Elapsed: {elapsed:.1f}s",
+        "Scope: single-run pilot; descriptive only; no statistical significance or broad empirical validation.",
         "",
         "## Results Summary",
         "",
@@ -489,7 +490,7 @@ def main() -> int:
         f"- Metrics MD: `{md_path.relative_to(REPO_ROOT)}`",
         f"- Research log: `{log_path.relative_to(REPO_ROOT)}`",
     ]
-    log_path.write_text("\n".join(log_lines), encoding="utf-8")
+    log_path.write_text("\n".join(log_lines) + "\n", encoding="utf-8")
     print(f"  Research log: {log_path.relative_to(REPO_ROOT)}")
 
     # Summary

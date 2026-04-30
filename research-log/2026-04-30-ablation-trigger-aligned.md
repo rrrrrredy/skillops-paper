@@ -6,6 +6,7 @@ Model: deepseek-chat
 Repeats: 1
 Total records: 216
 Elapsed: 627.1s
+Scope: single-run pilot; descriptive only; no statistical significance or broad empirical validation.
 
 ## Results Summary
 
