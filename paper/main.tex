@@ -23,8 +23,7 @@ Modular Skills in Personal AI Agents
 
 \author{
 Song Luo\\
-\texttt{luosongred@gmail.com}\\
-\texttt{https://github.com/rrrrrredy}
+\texttt{luosongred@gmail.com}
 }
 
 \date{April 2026}
@@ -104,10 +103,11 @@ The central claim is modest: personal agent skills become easier to inspect,
 test, and govern when they are treated as lifecycle-managed artifacts with
 explicit structure, tests, and operational controls. The paper contributes a
 framework, a taxonomy
-of skill components, a methodology for artifact-based study, and a
-descriptive evaluation layer built from manually constructed benchmark inputs.
-The reported tables document benchmark composition and artifact coverage, not
-multi-model execution performance or broad empirical validation.
+of skill components, a methodology for artifact-based study, a descriptive
+benchmark layer built from manually constructed inputs, and preliminary
+pilot-execution observations preserved in the repository. The reported tables
+and pilot summaries should not be read as controlled multi-model execution
+performance or as broad empirical validation.
 
 \section{Background and Motivation}
 
@@ -639,6 +639,7 @@ Supporting materials are organized as follows:
     \item Benchmark input: \path{benchmark/trigger_cases.csv}
     \item Benchmark input: \path{benchmark/risk_cases.csv}
     \item Reproducible scripts: \path{scripts/}
+    \item Preserved pilot reports and metrics: \path{results/experiments/}
     \item Generated result tables: \path{results/tables/}
     \item Generated figure artwork: \path{figures/}
 \end{itemize}
@@ -650,32 +651,36 @@ broad empirical validation.
 \section{Evaluation}
 \label{sec:evaluation}
 
-This revision reports only descriptive summaries of the benchmark artifacts
-currently versioned in the repository. The benchmark cases are manually
-constructed from public artifact inspection rather than sampled from deployment
-logs or an external user study. The reported counts are descriptive summaries
-regenerated from versioned inputs with \texttt{scripts/run\_all.py}. In this repository state,
-\texttt{scripts/run\_all.py} regenerates tables and figure artwork from
-versioned inputs only; it does not execute the five source repositories or
-measure routing, linting, scanning, or self-audit performance. The evaluation
-is exploratory, no statistical significance is claimed, and no broad empirical
-validation is claimed.
+This revision reports two evidence layers currently versioned in the
+repository. The first is a descriptive layer derived from manually constructed
+benchmark artifacts. The second is a preliminary pilot-execution layer
+preserved under \texttt{results/experiments/}. Both layers are exploratory.
+The benchmark cases are manually constructed from public artifact inspection
+rather than sampled from deployment logs or an external user study, and the
+pilot results come from single-run repository artifacts rather than repeated
+trials. No statistical significance is claimed, no broad empirical validation
+is claimed, and the pilot results should be read as preliminary observations
+rather than as proof that SkillOps is generally effective.
 
 \subsection{Evaluation Scope}
 
-The descriptive layer combines the following versioned inputs:
+The evaluation combines the following versioned inputs:
 \begin{itemize}[leftmargin=*]
     \item Skill samples: \path{benchmark/skill_samples.csv}
     \item Trigger cases: \path{benchmark/trigger_cases.csv}
     \item Risk cases: \path{benchmark/risk_cases.csv}
     \item Cross-checking notes: \path{artifacts/artifact_inventory.md}
+    \item Preserved pilot reports and metrics: \path{results/experiments/}
 \end{itemize}
 
 These inputs cover five artifact profiles, 36 trigger-routing cases, and 24
-operational-risk cases. All trigger and risk cases use the \texttt{manual-}
-prefix, making the manual construction of the benchmark explicit.
-Figure~\ref{fig:evaluation-pipeline} captures this descriptive evaluation flow
-from artifact inventory to cautious interpretation.
+operational-risk cases, together with preserved pilot summaries for mixed-provider
+live execution and an aligned trigger-routing ablation. All trigger and risk
+cases use the \texttt{manual-} prefix, making the manual construction of the
+benchmark explicit. Figure~\ref{fig:evaluation-pipeline} captures the
+descriptive evaluation flow from artifact inventory to cautious
+interpretation. The pilot-execution results are a separate preserved evidence
+layer and are not recreated through that descriptive pass.
 
 \begin{figure}[t]
 \centering
@@ -706,19 +711,15 @@ interpretation.}
 \label{fig:evaluation-pipeline}
 \end{figure}
 
-\subsection{Executable Repository Checks}
+\subsection{Descriptive Benchmark Summaries}
 
-The repository includes \texttt{scripts/run\_tests.py}, a deterministic
-repository-level test suite for consistency and traceability checks. In the
-current repository state, the suite covers benchmark schema, result
-reproducibility, paper-claim consistency, public-presentation constraints, SVG
-validity, and evidence-matrix integrity, and it passes 22/22 tests.
+The descriptive benchmark layer documents benchmark composition and artifact
+coding only. Running \texttt{scripts/run\_all.py} regenerates summary tables
+under \texttt{results/tables/} and SVG figures under \texttt{figures/}, but
+it does not execute the five source repositories or score routing, linting,
+scanning, or self-audit behavior.
 
-These checks validate repository consistency and traceability only. They do not
-measure model behavior, scanner accuracy, user-study outcomes, production
-validation, precision, recall, F1, or statistical significance.
-
-\subsection{Artifact Coverage Summary}
+\paragraph{Artifact coverage.}
 
 Table~\ref{tab:artifact-coverage-summary} summarizes the descriptive coding of
 nine SkillOps-relevant components across the five inspected artifacts.
@@ -750,7 +751,7 @@ constructed artifact profiles.}
 \label{tab:artifact-coverage-summary}
 \end{table}
 
-\subsection{Trigger Case Summary}
+\paragraph{Trigger cases.}
 
 The trigger benchmark contains 36 manually written cases: 15 labeled
 \texttt{should\_trigger}, 12 labeled \texttt{should\_not\_trigger}, and 9
@@ -786,7 +787,7 @@ constructed trigger benchmark.}
 \label{tab:trigger-summary}
 \end{table}
 
-\subsection{Risk Case Summary}
+\paragraph{Risk cases.}
 
 The risk benchmark contains 24 manually written cases. The case inventory is
 evenly split across eight risk types, with three cases each for prompt
@@ -828,14 +829,97 @@ operational-risk benchmark.}
 \label{tab:risk-summary}
 \end{table}
 
+\subsection{Repository-Level Consistency Checks}
+
+The repository includes \texttt{scripts/run\_tests.py}, a deterministic
+repository-level test suite for consistency and traceability checks. In the
+current repository state, the suite covers benchmark schema, result
+reproducibility, paper-claim consistency, public-presentation constraints, SVG
+validity, and evidence-matrix integrity, and it passes the full repository
+test suite.
+
+These checks validate repository consistency and traceability only. They do not
+measure model behavior, scanner accuracy, user-study outcomes, production
+validation, precision, recall, F1, or statistical significance.
+
+\subsection{Mixed-Provider Live Pilot}
+
+A separate mixed-provider live pilot preserved under
+\path{results/experiments/} validates the execution pipeline in the limited
+sense that all 702 recorded rows were parsed and executed without recorded
+parse failures or execution failures. The pilot covers 186 LongCat rows, 492
+DeepSeek rows, and 24 local-rules rows across trigger routing, constraint
+compliance, memory drift, security-guard detection, and ablation tracks. These
+outputs therefore provide preliminary descriptive metrics from a completed
+pilot run.
+
+The provider split matters for interpretation. LongCat handled the
+trigger-routing, constraint-compliance, and memory-drift tracks; DeepSeek
+handled the original ablation track; and local-rules handled the
+security-guard track. The LongCat and DeepSeek results should not be
+interpreted as a controlled model comparison, because each track was run on
+only one provider in this mixed-provider setting.
+
+Within the LongCat trigger slice, both prompt variants covered all 15
+\texttt{should\_trigger} cases and produced no false triggers on the 12
+\texttt{should\_not\_trigger} cases, while ambiguous cases still limited the
+descriptive score summaries (\texttt{skillops}: 0.6818; \texttt{freeform}:
+0.7143). The LongCat constraint slice did not show a uniformly positive
+SkillOps effect in this single-run setting: the \texttt{skillops} condition
+recorded constraint compliance 0.0000, whereas the vague baseline recorded
+0.5833. The LongCat memory slice is more favorable but still preliminary; the
+full memory-policy condition showed stale-information usage 0.0000 compared
+with 0.2273 when the forgetting policy was removed, which suggests that
+explicit forgetting policy may help in this single-run setting.
+
+The local-rules security-guard results measure risk-case detection only, not
+false-positive behavior: detection was 24/24 on the supplied risk cases, but
+no benign control set was included. The original mixed-provider ablation
+trigger-routing slice remains inconclusive because the ablation skill
+definitions were not aligned with the trigger benchmark skill set.
+
+\subsection{Aligned Trigger-Routing Ablation Pilot}
+
+To reduce that benchmark-variant mismatch, the repository also includes an
+aligned trigger-routing ablation pilot on
+\texttt{deepseek/deepseek-chat}. This pilot covers 216 records (36 trigger
+cases $\times$ 6 variants $\times$ 1 repeat) with 0 parse failures and 0
+execution failures. It is still a single-provider, single-run pilot and should
+be interpreted as preliminary.
+
+As a preliminary observation that should not be read as broad empirical
+validation, \texttt{full_skillops} reached precision 0.6667, recall 0.9333,
+and F1 0.7778. In the same preliminary sense, and again because these figures
+should not be read as broad empirical validation, false-trigger rate was
+0.0833, ambiguity handling 0.3333, and skill-routing accuracy 1.0000.
+
+As a preliminary comparison that should not be read as broad empirical
+validation, precision increased from 0.5769 to 0.6667, an absolute gain of
+0.0898 and a relative gain of about 15.6\% in this single-run pilot.
+False-trigger rate also decreased from 0.2500 to 0.0833, and ambiguity
+handling increased from 0.0000 to 0.3333. As another preliminary comparison
+that should not be read as broad empirical validation, skill-routing accuracy
+rose from 0.9333 to 1.0000. Again as a preliminary comparison that should not
+be read as broad empirical validation, the \texttt{freeform_only} variant sat
+between these two conditions on precision (0.6000), F1 (0.7500), and
+false-trigger rate (0.1667).
+
+These aligned ablation results, which should not be read as broad empirical
+validation, suggest that explicit trigger boundaries may improve precision and
+reduce false triggers in this setting, but repeated trials and additional
+providers are needed before stronger conclusions are warranted.
+
 \subsection{Interpretation}
 
-These tables describe benchmark composition and artifact coverage only. They do
-not measure activation precision, activation recall, constraint compliance,
-detector accuracy, or user outcomes under repeated execution. They are useful
-as traceability artifacts for an exploratory benchmark, but they should not be
-read as statistically significant evidence or as broad empirical validation of
-SkillOps across models, users, or platforms.
+Taken together, the descriptive tables document benchmark composition, the
+repository checks validate internal consistency, the mixed-provider pilot
+validates the execution pipeline and preserves preliminary descriptive metrics,
+and the aligned ablation pilot provides a more targeted trigger-routing
+observation. None of these layers establishes statistical significance, broad
+empirical validation, or proof that SkillOps is generally effective. The
+current evidence is best read as an exploratory, manually constructed benchmark
+plus preliminary single-run pilots whose observations may guide future repeated
+studies.
 
 \section{Discussion}
 
@@ -887,31 +971,42 @@ enough to motivate a framework, but it is not enough to establish generality
 across the broader agent ecosystem.
 
 Third, the benchmark cases are manually constructed and exploratory. The counts
-reported in Section~\ref{sec:evaluation} describe benchmark composition, not
-observed production traffic or statistically powered experiments.
+reported in Section~\ref{sec:evaluation} describe benchmark composition rather
+than observed production traffic or a statistically powered experiment.
 
-Fourth, the repository does not include a multi-model execution
-benchmark. The paper therefore cannot compare trigger stability, constraint
-following, or guard behavior across model families or repeated runs.
+Fourth, the live execution evidence is limited to a single mixed-provider pilot
+artifact. Because LongCat, DeepSeek, and local-rules handled different tracks,
+that pilot should not be interpreted as a controlled model comparison or as
+broad empirical validation.
 
-Fifth, the work does not include an external user study. It does not measure
+Fifth, the aligned trigger-routing ablation pilot is also narrow: it uses only
+\texttt{deepseek/deepseek-chat}, covers 36 trigger cases $\times$ 6 variants
+$\times$ 1 repeat, and remains a single-run result. Repeated trials and
+additional providers are needed before stronger conclusions about trigger
+boundaries could be drawn.
+
+Sixth, no statistical significance is claimed, no variance estimate is
+available, and the current evidence remains preliminary rather than broadly
+validated.
+
+Seventh, the work does not include an external user study. It does not measure
 how other users understand the skill format, apply the workflow, or experience
 the proposed guardrails in practice.
 
-Sixth, several artifacts encode OpenClaw-oriented assumptions about directory
+Eighth, several artifacts encode OpenClaw-oriented assumptions about directory
 layout, skill packaging, cron usage, and local agent control. These assumptions
 may not transfer directly to hosted agents, enterprise workflows, or
 non-OpenClaw environments.
 
-Seventh, SkillOps focuses on the operational layer of skill design. It does not
+Ninth, SkillOps focuses on the operational layer of skill design. It does not
 propose a new model architecture, training method, planner, or tool-use
 algorithm.
 
-Eighth, some evaluation criteria still require human judgment. For example,
+Tenth, some evaluation criteria still require human judgment. For example,
 audit usefulness and context relevance may be difficult to score objectively.
 Later benchmark revisions should therefore include clear annotation guidelines.
 
-Ninth, personal agent environments differ substantially in their tool access,
+Eleventh, personal agent environments differ substantially in their tool access,
 memory mechanisms, security policies, and user expectations. A skill format
 that works in one environment may require adaptation in another.
 
@@ -993,8 +1088,8 @@ and operating modular skills in personal AI agents. The framework is derived
 from open-source artifacts and emphasizes explicit skill structure, trigger
 design, context injection, execution constraints, security checks,
 self-auditing, and forgetting. The paper formulates three research questions
-and reports a descriptive evaluation layer based on manually
-constructed benchmark artifacts and reproducible summary scripts.
+and reports a descriptive benchmark layer together with preliminary pilot
+execution artifacts preserved in the repository.
 
 The contribution is intentionally modest. SkillOps is not presented as a
 new agent architecture or as a broadly validated empirical result. Instead, it
