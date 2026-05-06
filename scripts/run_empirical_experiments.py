@@ -24,7 +24,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run readiness and empirical experiment harness checks.")
     parser.add_argument("--dry-run", action="store_true", help="Run readiness and dry-run validation.")
     parser.add_argument("--run-live", action="store_true", help="Run live experiment execution after dry-run validation.")
-    parser.add_argument("--provider", choices=["openai", "anthropic", "longcat"], help="Preferred provider for model-backed experiments.")
+    parser.add_argument("--provider", choices=["openai", "anthropic", "longcat", "deepseek"], help="Preferred provider for model-backed experiments.")
     parser.add_argument("--model", help="Model name for live model-backed experiments.")
     parser.add_argument(
         "--security-guard",

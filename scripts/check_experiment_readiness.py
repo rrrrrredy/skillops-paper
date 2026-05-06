@@ -31,6 +31,7 @@ INPUT_PATHS = [
     BENCHMARK_DIR / "risk_cases.csv",
     BENCHMARK_DIR / "skill_samples.csv",
     EXPERIMENTS_DIR / "memory_drift_cases.csv",
+    EXPERIMENTS_DIR / "security_benign_cases.csv",
 ]
 
 PROMPT_PATHS = [
@@ -61,11 +62,21 @@ ABLATION_VARIANT_PATHS = [
     ABLATION_VARIANTS_DIR / "freeform_only.md",
 ]
 
+ALIGNED_ABLATION_VARIANTS_DIR = EXPERIMENTS_DIR / "ablation_trigger_aligned" / "variants"
+ALIGNED_ABLATION_VARIANT_PATHS = [
+    ALIGNED_ABLATION_VARIANTS_DIR / "full_skillops.md",
+    ALIGNED_ABLATION_VARIANTS_DIR / "no_trigger_boundary.md",
+    ALIGNED_ABLATION_VARIANTS_DIR / "no_execution_constraints.md",
+    ALIGNED_ABLATION_VARIANTS_DIR / "no_security_checks.md",
+    ALIGNED_ABLATION_VARIANTS_DIR / "no_memory_interface.md",
+    ALIGNED_ABLATION_VARIANTS_DIR / "freeform_only.md",
+]
+
 
 def run_readiness_check(emit_status: bool = True) -> dict[str, object]:
     ensure_directories([RESULTS_DIR, RAW_RESULTS_DIR])
     statuses: list[tuple[Path, bool]] = []
-    for path in [*INPUT_PATHS, *PROMPT_PATHS, *SCHEMA_PATHS, *ABLATION_VARIANT_PATHS]:
+    for path in [*INPUT_PATHS, *PROMPT_PATHS, *SCHEMA_PATHS, *ABLATION_VARIANT_PATHS, *ALIGNED_ABLATION_VARIANT_PATHS]:
         statuses.append((path, path.exists()))
 
     credentials = detect_provider_env_vars()
@@ -84,6 +95,9 @@ def run_readiness_check(emit_status: bool = True) -> dict[str, object]:
             print(f"- {relative_display(path)}: {'present' if path.exists() else 'missing'}")
         print("Ablation variant files:")
         for path in ABLATION_VARIANT_PATHS:
+            print(f"- {relative_display(path)}: {'present' if path.exists() else 'missing'}")
+        print("Aligned ablation variant files:")
+        for path in ALIGNED_ABLATION_VARIANT_PATHS:
             print(f"- {relative_display(path)}: {'present' if path.exists() else 'missing'}")
         print("Result directories:")
         print(f"- {relative_display(RESULTS_DIR)}: present")

@@ -63,6 +63,7 @@ REQUIRED_PROVIDER_ENV_VARS = (
     "OPENAI_API_KEY",
     "ANTHROPIC_API_KEY",
     "LONGCAT_API_KEY",
+    "DEEPSEEK_API_KEY",
 )
 
 KNOWN_PROVIDER_PREFIXES = (
@@ -243,11 +244,11 @@ def resolve_provider_config(provider: str | None = None, model: str | None = Non
     provider_name = (provider or "").strip().lower()
     available_providers = [
         candidate
-        for candidate in ("openai", "anthropic", "longcat")
+        for candidate in ("openai", "anthropic", "longcat", "deepseek")
         if _env_has_value(f"{candidate.upper()}_API_KEY")
     ]
 
-    if provider_name and provider_name not in {"openai", "anthropic", "longcat"}:
+    if provider_name and provider_name not in {"openai", "anthropic", "longcat", "deepseek"}:
         return None, f"not run: unsupported provider {provider_name}"
     if not provider_name:
         if not available_providers:
@@ -278,6 +279,16 @@ def resolve_provider_config(provider: str | None = None, model: str | None = Non
             base_url = os.getenv("ANTHROPIC_BASE_URL", "https://api.anthropic.com/v1").strip()
             endpoint = _join_url(base_url, "messages")
         return ProviderConfig("anthropic", api_key, model_name, endpoint, "anthropic_messages"), None
+
+    if provider_name == "deepseek":
+        model_name = (model or os.getenv("DEEPSEEK_MODEL", "deepseek-chat")).strip()
+        if not model_name:
+            return None, "not run: missing model selection"
+        endpoint = os.getenv("DEEPSEEK_API_URL", "").strip()
+        if not endpoint:
+            base_url = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com/v1").strip()
+            endpoint = _join_url(base_url, "chat/completions")
+        return ProviderConfig("deepseek", api_key, model_name, endpoint, "openai_chat_compatible"), None
 
     model_name = (model or os.getenv("LONGCAT_MODEL", "")).strip()
     if not model_name:
