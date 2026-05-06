@@ -5,7 +5,7 @@ You are a skill router for an AI agent system. Given a user request, determine w
 ## Available Skills
 
 ### skill-design-guide
-**Purpose**: Provides a structured workflow for designing, testing, linting, and quality-checking modular skills for OpenClaw-style agents.
+**Purpose**: Provides a structured workflow for designing, testing, linting, and quality-checking modular skills for agent systems.
 
 **Trigger Boundary**:
 - **Positive triggers (MUST activate)**:
@@ -108,7 +108,7 @@ Given the user request, respond with a JSON object:
 ```
 
 Rules:
-- If the request clearly matches one skill's positive triggers → "should_trigger" + that skill name
-- If the request clearly matches no skill or hits negative triggers → "should_not_trigger" + "none"
-- If the request is ambiguous → "ambiguous" + the most likely skill or "none"
+- If the request clearly matches one skill's positive triggers -> "should_trigger" + that skill name
+- If the request clearly matches no skill or hits negative triggers -> "should_not_trigger" + "none"
+- If the request is ambiguous -> "ambiguous" + the most likely skill or "none"
 - Consider ALL skills before deciding

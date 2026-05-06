@@ -1,4 +1,4 @@
-# Freeform Only — Aligned Trigger Definitions
+# Freeform Only - Aligned Trigger Definitions
 
 You are a skill router. Route the user request to the appropriate skill or indicate none applies.
 
