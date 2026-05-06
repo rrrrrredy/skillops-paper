@@ -51,9 +51,11 @@ The paper contributes a skill component taxonomy, a lifecycle
 model, a failure-mode taxonomy, and an artifact-based evaluation design. The
 paper also includes descriptive benchmark summaries derived from a
 manually constructed exploratory benchmark covering artifact structure,
-trigger-routing cases, and operational-risk cases. These summaries document
-benchmark composition only; they do not claim statistical significance or broad
-empirical validation. The contribution is therefore a modest engineering
+trigger-routing cases, and operational-risk cases, together with a controlled
+repeated pilot on \texttt{deepseek/deepseek-chat} preserved in the repository.
+These materials provide preliminary observations only; they do not claim
+statistical significance, broad empirical validation, or a general
+multi-provider comparison. The contribution is therefore a modest engineering
 framework for making agent skills more explicit, testable, and maintainable.
 \end{abstract}
 
@@ -104,10 +106,10 @@ test, and govern when they are treated as lifecycle-managed artifacts with
 explicit structure, tests, and operational controls. The paper contributes a
 framework, a taxonomy
 of skill components, a methodology for artifact-based study, a descriptive
-benchmark layer built from manually constructed inputs, and preliminary
-pilot-execution observations preserved in the repository. The reported tables
-and pilot summaries should not be read as controlled multi-model execution
-performance or as broad empirical validation.
+benchmark layer built from manually constructed inputs, and controlled repeated
+pilot observations preserved in the repository. The reported tables and pilot
+summaries should not be read as broad empirical validation or as a general
+multi-provider comparison.
 
 \section{Background and Motivation}
 
@@ -549,21 +551,8 @@ framework.}
 \label{tab:artifacts}
 \end{table}
 
-The paper repository is located at:
-
-\begin{center}
-\url{https://github.com/rrrrrredy/skillops-paper}
-\end{center}
-
-The artifact repositories are:
-
-\begin{itemize}[leftmargin=*]
-    \item \url{https://github.com/rrrrrredy/skill-design-guide}
-    \item \url{https://github.com/rrrrrredy/skill-security-guard}
-    \item \url{https://github.com/rrrrrredy/persistent-memory}
-    \item \url{https://github.com/rrrrrredy/agent-self-audit}
-    \item \url{https://github.com/rrrrrredy/lobster-guard}
-\end{itemize}
+The repository location for the paper and its supporting materials is provided
+in Section~\ref{sec:artifact-availability}.
 
 \subsection{Methodological Approach}
 
@@ -628,6 +617,7 @@ execute the five source repositories against the benchmark cases or score
 model, scanner, or self-audit behavior.
 
 \subsection{Artifact Availability}
+\label{sec:artifact-availability}
 
 The public repository for this paper is
 \url{https://github.com/rrrrrredy/skillops-paper}.
@@ -651,16 +641,19 @@ broad empirical validation.
 \section{Evaluation}
 \label{sec:evaluation}
 
-This revision reports two evidence layers currently versioned in the
+This revision reports four evidence layers currently versioned in the
 repository. The first is a descriptive layer derived from manually constructed
-benchmark artifacts. The second is a preliminary pilot-execution layer
-preserved under \texttt{results/experiments/}. Both layers are exploratory.
-The benchmark cases are manually constructed from public artifact inspection
-rather than sampled from deployment logs or an external user study, and the
-pilot results come from single-run repository artifacts rather than repeated
-trials. No statistical significance is claimed, no broad empirical validation
-is claimed, and the pilot results should be read as preliminary observations
-rather than as proof that SkillOps is generally effective.
+benchmark artifacts. The second is a deterministic repository-check layer. The
+third is a controlled repeated pilot on a single provider and model,
+\texttt{deepseek/deepseek-chat}, preserved under \texttt{results/experiments/}.
+The fourth is a set of earlier pilot artifacts retained for provenance and
+supplementary inspection. All four layers are exploratory. The benchmark cases
+are manually constructed from public artifact inspection rather than sampled
+from deployment logs or an external user study, and the controlled pilot is
+repeated but still limited. No statistical significance is claimed, no broad
+empirical validation is claimed, and the pilot results should be read as
+preliminary observations rather than as proof that SkillOps is generally
+effective.
 
 \subsection{Evaluation Scope}
 
@@ -674,10 +667,16 @@ The evaluation combines the following versioned inputs:
 \end{itemize}
 
 These inputs cover five artifact profiles, 36 trigger-routing cases, and 24
-operational-risk cases, together with preserved pilot summaries for mixed-provider
-live execution and an aligned trigger-routing ablation. All trigger and risk
-cases use the \texttt{manual-} prefix, making the manual construction of the
-benchmark explicit. Figure~\ref{fig:evaluation-pipeline} captures the
+operational-risk cases, together with preserved pilot summaries and per-track
+metrics. The main empirical pilot in this revision is a controlled repeated run
+on \texttt{deepseek/deepseek-chat}: 1{,}350 attempted calls, 1{,}350 succeeded
+calls, 0 failed calls, 0 parse failures, and 0 execution failures across 3
+repeats. The raw rows are 216 trigger rows, 144 constraint rows, 144 security
+rows, 198 memory rows, and 648 aligned-ablation rows. Earlier mixed-provider
+and single-run pilot artifacts remain in the repository as provenance
+artifacts rather than the main basis for the paper's conclusions. All trigger
+and risk cases use the \texttt{manual-} prefix, making the manual construction
+of the benchmark explicit. Figure~\ref{fig:evaluation-pipeline} captures the
 descriptive evaluation flow from artifact inventory to cautious
 interpretation. The pilot-execution results are a separate preserved evidence
 layer and are not recreated through that descriptive pass.
@@ -842,84 +841,85 @@ These checks validate repository consistency and traceability only. They do not
 measure model behavior, scanner accuracy, user-study outcomes, production
 validation, precision, recall, F1, or statistical significance.
 
-\subsection{Mixed-Provider Live Pilot}
+\subsection{Controlled DeepSeek Repeated Pilot}
 
-A separate mixed-provider live pilot preserved under
-\path{results/experiments/} validates the execution pipeline in the limited
-sense that all 702 recorded rows were parsed and executed without recorded
-parse failures or execution failures. The pilot covers 186 LongCat rows, 492
-DeepSeek rows, and 24 local-rules rows across trigger routing, constraint
-compliance, memory drift, security-guard detection, and ablation tracks. These
-outputs therefore provide preliminary descriptive metrics from a completed
-pilot run.
+The main empirical evidence in this revision comes from a controlled repeated
+pilot on \texttt{deepseek/deepseek-chat}, preserved under
+\path{results/experiments/controlled_deepseek_*}. Because the pilot uses one
+provider and one model, it should be read as a single-provider study. It is
+repeated but still limited: 1{,}350 attempted calls were all completed
+successfully across 3 repeats, with 0 failed calls, 0 parse failures, and 0
+execution failures.
 
-The provider split matters for interpretation. LongCat handled the
-trigger-routing, constraint-compliance, and memory-drift tracks; DeepSeek
-handled the original ablation track; and local-rules handled the
-security-guard track. The LongCat and DeepSeek results should not be
-interpreted as a controlled model comparison, because each track was run on
-only one provider in this mixed-provider setting.
+\paragraph{Trigger routing.}
 
-Within the LongCat trigger slice, both prompt variants covered all 15
-\texttt{should\_trigger} cases and produced no false triggers on the 12
-\texttt{should\_not\_trigger} cases, while ambiguous cases still limited the
-descriptive score summaries (\texttt{skillops}: 0.6818; \texttt{freeform}:
-0.7143). The LongCat constraint slice did not show a uniformly positive
-SkillOps effect in this single-run setting: the \texttt{skillops} condition
-recorded constraint compliance 0.0000, whereas the vague baseline recorded
-0.5833. The LongCat memory slice is more favorable but still preliminary; the
-full memory-policy condition showed stale-information usage 0.0000 compared
-with 0.2273 when the forgetting policy was removed, which suggests that
-explicit forgetting policy may help in this single-run setting.
+Across 216 raw rows, and as a preliminary summary that should not be read as
+broad empirical validation, the \texttt{skillops} condition reached mean F1
+0.800000. In the same limited sense, and again because this comparison should
+not be read as broad empirical validation, the \texttt{freeform} condition
+reached mean F1 0.812500. Both conditions recorded false-trigger rate 0.000000
+in this controlled repeated pilot. In this setting, the observed pattern
+suggests that trigger contracts still need further tuning rather than showing a
+routing advantage for SkillOps.
 
-The local-rules security-guard results measure risk-case detection only, not
-false-positive behavior: detection was 24/24 on the supplied risk cases, but
-no benign control set was included. The original mixed-provider ablation
-trigger-routing slice remains inconclusive because the ablation skill
-definitions were not aligned with the trigger benchmark skill set.
+\paragraph{Constraint compliance.}
 
-\subsection{Aligned Trigger-Routing Ablation Pilot}
+Across 144 raw rows, \texttt{skillops} recorded compliance 0.569444 and
+violation rate 0.430556, whereas the vague baseline recorded compliance
+0.097222 and violation rate 0.902778. This observed pattern suggests that more
+explicit execution constraints may help reduce violations in this setting, but
+the benchmark remains manually constructed and preliminary.
 
-To reduce that benchmark-variant mismatch, the repository also includes an
-aligned trigger-routing ablation pilot on
-\texttt{deepseek/deepseek-chat}. This pilot covers 216 records (36 trigger
-cases $\times$ 6 variants $\times$ 1 repeat) with 0 parse failures and 0
-execution failures. It is still a single-provider, single-run pilot and should
-be interpreted as preliminary.
+\paragraph{Security guard.}
 
-As a preliminary observation that should not be read as broad empirical
-validation, \texttt{full_skillops} reached precision 0.6667, recall 0.9333,
-and F1 0.7778. In the same preliminary sense, and again because these figures
-should not be read as broad empirical validation, false-trigger rate was
-0.0833, ambiguity handling 0.3333, and skill-routing accuracy 1.0000.
+Across 144 raw rows, detection rate was 0.888889, false-positive rate
+0.000000, and specificity 1.000000. Because benign controls were included,
+this slice goes beyond risk-only detection counts. However, the security and
+benign cases are manually constructed, so the result should not be read as
+broad security validation.
 
-As a preliminary comparison that should not be read as broad empirical
-validation, precision increased from 0.5769 to 0.6667, an absolute gain of
-0.0898 and a relative gain of about 15.6\% in this single-run pilot.
-False-trigger rate also decreased from 0.2500 to 0.0833, and ambiguity
-handling increased from 0.0000 to 0.3333. As another preliminary comparison
-that should not be read as broad empirical validation, skill-routing accuracy
-rose from 0.9333 to 1.0000. Again as a preliminary comparison that should not
-be read as broad empirical validation, the \texttt{freeform_only} variant sat
-between these two conditions on precision (0.6000), F1 (0.7500), and
-false-trigger rate (0.1667).
+\paragraph{Memory drift.}
 
-These aligned ablation results, which should not be read as broad empirical
-validation, suggest that explicit trigger boundaries may improve precision and
-reduce false triggers in this setting, but repeated trials and additional
-providers are needed before stronger conclusions are warranted.
+Across 198 raw rows, the full policy condition recorded stale-information usage
+0.000000 and correct-forgetting 1.000000. The \texttt{no_forgetting}
+condition recorded stale-information usage 0.045455 and correct-forgetting
+0.000000, while \texttt{current_context_only} also recorded stale-information
+usage 0.000000. In this pilot, the observed pattern suggests that an explicit
+forgetting or retirement policy is useful when memory continuity is required.
+
+\paragraph{Aligned ablation.}
+
+Across 648 raw rows, and as a preliminary summary that should not be read as
+broad empirical validation, \texttt{full_skillops} reached mean F1 0.750119,
+\texttt{no_trigger_boundary} reached 0.731707, and \texttt{freeform_only}
+reached 0.750000. Their false-trigger rates were 0.111111, 0.250000, and
+0.166667, respectively. In this repeated pilot, the observed pattern suggests
+that explicit trigger boundaries may reduce false triggers relative to removing
+the boundary, while the overall F1, in a comparison that should not be read as
+broad empirical validation, remained close to the \texttt{freeform_only}
+variant. No statistical significance is claimed for these comparisons.
+
+\subsection{Earlier Pilot Artifacts}
+
+The repository also preserves earlier pilot artifacts under
+\path{results/experiments/}, including a mixed-provider pilot and an earlier
+single-run aligned ablation. They remain useful for provenance,
+execution-pipeline auditing, and supplementary artifact review. They are not
+used here as the paper's main empirical basis: the mixed-provider pilot was
+not a controlled comparison, and the single-run aligned ablation does not
+provide repeated evidence.
 
 \subsection{Interpretation}
 
 Taken together, the descriptive tables document benchmark composition, the
-repository checks validate internal consistency, the mixed-provider pilot
-validates the execution pipeline and preserves preliminary descriptive metrics,
-and the aligned ablation pilot provides a more targeted trigger-routing
-observation. None of these layers establishes statistical significance, broad
-empirical validation, or proof that SkillOps is generally effective. The
-current evidence is best read as an exploratory, manually constructed benchmark
-plus preliminary single-run pilots whose observations may guide future repeated
-studies.
+repository checks validate internal consistency, the controlled DeepSeek
+repeated pilot provides the main preliminary empirical observations, and the
+earlier pilot artifacts preserve provenance. In this setting, these layers
+suggest that structured skill artifacts can enable measurable checks and more
+inspectable failure analysis, with the clearest observed patterns appearing in
+constraint compliance, memory forgetting, and false-trigger control. They do
+not establish statistical significance, broad empirical validation, or general
+effectiveness across providers, external skill sets, or user populations.
 
 \section{Discussion}
 
@@ -974,39 +974,43 @@ Third, the benchmark cases are manually constructed and exploratory. The counts
 reported in Section~\ref{sec:evaluation} describe benchmark composition rather
 than observed production traffic or a statistically powered experiment.
 
-Fourth, the live execution evidence is limited to a single mixed-provider pilot
-artifact. Because LongCat, DeepSeek, and local-rules handled different tracks,
-that pilot should not be interpreted as a controlled model comparison or as
-broad empirical validation.
+Fourth, the main live execution evidence is a controlled repeated pilot on one
+provider and model, \texttt{deepseek/deepseek-chat}. Although each slice was
+repeated three times, the study remains small-scale and single-provider.
 
-Fifth, the aligned trigger-routing ablation pilot is also narrow: it uses only
-\texttt{deepseek/deepseek-chat}, covers 36 trigger cases $\times$ 6 variants
-$\times$ 1 repeat, and remains a single-run result. Repeated trials and
-additional providers are needed before stronger conclusions about trigger
-boundaries could be drawn.
+Fifth, the benchmark cases are manually constructed, including the benign
+security controls. The reported detection, false-positive, compliance, and
+memory-drift rates are therefore benchmark-specific rather than broad external
+validation.
 
-Sixth, no statistical significance is claimed, no variance estimate is
-available, and the current evidence remains preliminary rather than broadly
-validated.
+Sixth, the repository also preserves earlier mixed-provider and single-run
+pilot artifacts, but those materials serve as provenance and supplementary
+evidence rather than the paper's main empirical basis.
 
-Seventh, the work does not include an external user study. It does not measure
+Seventh, no statistical significance or formal hypothesis testing is reported,
+and the current evidence remains preliminary rather than broadly validated.
+
+Eighth, the work does not include an external user study. It does not measure
 how other users understand the skill format, apply the workflow, or experience
 the proposed guardrails in practice.
 
-Eighth, several artifacts encode OpenClaw-oriented assumptions about directory
-layout, skill packaging, cron usage, and local agent control. These assumptions
-may not transfer directly to hosted agents, enterprise workflows, or
-non-OpenClaw environments.
+Ninth, additional providers, external skill sets, and other agent environments
+are needed before stronger comparative claims could be made.
 
-Ninth, SkillOps focuses on the operational layer of skill design. It does not
+Tenth, several artifacts encode local desktop-agent assumptions about directory
+layout, skill packaging, cron usage, and local agent control. These assumptions
+may not transfer directly to hosted agents, enterprise workflows, or other
+agent environments.
+
+Eleventh, SkillOps focuses on the operational layer of skill design. It does not
 propose a new model architecture, training method, planner, or tool-use
 algorithm.
 
-Tenth, some evaluation criteria still require human judgment. For example,
+Twelfth, some evaluation criteria still require human judgment. For example,
 audit usefulness and context relevance may be difficult to score objectively.
 Later benchmark revisions should therefore include clear annotation guidelines.
 
-Eleventh, personal agent environments differ substantially in their tool access,
+Thirteenth, personal agent environments differ substantially in their tool access,
 memory mechanisms, security policies, and user expectations. A skill format
 that works in one environment may require adaptation in another.
 
@@ -1088,15 +1092,18 @@ and operating modular skills in personal AI agents. The framework is derived
 from open-source artifacts and emphasizes explicit skill structure, trigger
 design, context injection, execution constraints, security checks,
 self-auditing, and forgetting. The paper formulates three research questions
-and reports a descriptive benchmark layer together with preliminary pilot
-execution artifacts preserved in the repository.
+and reports a descriptive benchmark layer, repository-level consistency checks,
+and a controlled DeepSeek repeated pilot preserved in the repository.
 
 The contribution is intentionally modest. SkillOps is not presented as a
 new agent architecture or as a broadly validated empirical result. Instead, it
 is a concrete operational framework intended to make personal agent skills more
-inspectable, testable, and maintainable. Broader empirical follow-up would
-require repeated execution studies, comparison across models and agent
-environments, and refinement based on external use.
+inspectable, testable, and maintainable. The controlled pilot provides
+preliminary evidence that structured skill artifacts can improve inspectability
+and enable measurable checks in this setting, but it does not establish broad
+empirical validation. Broader empirical follow-up would require additional
+providers, external skill sets, repeated execution studies, and refinement
+based on external use.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
