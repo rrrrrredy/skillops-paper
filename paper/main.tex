@@ -33,27 +33,17 @@ Song Luo\\
 \maketitle
 
 \begin{abstract}
-Personal AI agents increasingly rely on reusable capability modules, often called
-skills, to perform tasks across writing, coding, memory management, security
-review, and workflow automation. However, the design and operation of such
-skills remain largely informal. In practice, a skill may include trigger
-conditions, contextual knowledge, execution constraints, safety rules, tests,
-and lifecycle procedures for revision or removal. This paper introduces
-SkillOps, a practical framework for designing, testing, and operating modular
-skills in personal AI agents. The framework is derived from a set of open-source
-artifacts developed by the author, including a skill design guide, a security
-guard, a persistent memory mechanism, a self-audit mechanism, and a
-guardrail-oriented operational tool. We formulate three research questions
-concerning skill structure, stability under trigger and context variation, and
-the role of reviewable linting, security scanning, and self-auditing checks in
-operational risk review.
-The paper contributes a skill component taxonomy, a lifecycle
-model, a failure-mode taxonomy, and an artifact-based evaluation design. The
-paper also includes descriptive benchmark summaries derived from a
+Personal AI agents increasingly rely on reusable capability modules, often
+called skills, yet their design and operation remain largely informal. This
+paper introduces SkillOps, a practical framework for designing, testing, and
+operating modular skills in personal AI agents. The framework is derived from
+open-source artifacts developed by the author and contributes a skill component
+taxonomy, a lifecycle model, a failure-mode taxonomy, and an artifact-based
+evaluation design. The paper reports descriptive benchmark summaries from a
 manually constructed exploratory benchmark covering artifact structure,
 trigger-routing cases, and operational-risk cases, together with a controlled
 repeated pilot on \texttt{deepseek/deepseek-chat} preserved in the repository.
-These materials provide preliminary observations only; they do not claim
+These materials provide preliminary observations only and do not claim
 statistical significance, broad empirical validation, or a general
 multi-provider comparison. The contribution is therefore a modest engineering
 framework for making agent skills more explicit, testable, and maintainable.
@@ -207,10 +197,11 @@ agent's behavior for a class of tasks. A skill may include natural-language
 instructions, examples, trigger conditions, context requirements, tool
 permissions, safety constraints, output contracts, and tests.
 
-SkillOps-managed skills are intended to make these assumptions explicit rather
-than implicit. Table~\ref{tab:skill-components} summarizes the structural
-components used in the framework, and Figure~\ref{fig:skill-anatomy} provides a
-schematic view of how those components fit together in a skill package.
+SkillOps-managed skills are intended to document these assumptions in a more
+structured and reviewable form. Table~\ref{tab:skill-components} summarizes the
+structural components used in the framework, and Figure~\ref{fig:skill-anatomy}
+provides a schematic view of how those components fit together in a skill
+package.
 
 \begin{table}[t]
 \centering
@@ -363,11 +354,11 @@ summarizes the reported counts and their limitations.
 
 \subsection{Context Injection}
 
-Context injection is necessary when a skill depends on project conventions, user
-preferences, prior decisions, or repository structure. However, excessive
+Context injection is necessary when a skill depends on project conventions,
+user preferences, prior decisions, or repository structure. However, excessive
 context can degrade behavior by introducing stale assumptions or irrelevant
-constraints. SkillOps treats context injection as an explicit policy rather than
-an implicit accumulation of memory.
+constraints. SkillOps treats context injection as a declared policy rather than
+opportunistic accumulation of memory.
 
 A context injection policy should specify:
 
@@ -853,14 +844,12 @@ execution failures.
 
 \paragraph{Trigger routing.}
 
-Across 216 raw rows, and as a preliminary summary that should not be read as
-broad empirical validation, the \texttt{skillops} condition reached mean F1
-0.800000. In the same limited sense, and again because this comparison should
-not be read as broad empirical validation, the \texttt{freeform} condition
-reached mean F1 0.812500. Both conditions recorded false-trigger rate 0.000000
-in this controlled repeated pilot. In this setting, the observed pattern
-suggests that trigger contracts still need further tuning rather than showing a
-routing advantage for SkillOps.
+Across 216 raw rows, the \texttt{skillops} condition reached mean F1 0.800000,
+while the \texttt{freeform} condition reached mean F1 0.812500 in a comparison
+that should not be read as broad empirical validation. Both conditions
+recorded false-trigger rate 0.000000 in this controlled repeated pilot. In
+this setting, the observed pattern suggests that trigger contracts still need
+further tuning rather than showing a routing advantage for SkillOps.
 
 \paragraph{Constraint compliance.}
 
@@ -893,11 +882,11 @@ Across 648 raw rows, and as a preliminary summary that should not be read as
 broad empirical validation, \texttt{full_skillops} reached mean F1 0.750119,
 \texttt{no_trigger_boundary} reached 0.731707, and \texttt{freeform_only}
 reached 0.750000. Their false-trigger rates were 0.111111, 0.250000, and
-0.166667, respectively. In this repeated pilot, the observed pattern suggests
-that explicit trigger boundaries may reduce false triggers relative to removing
-the boundary, while the overall F1, in a comparison that should not be read as
-broad empirical validation, remained close to the \texttt{freeform_only}
-variant. No statistical significance is claimed for these comparisons.
+0.166667, respectively. In this repeated single-provider pilot, the observed
+pattern suggests that explicit trigger boundaries may reduce false triggers
+relative to removing the boundary, while overall F1 remained close to the
+\texttt{freeform_only} variant. No statistical significance is claimed for
+these comparisons.
 
 \subsection{Earlier Pilot Artifacts}
 
@@ -915,10 +904,13 @@ Taken together, the descriptive tables document benchmark composition, the
 repository checks validate internal consistency, the controlled DeepSeek
 repeated pilot provides the main preliminary empirical observations, and the
 earlier pilot artifacts preserve provenance. In this setting, these layers
-suggest that structured skill artifacts can enable measurable checks and more
-inspectable failure analysis, with the clearest observed patterns appearing in
-constraint compliance, memory forgetting, and false-trigger control. They do
-not establish statistical significance, broad empirical validation, or general
+suggest that structured skill artifacts can support measurable checks and
+reviewable operational analysis, with the clearest observed patterns appearing
+in constraint compliance, memory forgetting, and lower false-trigger rates for
+\texttt{full_skillops} than \texttt{no_trigger_boundary} in the aligned
+ablation while, in a comparison that should not be read as broad empirical
+validation, overall F1 remained close to \texttt{freeform_only}. They do not
+establish statistical significance, broad empirical validation, or general
 effectiveness across providers, external skill sets, or user populations.
 
 \section{Discussion}
@@ -927,14 +919,14 @@ SkillOps frames personal agent skills as operational artifacts rather than
 isolated prompts. This framing has several implications.
 
 The main practical insight is not that SkillOps makes skill behavior
-deterministic. Rather, it makes failure analysis more inspectable by moving
-trigger cases, context policies, constraints, and evidence logs into reviewable
-artifacts.
+deterministic. Rather, it moves trigger cases, context policies, constraints,
+and evidence logs into reviewable artifacts that support measurable checks and
+reviewable operational analysis.
 
-First, it makes skill design more inspectable. When trigger conditions, context
-policies, and constraints are written explicitly, they can be reviewed by
-humans and checked by tools. This is useful even when the underlying model
-remains uncertain.
+First, it makes skill design easier to review. When trigger conditions, context
+policies, and constraints are written clearly, they can be reviewed by humans
+and checked by tools. This is useful even when the underlying model remains
+uncertain.
 
 Second, it encourages test-driven skill development. A skill should include
 examples of intended activation, unintended activation, edge cases, and unsafe
@@ -978,17 +970,16 @@ Fourth, the main live execution evidence is a controlled repeated pilot on one
 provider and model, \texttt{deepseek/deepseek-chat}. Although each slice was
 repeated three times, the study remains small-scale and single-provider.
 
-Fifth, the benchmark cases are manually constructed, including the benign
-security controls. The reported detection, false-positive, compliance, and
-memory-drift rates are therefore benchmark-specific rather than broad external
-validation.
+Fifth, the benchmark cases include manually constructed benign security
+controls. The reported detection, false-positive, compliance, and memory-drift
+rates are therefore benchmark-specific rather than broad external validation.
 
 Sixth, the repository also preserves earlier mixed-provider and single-run
 pilot artifacts, but those materials serve as provenance and supplementary
 evidence rather than the paper's main empirical basis.
 
 Seventh, no statistical significance or formal hypothesis testing is reported,
-and the current evidence remains preliminary rather than broadly validated.
+and external validation remains limited.
 
 Eighth, the work does not include an external user study. It does not measure
 how other users understand the skill format, apply the workflow, or experience
@@ -1018,14 +1009,16 @@ that works in one environment may require adaptation in another.
 
 \paragraph{Tool-using and modular agents.}
 
-SkillOps sits at the intersection of software modularity, hierarchical skills,
-and tool-using language model agents. Earlier work on software decomposition and
-reusable structure emphasized information hiding, design patterns, and
-component-based modularity \citep{parnas1972criteria,gamma1994design,szyperski2002component},
-while hierarchical reinforcement learning formalized reusable temporally
-extended skills \citep{sutton1999options,dietterich2000maxq}. In the LLM era,
-MRKL, Toolformer, and ReAct study how models call tools or coordinate reasoning
-with external actions \citep{karpas2022mrkl,schick2023toolformer,yao2023react}.
+SkillOps is discussed here mainly as a framework for agent skill artifacts
+within work on modular agents and tool-using language model systems, with
+earlier software-modularity references serving only as background analogies.
+Classical work on software decomposition and reusable structure emphasized
+information hiding, design patterns, and component-based modularity
+\citep{parnas1972criteria,gamma1994design,szyperski2002component}, while
+hierarchical reinforcement learning formalized reusable temporally extended
+skills \citep{sutton1999options,dietterich2000maxq}. In the LLM era, MRKL,
+Toolformer, and ReAct study how models call tools or coordinate reasoning with
+external actions \citep{karpas2022mrkl,schick2023toolformer,yao2023react}.
 Benchmark-oriented tool-use work such as API-Bank and ToolLLM evaluates API
 invocation over larger tool sets \citep{li2023apibank,qin2024toolllm}. SkillOps
 differs by treating a skill as a governed artifact with trigger contracts,
@@ -1098,12 +1091,12 @@ and a controlled DeepSeek repeated pilot preserved in the repository.
 The contribution is intentionally modest. SkillOps is not presented as a
 new agent architecture or as a broadly validated empirical result. Instead, it
 is a concrete operational framework intended to make personal agent skills more
-inspectable, testable, and maintainable. The controlled pilot provides
-preliminary evidence that structured skill artifacts can improve inspectability
-and enable measurable checks in this setting, but it does not establish broad
-empirical validation. Broader empirical follow-up would require additional
-providers, external skill sets, repeated execution studies, and refinement
-based on external use.
+reviewable, testable, and maintainable. The controlled pilot provides
+preliminary evidence that structured skill artifacts can support measurable
+checks and reviewable operational analysis in this setting, but it does not
+establish broad empirical validation. Broader empirical follow-up would require
+additional providers, external skill sets, repeated execution studies, and
+refinement based on external use.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
