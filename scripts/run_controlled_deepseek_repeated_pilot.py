@@ -289,6 +289,64 @@ def lookup_metric(csv_rows: list[dict[str, Any]], group_type: str, group_value: 
     return "n/a"
 
 
+def credential_handling_note(credential_status: str, live_run_performed: bool) -> str:
+    if credential_status == "present" and live_run_performed:
+        return "DEEPSEEK_API_KEY was provided via local environment variable for the live run; the value was not printed or committed."
+    if credential_status == "present":
+        return "DEEPSEEK_API_KEY is available in the local environment; the value was not printed or committed."
+    return "No DEEPSEEK_API_KEY value was printed or committed."
+
+
+def topline_metric_lines(slice_results: list[dict[str, Any]], *, wrap_code: bool) -> list[str]:
+    def metric(slice_index: int, group_type: str, group_value: str, metric_name: str) -> str:
+        value = lookup_metric(slice_results[slice_index]["csv_rows"], group_type, group_value, metric_name)
+        return f"`{value}`" if wrap_code else value
+
+    lines = [
+        "### Trigger",
+        "",
+        f"- skillops mean F1: {metric(0, 'condition', 'skillops', 'f1')}",
+        f"- freeform mean F1: {metric(0, 'condition', 'freeform', 'f1')}",
+        f"- skillops false-trigger rate: {metric(0, 'condition', 'skillops', 'false_trigger_rate')}",
+        f"- freeform false-trigger rate: {metric(0, 'condition', 'freeform', 'false_trigger_rate')}",
+        "",
+        "### Constraint",
+        "",
+        f"- skillops compliance mean: {metric(1, 'condition', 'skillops', 'constraint_compliance_rate')}",
+        f"- vague compliance mean: {metric(1, 'condition', 'vague', 'constraint_compliance_rate')}",
+        f"- skillops violation rate mean: {metric(1, 'condition', 'skillops', 'violation_rate')}",
+        f"- vague violation rate mean: {metric(1, 'condition', 'vague', 'violation_rate')}",
+        "",
+        "### Security",
+        "",
+        f"- detection rate mean: {metric(2, 'overall', 'all', 'detection_rate')}",
+        f"- false-positive rate mean: {metric(2, 'overall', 'all', 'false_positive_rate')}",
+        f"- specificity mean: {metric(2, 'overall', 'all', 'specificity')}",
+        "",
+        "### Memory",
+        "",
+        f"- full policy stale-info usage mean: {metric(3, 'condition', 'full_skillops_memory_policy', 'stale_info_usage_rate')}",
+        f"- no-forgetting stale-info usage mean: {metric(3, 'condition', 'no_forgetting_policy', 'stale_info_usage_rate')}",
+        f"- current-context-only stale-info usage mean: {metric(3, 'condition', 'current_context_only', 'stale_info_usage_rate')}",
+        f"- full policy current-instruction adherence mean: {metric(3, 'condition', 'full_skillops_memory_policy', 'current_instruction_adherence_rate')}",
+        f"- no-forgetting current-instruction adherence mean: {metric(3, 'condition', 'no_forgetting_policy', 'current_instruction_adherence_rate')}",
+        f"- current-context-only current-instruction adherence mean: {metric(3, 'condition', 'current_context_only', 'current_instruction_adherence_rate')}",
+        f"- full policy correct-forgetting mean: {metric(3, 'condition', 'full_skillops_memory_policy', 'correct_forgetting_rate')}",
+        f"- no-forgetting correct-forgetting mean: {metric(3, 'condition', 'no_forgetting_policy', 'correct_forgetting_rate')}",
+        "",
+        "### Aligned ablation",
+        "",
+        f"- full_skillops mean F1: {metric(4, 'variant', 'full_skillops', 'f1')}",
+        f"- no_trigger_boundary mean F1: {metric(4, 'variant', 'no_trigger_boundary', 'f1')}",
+        f"- freeform_only mean F1: {metric(4, 'variant', 'freeform_only', 'f1')}",
+        f"- full_skillops false-trigger rate: {metric(4, 'variant', 'full_skillops', 'false_trigger_rate')}",
+        f"- no_trigger_boundary false-trigger rate: {metric(4, 'variant', 'no_trigger_boundary', 'false_trigger_rate')}",
+        f"- freeform_only false-trigger rate: {metric(4, 'variant', 'freeform_only', 'false_trigger_rate')}",
+        "",
+    ]
+    return lines
+
+
 def write_summary_files(
     *,
     provider: str,
@@ -304,7 +362,7 @@ def write_summary_files(
         f"- Provider: `{provider}`",
         f"- Model: `{model}`",
         f"- Repeats: `{repeats}`",
-        f"- DEEPSEEK_API_KEY: `{credential_status}`",
+        f"- Credential handling: {credential_handling_note(credential_status, live_run_performed)}",
         f"- Live run performed: `{'yes' if live_run_performed else 'no'}`",
         "",
         "## Slice Status",
@@ -331,22 +389,7 @@ def write_summary_files(
         )
     )
     lines.append("")
-    lines.extend(
-        [
-            "## Topline Metrics",
-            "",
-            f"- Trigger skillops mean F1: `{lookup_metric(slice_results[0]['csv_rows'], 'condition', 'skillops', 'f1')}`",
-            f"- Trigger freeform mean F1: `{lookup_metric(slice_results[0]['csv_rows'], 'condition', 'freeform', 'f1')}`",
-            f"- Constraint skillops compliance mean: `{lookup_metric(slice_results[1]['csv_rows'], 'condition', 'skillops', 'constraint_compliance_rate')}`",
-            f"- Constraint vague compliance mean: `{lookup_metric(slice_results[1]['csv_rows'], 'condition', 'vague', 'constraint_compliance_rate')}`",
-            f"- Security detection mean: `{lookup_metric(slice_results[2]['csv_rows'], 'overall', 'all', 'detection_rate')}`",
-            f"- Security false-positive mean: `{lookup_metric(slice_results[2]['csv_rows'], 'overall', 'all', 'false_positive_rate')}`",
-            f"- Memory full policy stale-info mean: `{lookup_metric(slice_results[3]['csv_rows'], 'condition', 'full_skillops_memory_policy', 'stale_info_usage_rate')}`",
-            f"- Memory no-forgetting stale-info mean: `{lookup_metric(slice_results[3]['csv_rows'], 'condition', 'no_forgetting_policy', 'stale_info_usage_rate')}`",
-            f"- Ablation full_skillops mean F1: `{lookup_metric(slice_results[4]['csv_rows'], 'variant', 'full_skillops', 'f1')}`",
-            "",
-        ]
-    )
+    lines.extend(["## Topline Metrics", "", *topline_metric_lines(slice_results, wrap_code=True)])
 
     for result in slice_results:
         if result["missing_ids"]:
@@ -368,21 +411,12 @@ def write_summary_files(
         f"Provider: {provider}",
         f"Model: {model}",
         f"Repeats: {repeats}",
-        f"DEEPSEEK_API_KEY: {credential_status}",
+        f"Credential handling: {credential_handling_note(credential_status, live_run_performed)}",
         f"Live run performed: {'yes' if live_run_performed else 'no'}",
         "",
         "## Topline Metrics",
         "",
-        f"- Trigger skillops mean F1: {lookup_metric(slice_results[0]['csv_rows'], 'condition', 'skillops', 'f1')}",
-        f"- Trigger freeform mean F1: {lookup_metric(slice_results[0]['csv_rows'], 'condition', 'freeform', 'f1')}",
-        f"- Constraint skillops compliance mean: {lookup_metric(slice_results[1]['csv_rows'], 'condition', 'skillops', 'constraint_compliance_rate')}",
-        f"- Constraint vague compliance mean: {lookup_metric(slice_results[1]['csv_rows'], 'condition', 'vague', 'constraint_compliance_rate')}",
-        f"- Security detection mean: {lookup_metric(slice_results[2]['csv_rows'], 'overall', 'all', 'detection_rate')}",
-        f"- Security false-positive mean: {lookup_metric(slice_results[2]['csv_rows'], 'overall', 'all', 'false_positive_rate')}",
-        f"- Memory full policy stale-info mean: {lookup_metric(slice_results[3]['csv_rows'], 'condition', 'full_skillops_memory_policy', 'stale_info_usage_rate')}",
-        f"- Memory no-forgetting stale-info mean: {lookup_metric(slice_results[3]['csv_rows'], 'condition', 'no_forgetting_policy', 'stale_info_usage_rate')}",
-        f"- Ablation full_skillops mean F1: {lookup_metric(slice_results[4]['csv_rows'], 'variant', 'full_skillops', 'f1')}",
-        "",
+        *topline_metric_lines(slice_results, wrap_code=False),
     ]
     for result in slice_results:
         log_lines.extend(

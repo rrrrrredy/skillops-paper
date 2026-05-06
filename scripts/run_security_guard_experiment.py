@@ -148,7 +148,7 @@ def run_local_guard_text(text: str) -> tuple[list[str], list[str]]:
             match = pattern.search(text)
             if match:
                 detected_risk_types.append(risk_type)
-                triggered_signals.append(match.group(0))
+                triggered_signals.append(match[0])
                 break
     return detected_risk_types, triggered_signals
 
