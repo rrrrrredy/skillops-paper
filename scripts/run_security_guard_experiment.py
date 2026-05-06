@@ -16,6 +16,7 @@ if str(SCRIPTS_DIR) not in sys.path:
 
 from experiment_utils import (  # noqa: E402
     BENCHMARK_DIR,
+    EXPERIMENTS_DIR,
     PROMPTS_DIR,
     RAW_RESULTS_DIR,
     RESULTS_DIR,
@@ -47,6 +48,15 @@ SCHEMA_PATH = SCHEMAS_DIR / "security_guard_result_schema.json"
 RISK_CASES_PATH = BENCHMARK_DIR / "risk_cases.csv"
 METRICS_CSV_PATH = RESULTS_DIR / "security_guard_metrics.csv"
 METRICS_MD_PATH = RESULTS_DIR / "security_guard_metrics.md"
+BENIGN_CASES_PATH = EXPERIMENTS_DIR / "security_benign_cases.csv"
+BENIGN_CASE_COLUMNS = [
+    "case_id",
+    "benign_type",
+    "user_request",
+    "relevant_artifact",
+    "expected_risk_label",
+    "notes",
+]
 
 ALLOWED_RISK_TYPES = [
     "prompt_injection",
@@ -105,8 +115,9 @@ LOCAL_RULE_PATTERNS = {
 }
 
 
-def validate_setup() -> tuple[list[dict[str, str]], str]:
+def validate_setup() -> tuple[list[dict[str, str]], list[dict[str, str]], str]:
     risk_rows = load_csv_rows(RISK_CASES_PATH, RISK_CASE_COLUMNS)
+    benign_rows = load_csv_rows(BENIGN_CASES_PATH, BENIGN_CASE_COLUMNS)
     load_json(SCHEMA_PATH)
     prompt_template = read_text(PROMPT_PATH)
     for placeholder in ("{{CASE_ID}}", "{{SCENARIO}}"):
@@ -119,16 +130,22 @@ def validate_setup() -> tuple[list[dict[str, str]], str]:
             "SCENARIO": risk_rows[0]["example"],
         },
     )
-    return risk_rows, prompt_template
+    render_prompt_template(
+        prompt_template,
+        {
+            "CASE_ID": benign_rows[0]["case_id"],
+            "SCENARIO": benign_rows[0]["user_request"],
+        },
+    )
+    return risk_rows, benign_rows, prompt_template
 
 
-def run_local_guard(case_row: dict[str, str]) -> tuple[list[str], list[str]]:
+def run_local_guard_text(text: str) -> tuple[list[str], list[str]]:
     detected_risk_types: list[str] = []
     triggered_signals: list[str] = []
-    example = case_row["example"]
     for risk_type, patterns in LOCAL_RULE_PATTERNS.items():
         for pattern in patterns:
-            match = pattern.search(example)
+            match = pattern.search(text)
             if match:
                 detected_risk_types.append(risk_type)
                 triggered_signals.append(match.group(0))
@@ -136,7 +153,11 @@ def run_local_guard(case_row: dict[str, str]) -> tuple[list[str], list[str]]:
     return detected_risk_types, triggered_signals
 
 
-def normalize_model_result(case_row: dict[str, str], parsed_json: Any) -> dict[str, Any]:
+def run_local_guard(case_row: dict[str, str]) -> tuple[list[str], list[str]]:
+    return run_local_guard_text(case_row["example"])
+
+
+def _normalize_guard_fields(parsed_json: Any) -> tuple[bool, list[str], list[str], str]:
     parsed_ok = isinstance(parsed_json, dict)
     detected_risk_types: list[str] = []
     triggered_signals: list[str] = []
@@ -153,38 +174,90 @@ def normalize_model_result(case_row: dict[str, str], parsed_json: Any) -> dict[s
         guard_decision = str(parsed_json.get("guard_decision", "allow")).strip() or "allow"
         if guard_decision not in {"detect", "allow"}:
             guard_decision = "allow"
+    return parsed_ok, detected_risk_types, triggered_signals, guard_decision
+
+
+def normalize_model_result(case_row: dict[str, str], parsed_json: Any) -> dict[str, Any]:
+    parsed_ok, detected_risk_types, triggered_signals, guard_decision = _normalize_guard_fields(parsed_json)
     return {
         "case_id": case_row["case_id"],
+        "case_kind": "risk",
         "guard_mode": "model",
         "risk_type": case_row["risk_type"],
         "relevant_artifact": case_row["relevant_artifact"],
+        "expected_risk_label": "risk",
+        "predicted_risk_label": "risk" if guard_decision == "detect" else "benign",
         "guard_decision": guard_decision,
         "detected_risk_types": detected_risk_types,
         "triggered_signals": triggered_signals,
         "parsed_ok": parsed_ok,
         "risk_type_detected": case_row["risk_type"] in detected_risk_types,
+        "is_false_positive": False,
     }
 
 
 def normalize_local_result(case_row: dict[str, str], detected_risk_types: list[str], triggered_signals: list[str]) -> dict[str, Any]:
     return {
         "case_id": case_row["case_id"],
+        "case_kind": "risk",
         "guard_mode": "local-rules",
         "risk_type": case_row["risk_type"],
         "relevant_artifact": case_row["relevant_artifact"],
+        "expected_risk_label": "risk",
+        "predicted_risk_label": "risk" if detected_risk_types else "benign",
         "guard_decision": "detect" if detected_risk_types else "allow",
         "detected_risk_types": detected_risk_types,
         "triggered_signals": triggered_signals,
         "parsed_ok": True,
         "risk_type_detected": case_row["risk_type"] in detected_risk_types,
+        "is_false_positive": False,
     }
 
 
-def compute_metric_rows(records: list[dict[str, Any]], control_rows: list[dict[str, str]] | None = None) -> list[dict[str, Any]]:
+def normalize_model_control_result(case_row: dict[str, str], parsed_json: Any) -> dict[str, Any]:
+    parsed_ok, detected_risk_types, triggered_signals, guard_decision = _normalize_guard_fields(parsed_json)
+    return {
+        "case_id": case_row["case_id"],
+        "case_kind": "benign",
+        "guard_mode": "model",
+        "risk_type": case_row["benign_type"],
+        "relevant_artifact": case_row["relevant_artifact"],
+        "expected_risk_label": case_row["expected_risk_label"],
+        "predicted_risk_label": "risk" if guard_decision == "detect" else "benign",
+        "guard_decision": guard_decision,
+        "detected_risk_types": detected_risk_types,
+        "triggered_signals": triggered_signals,
+        "parsed_ok": parsed_ok,
+        "risk_type_detected": False,
+        "is_false_positive": guard_decision == "detect",
+    }
+
+
+def normalize_local_control_result(case_row: dict[str, str], detected_risk_types: list[str], triggered_signals: list[str]) -> dict[str, Any]:
+    return {
+        "case_id": case_row["case_id"],
+        "case_kind": "benign",
+        "guard_mode": "local-rules",
+        "risk_type": case_row["benign_type"],
+        "relevant_artifact": case_row["relevant_artifact"],
+        "expected_risk_label": case_row["expected_risk_label"],
+        "predicted_risk_label": "risk" if detected_risk_types else "benign",
+        "guard_decision": "detect" if detected_risk_types else "allow",
+        "detected_risk_types": detected_risk_types,
+        "triggered_signals": triggered_signals,
+        "parsed_ok": True,
+        "risk_type_detected": False,
+        "is_false_positive": bool(detected_risk_types),
+    }
+
+
+def compute_metric_rows(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     normalized = [record["normalized_result"] for record in records]
+    risk_rows = [row for row in normalized if row["case_kind"] == "risk"]
+    benign_rows = [row for row in normalized if row["case_kind"] == "benign"]
     rows: list[dict[str, Any]] = []
-    detection_hits = sum(1 for row in normalized if row["risk_type_detected"])
-    total = len(normalized)
+    detection_hits = sum(1 for row in risk_rows if row["risk_type_detected"])
+    total = len(risk_rows)
     rows.append(
         {
             "group": "overall",
@@ -197,35 +270,34 @@ def compute_metric_rows(records: list[dict[str, Any]], control_rows: list[dict[s
         }
     )
 
-    if control_rows:
-        false_positive_hits = sum(1 for row in control_rows if row.get("guard_decision") == "detect")
-        rows.append(
-            {
-                "group": "overall",
-                "value": "all",
-                "metric": "false_positive_rate",
-                "rate": "" if len(control_rows) == 0 else f"{false_positive_hits / len(control_rows):.6f}",
-                "numerator": false_positive_hits,
-                "denominator": len(control_rows),
-                "notes": "",
-            }
-        )
-    else:
-        rows.append(
-            {
-                "group": "overall",
-                "value": "all",
-                "metric": "false_positive_rate",
-                "rate": "",
-                "numerator": 0,
-                "denominator": 0,
-                "notes": "not applicable: no control cases supplied",
-            }
-        )
+    false_positive_hits = sum(1 for row in benign_rows if row["is_false_positive"])
+    true_negative_hits = len(benign_rows) - false_positive_hits
+    rows.append(
+        {
+            "group": "overall",
+            "value": "all",
+            "metric": "false_positive_rate",
+            "rate": "" if len(benign_rows) == 0 else f"{false_positive_hits / len(benign_rows):.6f}",
+            "numerator": false_positive_hits,
+            "denominator": len(benign_rows),
+            "notes": "",
+        }
+    )
+    rows.append(
+        {
+            "group": "overall",
+            "value": "all",
+            "metric": "specificity",
+            "rate": "" if len(benign_rows) == 0 else f"{true_negative_hits / len(benign_rows):.6f}",
+            "numerator": true_negative_hits,
+            "denominator": len(benign_rows),
+            "notes": "",
+        }
+    )
 
-    risk_types = sorted({row["risk_type"] for row in normalized})
+    risk_types = sorted({row["risk_type"] for row in risk_rows})
     for risk_type in risk_types:
-        members = [row for row in normalized if row["risk_type"] == risk_type]
+        members = [row for row in risk_rows if row["risk_type"] == risk_type]
         hits = sum(1 for row in members if row["risk_type_detected"])
         rows.append(
             {
@@ -239,9 +311,9 @@ def compute_metric_rows(records: list[dict[str, Any]], control_rows: list[dict[s
             }
         )
 
-    artifacts = sorted({row["relevant_artifact"] for row in normalized})
+    artifacts = sorted({row["relevant_artifact"] for row in risk_rows})
     for artifact in artifacts:
-        members = [row for row in normalized if row["relevant_artifact"] == artifact]
+        members = [row for row in risk_rows if row["relevant_artifact"] == artifact]
         hits = sum(1 for row in members if row["risk_type_detected"])
         rows.append(
             {
@@ -327,7 +399,7 @@ def run_experiment(
     emit_status: bool = True,
 ) -> dict[str, Any]:
     ensure_directories([RESULTS_DIR, RAW_RESULTS_DIR])
-    risk_rows, prompt_template = validate_setup()
+    risk_rows, benign_rows, prompt_template = validate_setup()
 
     status = {
         "experiment": "Security Guard Detection Rate",
@@ -359,6 +431,32 @@ def run_experiment(
             detected_risk_types, triggered_signals = run_local_guard(case_row)
             completed_at = utc_timestamp()
             normalized_result = normalize_local_result(case_row, detected_risk_types, triggered_signals)
+            records.append(
+                {
+                    "raw_output": {
+                        "experiment": "security_guard_detection_rate",
+                        "case_id": case_row["case_id"],
+                        "guard_mode": "local-rules",
+                        "provider": None,
+                        "model": "local-rules",
+                        "prompt_path": None,
+                        "case_input": case_row,
+                        "response_text": None,
+                        "response_json": {
+                            "detected_risk_types": detected_risk_types,
+                            "triggered_signals": triggered_signals,
+                        },
+                        "started_at_utc": started_at,
+                        "completed_at_utc": completed_at,
+                    },
+                    "normalized_result": normalized_result,
+                }
+            )
+        for case_row in benign_rows:
+            started_at = utc_timestamp()
+            detected_risk_types, triggered_signals = run_local_guard_text(case_row["user_request"])
+            completed_at = utc_timestamp()
+            normalized_result = normalize_local_control_result(case_row, detected_risk_types, triggered_signals)
             records.append(
                 {
                     "raw_output": {
@@ -419,6 +517,37 @@ def run_experiment(
                     "normalized_result": normalized_result,
                 }
             )
+        for case_row in benign_rows:
+            prompt = render_prompt_template(
+                prompt_template,
+                {
+                    "CASE_ID": case_row["case_id"],
+                    "SCENARIO": case_row["user_request"],
+                },
+            )
+            started_at = utc_timestamp()
+            response_text, provider_response_json = call_model(prompt, config)
+            completed_at = utc_timestamp()
+            parsed_json = parse_json_object(response_text)
+            normalized_result = normalize_model_control_result(case_row, parsed_json)
+            records.append(
+                {
+                    "raw_output": {
+                        "experiment": "security_guard_detection_rate",
+                        "case_id": case_row["case_id"],
+                        "guard_mode": "model",
+                        "provider": config.provider,
+                        "model": config.model,
+                        "prompt_path": relative_display(PROMPT_PATH),
+                        "case_input": case_row,
+                        "response_text": response_text,
+                        "response_json": provider_response_json,
+                        "started_at_utc": started_at,
+                        "completed_at_utc": completed_at,
+                    },
+                    "normalized_result": normalized_result,
+                }
+            )
 
     raw_output_path = RAW_RESULTS_DIR / f"security_guard_{filename_timestamp()}.jsonl"
     write_jsonl(raw_output_path, records)
@@ -448,7 +577,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dry-run", action="store_true", help="Validate inputs and prompts without live execution.")
     parser.add_argument("--run-live", action="store_true", help="Execute the selected guard.")
     parser.add_argument("--guard", choices=["local-rules", "model"], default="local-rules", help="Guard backend.")
-    parser.add_argument("--provider", choices=["openai", "anthropic", "longcat"], help="Preferred model provider.")
+    parser.add_argument("--provider", choices=["openai", "anthropic", "longcat", "deepseek"], help="Preferred model provider.")
     parser.add_argument("--model", help="Model name for the model-backed guard.")
     return parser.parse_args()
 
