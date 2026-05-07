@@ -1,5 +1,7 @@
 # SkillOps Paper and Artifacts
 
+[![DOI](https://zenodo.org/badge/1222288144.svg)](https://doi.org/10.5281/zenodo.20061198)
+
 SkillOps paper and reproducible artifacts for designing, testing, and
 operating modular skills in personal AI agents.
 
@@ -39,6 +41,15 @@ author:
 
 These repositories are treated as exploratory engineering evidence and case
 material. They are not presented as proof of broad empirical validation.
+
+## Citation
+
+Archived release:
+
+- Version DOI for `v0.1.1`: https://doi.org/10.5281/zenodo.20061199
+- Latest-version DOI: https://doi.org/10.5281/zenodo.20061198
+
+If you cite this artifact snapshot, please cite the version DOI for `v0.1.1`.
 
 ## Benchmark Inputs
 
