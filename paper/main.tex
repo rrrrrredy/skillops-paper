@@ -592,11 +592,11 @@ categories:
 \end{itemize}
 
 The repository includes manually constructed benchmark inputs and
-generated descriptive outputs. \texttt{benchmark/skill\_samples.csv} profiles
-five artifacts, \texttt{benchmark/trigger\_cases.csv} contains 36 trigger
-cases, and \texttt{benchmark/risk\_cases.csv} contains 24 operational-risk
-cases. Running \texttt{scripts/run\_all.py} regenerates summary tables under
-\texttt{results/tables/} and SVG figures under \texttt{figures/}. Because the
+generated descriptive outputs. \path{benchmark/skill_samples.csv} profiles
+five artifacts, \path{benchmark/trigger_cases.csv} contains 36 trigger
+cases, and \path{benchmark/risk_cases.csv} contains 24 operational-risk
+cases. Running \path{scripts/run_all.py} regenerates summary tables under
+\path{results/tables/} and SVG figures under \path{figures/}. Because the
 benchmark is manually constructed and exploratory, these outputs should be read
 as descriptive summaries rather than as statistical evidence or broad empirical
 validation. The repository also includes executable repository-level
@@ -636,7 +636,7 @@ This revision reports four evidence layers currently versioned in the
 repository. The first is a descriptive layer derived from manually constructed
 benchmark artifacts. The second is a deterministic repository-check layer. The
 third is a controlled repeated pilot on a single provider and model,
-\texttt{deepseek/deepseek-chat}, preserved under \texttt{results/experiments/}.
+\texttt{deepseek/deepseek-chat}, preserved under \path{results/experiments/}.
 The fourth is a set of earlier pilot artifacts retained for provenance and
 supplementary inspection. All four layers are exploratory. The benchmark cases
 are manually constructed from public artifact inspection rather than sampled
@@ -704,8 +704,8 @@ interpretation.}
 \subsection{Descriptive Benchmark Summaries}
 
 The descriptive benchmark layer documents benchmark composition and artifact
-coding only. Running \texttt{scripts/run\_all.py} regenerates summary tables
-under \texttt{results/tables/} and SVG figures under \texttt{figures/}, but
+coding only. Running \path{scripts/run_all.py} regenerates summary tables
+under \path{results/tables/} and SVG figures under \path{figures/}, but
 it does not execute the five source repositories or score routing, linting,
 scanning, or self-audit behavior.
 
@@ -821,7 +821,7 @@ operational-risk benchmark.}
 
 \subsection{Repository-Level Consistency Checks}
 
-The repository includes \texttt{scripts/run\_tests.py}, a deterministic
+The repository includes \path{scripts/run_tests.py}, a deterministic
 repository-level test suite for consistency and traceability checks. In the
 current repository state, the suite covers benchmark schema, result
 reproducibility, paper-claim consistency, public-presentation constraints, SVG
@@ -870,22 +870,22 @@ broad security validation.
 \paragraph{Memory drift.}
 
 Across 198 raw rows, the full policy condition recorded stale-information usage
-0.000000 and correct-forgetting 1.000000. The \texttt{no_forgetting}
+0.000000 and correct-forgetting 1.000000. The \texttt{no\_forgetting}
 condition recorded stale-information usage 0.045455 and correct-forgetting
-0.000000, while \texttt{current_context_only} also recorded stale-information
+0.000000, while \texttt{current\_context\_only} also recorded stale-information
 usage 0.000000. In this pilot, the observed pattern suggests that an explicit
 forgetting or retirement policy is useful when memory continuity is required.
 
 \paragraph{Aligned ablation.}
 
 Across 648 raw rows, and as a preliminary summary that should not be read as
-broad empirical validation, \texttt{full_skillops} reached mean F1 0.750119,
-\texttt{no_trigger_boundary} reached 0.731707, and \texttt{freeform_only}
+broad empirical validation, \texttt{full\_skillops} reached mean F1 0.750119,
+\texttt{no\_trigger\_boundary} reached 0.731707, and \texttt{freeform\_only}
 reached 0.750000. Their false-trigger rates were 0.111111, 0.250000, and
 0.166667, respectively. In this repeated single-provider pilot, the observed
 pattern suggests that explicit trigger boundaries may reduce false triggers
 relative to removing the boundary, while overall F1 remained close to the
-\texttt{freeform_only} variant. No statistical significance is claimed for
+\texttt{freeform\_only} variant. No statistical significance is claimed for
 these comparisons.
 
 \subsection{Earlier Pilot Artifacts}
@@ -907,9 +907,9 @@ earlier pilot artifacts preserve provenance. In this setting, these layers
 suggest that structured skill artifacts can support measurable checks and
 reviewable operational analysis, with the clearest observed patterns appearing
 in constraint compliance, memory forgetting, and lower false-trigger rates for
-\texttt{full_skillops} than \texttt{no_trigger_boundary} in the aligned
+\texttt{full\_skillops} than \texttt{no\_trigger\_boundary} in the aligned
 ablation while, in a comparison that should not be read as broad empirical
-validation, overall F1 remained close to \texttt{freeform_only}. They do not
+validation, overall F1 remained close to \texttt{freeform\_only}. They do not
 establish statistical significance, broad empirical validation, or general
 effectiveness across providers, external skill sets, or user populations.
 
