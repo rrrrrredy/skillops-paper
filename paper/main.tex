@@ -870,23 +870,23 @@ broad security validation.
 \paragraph{Memory drift.}
 
 Across 198 raw rows, the full policy condition recorded stale-information usage
-0.000000 and correct-forgetting 1.000000. The \texttt{no\_forgetting}
+0.000000 and correct-forgetting 1.000000. The \path{no_forgetting}
 condition recorded stale-information usage 0.045455 and correct-forgetting
-0.000000, while \texttt{current\_context\_only} also recorded stale-information
+0.000000, while \path{current_context_only} also recorded stale-information
 usage 0.000000. In this pilot, the observed pattern suggests that an explicit
 forgetting or retirement policy is useful when memory continuity is required.
 
 \paragraph{Aligned ablation.}
 
 Across 648 raw rows, and as a preliminary summary that should not be read as
-broad empirical validation, \texttt{full\_skillops} reached mean F1 0.750119,
-\texttt{no\_trigger\_boundary} reached 0.731707, and \texttt{freeform\_only}
+broad empirical validation, \path{full_skillops} reached mean F1 0.750119,
+\path{no_trigger_boundary} reached 0.731707, and \path{freeform_only}
 reached 0.750000. Their false-trigger rates were 0.111111, 0.250000, and
 0.166667, respectively. In this repeated single-provider pilot, the observed
 pattern suggests that explicit trigger boundaries may reduce false triggers
 relative to removing the boundary, while overall F1 remained close to the
-\texttt{freeform\_only} variant. No statistical significance is claimed for
-these comparisons.
+\path{freeform_only} variant. No statistical significance is claimed for these
+comparisons.
 
 \subsection{Earlier Pilot Artifacts}
 
@@ -907,9 +907,9 @@ earlier pilot artifacts preserve provenance. In this setting, these layers
 suggest that structured skill artifacts can support measurable checks and
 reviewable operational analysis, with the clearest observed patterns appearing
 in constraint compliance, memory forgetting, and lower false-trigger rates for
-\texttt{full\_skillops} than \texttt{no\_trigger\_boundary} in the aligned
-ablation while, in a comparison that should not be read as broad empirical
-validation, overall F1 remained close to \texttt{freeform\_only}. They do not
+\path{full_skillops} than \path{no_trigger_boundary} in the aligned ablation
+while, in a comparison that should not be read as broad empirical validation,
+overall F1 remained close to \path{freeform_only}. These results do not
 establish statistical significance, broad empirical validation, or general
 effectiveness across providers, external skill sets, or user populations.
 
