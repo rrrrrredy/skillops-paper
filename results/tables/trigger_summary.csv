@@ -1,0 +1,10 @@
+group,value,count
+expected_label,should_trigger,15
+expected_label,should_not_trigger,12
+expected_label,ambiguous,9
+relevant_skill,skill-design-guide,7
+relevant_skill,skill-security-guard,6
+relevant_skill,persistent-memory,7
+relevant_skill,agent-self-audit,4
+relevant_skill,lobster-guard,5
+relevant_skill,none,7

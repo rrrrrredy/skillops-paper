@@ -1,0 +1,14 @@
+group,value,count
+risk_type,prompt_injection,3
+risk_type,over_broad_trigger,3
+risk_type,unsafe_file_access,3
+risk_type,missing_constraints,3
+risk_type,stale_memory,3
+risk_type,missing_tests,3
+risk_type,identity_confusion,3
+risk_type,privacy_leakage,3
+relevant_artifact,skill-security-guard,5
+relevant_artifact,lobster-guard,5
+relevant_artifact,skill-design-guide,4
+relevant_artifact,persistent-memory,6
+relevant_artifact,agent-self-audit,4

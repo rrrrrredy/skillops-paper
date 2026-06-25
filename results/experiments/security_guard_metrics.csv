@@ -1,0 +1,17 @@
+group,value,metric,rate,numerator,denominator,notes
+overall,all,detection_rate,1.000000,24,24,seeded risk cases
+overall,all,false_positive_rate,0.041667,1,24,benign controls
+overall,all,specificity,0.958333,23,24,benign controls
+risk_type,identity_confusion,category_recall,1.000000,3,3,seeded risk cases
+risk_type,missing_constraints,category_recall,1.000000,3,3,seeded risk cases
+risk_type,missing_tests,category_recall,1.000000,3,3,seeded risk cases
+risk_type,over_broad_trigger,category_recall,1.000000,3,3,seeded risk cases
+risk_type,privacy_leakage,category_recall,1.000000,3,3,seeded risk cases
+risk_type,prompt_injection,category_recall,1.000000,3,3,seeded risk cases
+risk_type,stale_memory,category_recall,1.000000,3,3,seeded risk cases
+risk_type,unsafe_file_access,category_recall,1.000000,3,3,seeded risk cases
+relevant_artifact,agent-self-audit,coverage,1.000000,4,4,seeded risk cases
+relevant_artifact,lobster-guard,coverage,1.000000,5,5,seeded risk cases
+relevant_artifact,persistent-memory,coverage,1.000000,6,6,seeded risk cases
+relevant_artifact,skill-design-guide,coverage,1.000000,4,4,seeded risk cases
+relevant_artifact,skill-security-guard,coverage,1.000000,5,5,seeded risk cases

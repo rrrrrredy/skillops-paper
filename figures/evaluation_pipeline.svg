@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1250" height="280" viewBox="0 0 1250 280">
+<defs>
+<marker id="arrowhead" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" fill="#0f172a" />
+</marker>
+</defs>
+<rect width="1250" height="280" fill="#ffffff" />
+<text x="625.0" y="34" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#0f172a">Evaluation Pipeline</text>
+<line x1="270.0" y1="153.0" x2="298.0" y2="153.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="498.0" y1="153.0" x2="526.0" y2="153.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="726.0" y1="153.0" x2="754.0" y2="153.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<line x1="954.0" y1="153.0" x2="982.0" y2="153.0" stroke="#0f172a" stroke-width="2.5" marker-end="url(#arrowhead)" />
+<rect x="70.0" y="105.0" width="200.0" height="96.0" rx="18" ry="18" fill="#dbeafe" stroke="#0f172a" stroke-width="2.2" />
+<text x="170.0" y="147.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">artifact</text>
+<text x="170.0" y="167.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">inventory</text>
+<rect x="298.0" y="105.0" width="200.0" height="96.0" rx="18" ry="18" fill="#ecfccb" stroke="#0f172a" stroke-width="2.2" />
+<text x="398.0" y="147.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">manual</text>
+<text x="398.0" y="167.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">benchmark cases</text>
+<rect x="526.0" y="105.0" width="200.0" height="96.0" rx="18" ry="18" fill="#fae8ff" stroke="#0f172a" stroke-width="2.2" />
+<text x="626.0" y="157.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">scripts</text>
+<rect x="754.0" y="105.0" width="200.0" height="96.0" rx="18" ry="18" fill="#dbeafe" stroke="#0f172a" stroke-width="2.2" />
+<text x="854.0" y="157.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">result tables</text>
+<rect x="982.0" y="105.0" width="200.0" height="96.0" rx="18" ry="18" fill="#ecfccb" stroke="#0f172a" stroke-width="2.2" />
+<text x="1082.0" y="147.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">cautious</text>
+<text x="1082.0" y="167.0" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#0f172a">interpretation</text>
+</svg>
