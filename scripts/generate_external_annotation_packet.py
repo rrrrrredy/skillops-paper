@@ -323,6 +323,8 @@ def write_summary(
     family_counts = Counter(row["artifact_family_group"] for row in case_rows)
     case_type_counts = Counter(row["case_type"] for row in case_rows)
     source_counts = Counter(row["source_id"] for row in case_rows)
+    concrete_references = sum(1 for row in artifact_rows if row["selection_status"] == "metadata_candidate")
+    pending_slots = sum(1 for row in artifact_rows if row["selection_status"] == "target_slot_pending")
 
     lines = [
         "# External Annotation Packet",
@@ -334,7 +336,9 @@ def write_summary(
         markdown_table(
             ["Quantity", "Count"],
             [
-                ["Candidate artifacts", str(len(artifact_rows))],
+                ["Target artifact slots", str(len(artifact_rows))],
+                ["Concrete candidate references", str(concrete_references)],
+                ["Pending replacement slots", str(pending_slots)],
                 ["Base cases", str(len(case_rows))],
                 ["Annotation rows", str(len(annotation_rows))],
                 ["Condition rows", str(len(condition_rows))],

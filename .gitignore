@@ -149,6 +149,8 @@ activemq-data/
 
 # Environments
 .env
+.env.*
+!.env.example
 .envrc
 .venv
 env/
@@ -216,6 +218,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local experiment secrets and generated credential material
+*.local.env
+*.secret
+*.secrets
+secrets/
+local-secrets/
 
 # Local tool bootstrap
 .tools/

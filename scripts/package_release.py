@@ -15,6 +15,7 @@ SOURCE_ZIP = RELEASE_DIR / "skillops-paper-source.zip"
 SOURCE_FILES = [
     (REPO_ROOT / "paper" / "main.tex", "main.tex"),
     (REPO_ROOT / "paper" / "references.bib", "references.bib"),
+    (RELEASE_DIR / "main.bbl", "main.bbl"),
     (REPO_ROOT / "README.md", "README.md"),
 ]
 

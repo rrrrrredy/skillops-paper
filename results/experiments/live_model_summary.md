@@ -1,6 +1,7 @@
 # Live Model Experiment Summary
 
 These metrics are recomputed from raw JSONL outputs produced during live model calls.
+They are single-run metrics on manually constructed internal cases and do not establish statistical significance, broad generality, or model ranking.
 
 ## Constraint compliance
 

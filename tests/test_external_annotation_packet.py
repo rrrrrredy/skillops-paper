@@ -115,6 +115,9 @@ class ExternalAnnotationPacketTests(unittest.TestCase):
     def test_summary_states_no_collected_outcomes(self) -> None:
         text = SUMMARY_PATH.read_text(encoding="utf-8")
         self.assertIn("does not report collected annotations or behavioral outcomes", text)
+        self.assertIn("Target artifact slots | 240", text)
+        self.assertIn("Concrete candidate references | 232", text)
+        self.assertIn("Pending replacement slots | 8", text)
         self.assertIn("Base cases | 960", text)
         self.assertIn("Condition rows | 2880", text)
         self.assertIn("Eligibility rows | 240", text)

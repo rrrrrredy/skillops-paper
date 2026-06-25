@@ -40,6 +40,10 @@ class LiveModelResultsTests(unittest.TestCase):
 
         self.assertNotIn("reasoning_content", combined)
         self.assertNotIn('"role": "assistant"', combined)
+        self.assertNotIn('"raw_output"', combined)
+        self.assertNotIn('"response_text"', combined)
+        self.assertNotIn('"response_json"', combined)
+        self.assertIn('"run_metadata"', combined)
 
 
 if __name__ == "__main__":

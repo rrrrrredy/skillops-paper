@@ -1,12 +1,14 @@
 # External Artifact Selection
 
-This file records metadata-only candidate artifact references for the planned external-corpus study. It stores repository paths, upstream links, source versions, and selection bases; it does not copy third-party prose or code.
+This file records metadata-only candidate artifact references and pending replacement slots for the planned external-corpus study. It stores repository paths, upstream links, source versions, and selection bases; it does not copy third-party prose or code.
 
 ## Totals
 
 | Quantity | Count |
 | --- | --- |
-| Candidate artifact rows | 240 |
+| Target artifact slots | 240 |
+| Concrete candidate references | 232 |
+| Pending replacement slots | 8 |
 | Base cases | 960 |
 | Condition evaluations | 2880 |
 
@@ -40,7 +42,8 @@ This file records metadata-only candidate artifact references for the planned ex
 | --- | --- |
 | index_upstream_link | 20 |
 | manifest_directory | 24 |
-| readme_directory | 16 |
-| relevant_tree_path | 128 |
+| readme_directory | 15 |
+| relevant_tree_path | 106 |
 | skill_package_directory | 49 |
-| textlike_tree_path | 3 |
+| target_slot_pending | 8 |
+| textlike_tree_path | 18 |

@@ -36,6 +36,11 @@ def parse_args() -> argparse.Namespace:
         default="local-rules",
         help="Guard backend for the security experiment during live execution.",
     )
+    parser.add_argument(
+        "--include-ablation-live",
+        action="store_true",
+        help="Also run the live ablation study. By default live aggregation runs only the reported core protocols.",
+    )
     return parser.parse_args()
 
 
@@ -107,13 +112,14 @@ def main() -> int:
         model=args.model,
         emit_status=True,
     )
-    run_ablation_experiment.run_experiment(
-        dry_run=False,
-        run_live=True,
-        provider=args.provider,
-        model=args.model,
-        emit_status=True,
-    )
+    if args.include_ablation_live:
+        run_ablation_experiment.run_experiment(
+            dry_run=False,
+            run_live=True,
+            provider=args.provider,
+            model=args.model,
+            emit_status=True,
+        )
     return 0
 
 

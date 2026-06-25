@@ -59,7 +59,8 @@ class ExternalStatisticalAnalysisTests(unittest.TestCase):
         self.assertEqual(annotation_rows[0]["analysis_status"], "not_available")
 
         summary = SUMMARY_PATH.read_text(encoding="utf-8")
-        self.assertIn("does not claim statistical significance", summary)
+        self.assertIn("no statistical significance is claimed", summary)
+        self.assertIn("Diagnostic p, not inferential", summary)
 
 
 if __name__ == "__main__":

@@ -27,10 +27,13 @@ class ExternalResultSummaryTests(unittest.TestCase):
         rows = read_csv_rows(RESULT_SUMMARY_CSV_PATH)
         self.assertGreaterEqual(len(rows), 1)
         statuses = {row["status"] for row in rows}
-        self.assertTrue(statuses <= {"no_results", "computed_from_external_results"})
+        self.assertTrue(statuses <= {"no_results", "bounded_smoke_diagnostic"})
         if statuses == {"no_results"}:
-            self.assertEqual(rows[0]["metric"], "completed_records")
+            self.assertEqual(rows[0]["metric"], "bounded_smoke_records")
             self.assertEqual(rows[0]["numerator"], "0")
+        text = RESULT_SUMMARY_MD_PATH.read_text(encoding="utf-8")
+        self.assertIn("bounded smoke rows", text)
+        self.assertIn("not external validation", text)
 
     def test_external_statistical_summary_has_planned_metrics(self) -> None:
         rows = read_csv_rows(STAT_SUMMARY_CSV_PATH)
@@ -38,11 +41,14 @@ class ExternalResultSummaryTests(unittest.TestCase):
         self.assertIn("routing_correct", metrics)
         self.assertIn("constraint_compliance", metrics)
         self.assertIn("parse_success", metrics)
-        self.assertTrue({row["result_status"] for row in rows} <= {"no_results", "requires_statistical_model_run"})
+        self.assertTrue(
+            {row["result_status"] for row in rows}
+            <= {"no_results", "smoke_records_present_no_powered_inference"}
+        )
 
     def test_markdown_states_no_inferential_models(self) -> None:
         text = STAT_SUMMARY_MD_PATH.read_text(encoding="utf-8")
-        self.assertIn("does not run inferential models", text)
+        self.assertIn("powered annotated inference has not run", text)
 
 
 if __name__ == "__main__":

@@ -27,10 +27,10 @@ This plan selects a bounded, seeded 24-artifact pilot from within-cap external c
 | autogen-examples | 2 |
 | github-mcp-server | 6 |
 | langgraph-template | 2 |
-| open-webui-functions | 4 |
+| open-webui-functions | 5 |
 | openai-agents-js | 1 |
 | openai-agents-python | 1 |
-| prompts-chat | 2 |
+| prompts-chat | 1 |
 | voltagent-awesome | 6 |
 
 ## Owners
@@ -40,7 +40,7 @@ This plan selects a bounded, seeded 24-artifact pilot from within-cap external c
 | behisecc | 1 |
 | cosmoblk | 1 |
 | eronred | 1 |
-| f | 2 |
+| f | 1 |
 | github | 6 |
 | heshamfs | 1 |
 | langchain-ai | 2 |
@@ -48,7 +48,7 @@ This plan selects a bounded, seeded 24-artifact pilot from within-cap external c
 | mohamedabdallah-14 | 1 |
 | nvidia | 1 |
 | openai | 2 |
-| owndev | 4 |
+| owndev | 5 |
 
 ## Provider Rows
 

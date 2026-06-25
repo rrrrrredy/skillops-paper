@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import re
 import unittest
 from collections import Counter
 from pathlib import Path
@@ -37,6 +38,13 @@ EXPECTED_MODELS = {
     ("kimi", "kimi-k2.7-code"),
 }
 
+NON_CAPABILITY_REFERENCE_PATTERN = re.compile(
+    r"(^|/)(\.github|\.gitlab|canvas-fonts|fonts?|licenses?)(/|$)|"
+    r"(^|/)(funding\.yml|license(\.md|\.txt)?|copying|notice|codeowners|dependabot[^/]*)$|"
+    r"(^|/)[^/]*ofl\.txt$",
+    re.IGNORECASE,
+)
+
 
 def read_csv_rows(path: Path) -> list[dict[str, str]]:
     with path.open("r", encoding="utf-8", newline="") as handle:
@@ -59,6 +67,7 @@ class ExternalPilotPlanTests(unittest.TestCase):
         self.assertTrue(all(count == 6 for count in Counter(row["study_family"] for row in rows).values()))
         self.assertGreaterEqual(len({row["source_owner"] for row in rows}), 8)
         self.assertGreaterEqual(len({row["source_id"] for row in rows}), 6)
+        self.assertFalse(any(NON_CAPABILITY_REFERENCE_PATTERN.search(row["artifact_reference"]) for row in rows))
 
     def test_condition_plan_maps_four_cases_and_three_conditions_per_artifact(self) -> None:
         artifact_rows = read_csv_rows(PILOT_ARTIFACTS_PATH)

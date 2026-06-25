@@ -42,7 +42,7 @@ Status `passed` unless noted otherwise.
 31. `python scripts/prepare_external_pilot_plan.py`
 32. `python scripts/run_external_pilot_experiment.py --dry-run`
 33. `python scripts/generate_external_pilot_annotation_calibration.py`
-34. `D:\codex-work\.tools\tectonic-0.16.9\tectonic.exe -o release paper\main.tex`
+34. `tectonic -o release paper/main.tex`
 35. `python scripts/package_release.py`
 
 ## Outputs Generated

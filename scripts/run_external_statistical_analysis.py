@@ -365,7 +365,7 @@ def write_markdown(records: list[dict[str, Any]], primary_rows: list[dict[str, A
     lines = [
         "# External Statistical Analysis",
         "",
-        "This report computes descriptive paired contrasts and robustness-ready tables from external live-result records. It does not claim statistical significance unless a full annotated external run is present.",
+        "This report computes descriptive paired contrasts and robustness-ready tables from external live-result records. The current rows are bounded smoke diagnostics unless a full annotated external run is present; no statistical significance is claimed.",
         "",
         "## Record State",
         "",
@@ -397,7 +397,7 @@ def write_markdown(records: list[dict[str, Any]], primary_rows: list[dict[str, A
         "## McNemar Diagnostics",
         "",
         markdown_table(
-            ["Contrast", "Provider/model", "Pairs", "Statistic", "Approx p", "Status"],
+            ["Contrast", "Provider/model", "Pairs", "Statistic", "Diagnostic p, not inferential", "Status"],
             [
                 [
                     row["contrast"],

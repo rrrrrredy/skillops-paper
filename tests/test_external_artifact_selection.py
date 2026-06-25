@@ -44,6 +44,13 @@ PROHIBITED_REFERENCE_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
+NON_CAPABILITY_REFERENCE_PATTERN = re.compile(
+    r"(^|/)(\.github|\.gitlab|canvas-fonts|fonts?|licenses?)(/|$)|"
+    r"(^|/)(funding\.yml|license(\.md|\.txt)?|copying|notice|codeowners|dependabot[^/]*)$|"
+    r"(^|/)[^/]*ofl\.txt$",
+    re.IGNORECASE,
+)
+
 
 def read_csv_rows(path: Path) -> list[dict[str, str]]:
     with path.open("r", encoding="utf-8", newline="") as handle:
@@ -68,6 +75,8 @@ class ExternalArtifactSelectionTests(unittest.TestCase):
         self.assertEqual(sum(int(row["condition_evaluation_count"]) for row in rows), 2880)
         self.assertTrue(all(row["artifact_reference"] for row in rows))
         self.assertTrue(all(row["content_boundary"] == "metadata_only_no_third_party_prose_or_code_copied" for row in rows))
+        self.assertEqual(sum(1 for row in rows if row["selection_status"] == "metadata_candidate"), 232)
+        self.assertEqual(sum(1 for row in rows if row["selection_status"] == "target_slot_pending"), 8)
 
     def test_external_artifact_selection_is_metadata_only(self) -> None:
         rows = read_csv_rows(SELECTION_PATH)
@@ -78,9 +87,12 @@ class ExternalArtifactSelectionTests(unittest.TestCase):
         self.assertIn("index_upstream_link", bases)
         self.assertFalse(any(re.search(r"\n|```", row["artifact_reference"]) for row in rows))
         self.assertFalse(any(PROHIBITED_REFERENCE_PATTERN.search(row["artifact_reference"]) for row in rows))
+        self.assertFalse(any(NON_CAPABILITY_REFERENCE_PATTERN.search(row["artifact_reference"]) for row in rows))
 
         summary = SUMMARY_MD_PATH.read_text(encoding="utf-8")
         self.assertIn("does not copy third-party prose or code", summary)
+        self.assertIn("Concrete candidate references | 232", summary)
+        self.assertIn("Pending replacement slots | 8", summary)
 
 
 if __name__ == "__main__":

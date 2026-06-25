@@ -58,6 +58,7 @@ class PublicPresentationTests(unittest.TestCase):
         with zipfile.ZipFile(RELEASE_SOURCE_ZIP_PATH) as package:
             names = set(package.namelist())
             self.assertIn("main.tex", names)
+            self.assertIn("main.bbl", names)
             self.assertIn("references.bib", names)
             self.assertIn("README.md", names)
             for name in sorted(names):

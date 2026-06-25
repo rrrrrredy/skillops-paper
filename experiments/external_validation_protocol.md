@@ -15,6 +15,13 @@ The sampling frame is `benchmark/external_artifact_corpus_sources.csv`. It cover
 
 For each artifact, record source URL, version or commit, license status, artifact family, capability surface, trigger boundary, context boundary, execution constraints, tests, security controls, memory behavior, and retirement signals. Text reuse is limited to artifacts with compatible licenses; metadata-only rows are kept for discovery and stratification.
 
+Author-ecosystem exclusion means the external frame must not sample repositories
+owned by the paper author, this paper repository, or the author's own SkillOps
+and skill artifacts. Provider-adjacent framework examples may remain as
+third-party contrast classes when their source owners, version pins, and
+metadata-only boundaries are explicit; they are not treated as author-authored
+evidence.
+
 ## Executable Case Scaffold
 
 The executable scaffold is split into schema, seed, allocation, and annotation files:

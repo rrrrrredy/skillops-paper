@@ -13,10 +13,36 @@ if str(SCRIPTS_DIR) not in sys.path:
 from experiment_utils import RAW_RESULTS_DIR, relative_display, sanitize_provider_response  # noqa: E402
 
 
+METADATA_KEYS = {
+    "case_id",
+    "completed_at_utc",
+    "condition",
+    "experiment",
+    "guard_mode",
+    "model",
+    "prompt_path",
+    "prompt_variant",
+    "provider",
+    "started_at_utc",
+}
+
+
 def sanitize_record(record: dict[str, Any]) -> dict[str, Any]:
     raw_output = record.get("raw_output")
-    if isinstance(raw_output, dict) and "response_json" in raw_output:
-        raw_output["response_json"] = sanitize_provider_response(raw_output["response_json"])
+    if isinstance(raw_output, dict):
+        metadata = {
+            key: raw_output.get(key)
+            for key in sorted(METADATA_KEYS)
+            if key in raw_output and raw_output.get(key) is not None
+        }
+        if "response_json" in raw_output:
+            sanitized_response = sanitize_provider_response(raw_output["response_json"])
+            usage = sanitized_response.get("usage") if isinstance(sanitized_response, dict) else None
+            if usage is not None:
+                metadata["usage"] = usage
+        if metadata:
+            record["run_metadata"] = metadata
+        record.pop("raw_output", None)
     return record
 
 

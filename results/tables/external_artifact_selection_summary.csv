@@ -1,5 +1,7 @@
 group,value,metric,count,notes
-overall,target_artifacts,count,240,Metadata-only candidate rows selected from the external allocation.
+overall,target_artifacts,count,240,"Target rows in the external allocation, including concrete references and pending replacement slots."
+overall,concrete_candidate_references,count,232,Concrete metadata-only third-party references selected from source trees or indexes.
+overall,pending_replacement_slots,count,8,Unfilled target slots that require eligibility review and replacement before outcome-bearing execution.
 overall,base_cases,count,960,Four base cases are planned per candidate artifact.
 overall,condition_evaluations,count,2880,Each base case is crossed with three representation conditions.
 study_family,agent_skills,count,80,
@@ -16,10 +18,12 @@ source_id,openai-agents-js,count,14,
 source_id,openai-agents-python,count,14,
 source_id,prompts-chat,count,25,
 source_id,voltagent-awesome,count,20,
-selection_status,metadata_candidate,count,240,
+selection_status,metadata_candidate,count,232,
+selection_status,target_slot_pending,count,8,
 selection_basis,index_upstream_link,count,20,
 selection_basis,manifest_directory,count,24,
-selection_basis,readme_directory,count,16,
-selection_basis,relevant_tree_path,count,128,
+selection_basis,readme_directory,count,15,
+selection_basis,relevant_tree_path,count,106,
 selection_basis,skill_package_directory,count,49,
-selection_basis,textlike_tree_path,count,3,
+selection_basis,target_slot_pending,count,8,
+selection_basis,textlike_tree_path,count,18,

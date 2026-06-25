@@ -6,7 +6,9 @@ This file summarizes the planned annotation packet derived from metadata-only ex
 
 | Quantity | Count |
 | --- | --- |
-| Candidate artifacts | 240 |
+| Target artifact slots | 240 |
+| Concrete candidate references | 232 |
+| Pending replacement slots | 8 |
 | Base cases | 960 |
 | Annotation rows | 960 |
 | Condition rows | 2880 |

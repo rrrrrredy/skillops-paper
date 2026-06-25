@@ -1,6 +1,6 @@
 # External Statistical Analysis
 
-This report computes descriptive paired contrasts and robustness-ready tables from external live-result records. It does not claim statistical significance unless a full annotated external run is present.
+This report computes descriptive paired contrasts and robustness-ready tables from external live-result records. The current rows are bounded smoke diagnostics unless a full annotated external run is present; no statistical significance is claimed.
 
 ## Record State
 
@@ -21,7 +21,7 @@ This report computes descriptive paired contrasts and robustness-ready tables fr
 
 ## McNemar Diagnostics
 
-| Contrast | Provider/model | Pairs | Statistic | Approx p | Status |
+| Contrast | Provider/model | Pairs | Statistic | Diagnostic p, not inferential | Status |
 | --- | --- | --- | --- | --- | --- |
 | skillops_normalized_vs_original_freeform | deepseek::deepseek-v4-flash | 4 |  |  | no_discordant_pairs |
 | skillops_normalized_vs_skillops_ablation | deepseek::deepseek-v4-flash | 4 |  |  | no_discordant_pairs |

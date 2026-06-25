@@ -1,9 +1,9 @@
 # Executable Test Report
 
 - Command run: `python scripts/run_tests.py`
-- Run date: `2026-06-25`
+- Run date: `2026-06-26`
 - Pass/fail status: `passed`
-- Summary: `25/25 tests passed`
+- Summary: `126 discovered, 126 passed`
 
 ## Tests Executed
 
@@ -13,6 +13,14 @@
 - `tests/test_public_presentation.py`
 - `tests/test_svg_figures.py`
 - `tests/test_evidence_matrix.py`
+- `tests/test_external_artifact_selection.py`
+- `tests/test_external_pilot_plan.py`
+- `tests/test_live_model_results.py`
+- `tests/test_requirements_closure_audit.py`
+- `tests/test_secure_live_experiment_runbook.py`
+- `tests/test_submission_execution_checklist.py`
+- `tests/test_submission_metadata_payload.py`
+- `tests/test_submission_package_manifest.py`
 
 ## What the Tests Verify
 
@@ -35,6 +43,12 @@
   contain the expected diagram labels.
 - The evidence matrix and execution log exist, distinguish `passed` from
   `not run`, and explicitly record missing execution layers.
+- External artifact selection and pilot plans avoid non-capability repository
+  metadata such as license, font, funding, and CI workflow files.
+- Live raw result files retain normalized metrics and run metadata without
+  provider response bodies or model response text.
+- Submission and requirements closure documents remain aligned with release
+  assets, hashes, DOI, and non-automatable account boundaries.
 
 ## What the Tests Do Not Verify
 

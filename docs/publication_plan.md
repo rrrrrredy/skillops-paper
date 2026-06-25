@@ -4,8 +4,8 @@
 
 Use an immutable release citation for the submitted paper package:
 
-- GitHub release: https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.0.0
-- Zenodo version DOI: https://doi.org/10.5281/zenodo.20838908
+- GitHub release: https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.1.0
+- Zenodo version DOI: https://doi.org/10.5281/zenodo.20844038
 - Zenodo concept DOI: https://doi.org/10.5281/zenodo.20061198
 
 The version DOI is the right citation for a submitted paper because it fixes the
@@ -13,15 +13,16 @@ exact artifact snapshot. The concept DOI is useful as a moving reference to the
 release family.
 
 Zenodo account linking and metadata edits require an authenticated Zenodo
-session or API token. The GitHub-Zenodo release record already exists; editing
-or merging older records cannot be done from the repository alone.
+session or API token. The GitHub-Zenodo release record exists for `v1.1.0`
+as record `20844038`; editing or merging older records cannot be done from the
+repository alone.
 
-For the next public version, do not overwrite the existing `v1.0.0` release.
-Create a new GitHub release after the final commit and let Zenodo mint a new
-version DOI through the GitHub integration. Zenodo's GitHub guide states that,
-once a repository is connected, new GitHub releases are automatically ingested
-and archived, while GitHub's own documentation states that Zenodo issues a new
-DOI each time a new GitHub release is created:
+For subsequent public versions, do not overwrite the existing `v1.1.0` release.
+Create a new GitHub release only after the final commit and let Zenodo mint the
+next version DOI through the GitHub integration. Zenodo's GitHub guide states
+that, once a repository is connected, new GitHub releases are automatically
+ingested and archived, while GitHub's own documentation states that Zenodo
+issues a new DOI each time a new GitHub release is created:
 
 - Zenodo GitHub guide: https://help.zenodo.org/docs/github/
 - Zenodo enable-repository guide: https://help.zenodo.org/docs/github/enable-repository/
@@ -80,10 +81,10 @@ venue hosted on OpenReview.
 | --- | --- | --- | --- |
 | FSE 2027 | Research full paper due October 2, 2026. Source: https://conf.researchr.org/home/fse-2027 | Software-engineering lifecycle and artifact governance | Best long-paper fit for the current contribution shape. Emphasize artifact lifecycle, reproducibility, tests, and evidence boundaries. |
 | CHI 2027 | Full paper due September 10, 2026; no abstract deadline. Source: https://chi2027.acm.org/authors/papers/ | Personal agents, HCI, workflow design | Strong if the pilot annotation or expert/user study is completed before submission. |
-| IUI 2027 | Abstract August 13, 2026; full paper August 20, 2026. Source: https://iui.acm.org/2026/ | Intelligent interfaces and human-centered agent tooling | Good if a compact expert-review or annotation-calibration result is completed soon. |
+| IUI 2027 | Abstract August 13, 2026; full paper August 20, 2026. Source: https://iui.acm.org/2027/ | Intelligent interfaces and human-centered agent tooling | Good if a compact expert-review or annotation-calibration result is completed soon. |
 | AAAI 2027 | Abstract July 21, 2026; full paper July 28, 2026. Source: https://aaai.org/conference/aaai/aaai-27/ | General AI and agent systems | Time is tight; submit only if the argument is compressed around agent reliability and the current evidence is not overextended. |
 | ICSE 2027 Research Track | Mandatory abstract June 23, 2026; paper June 30, 2026. Source: https://conf.researchr.org/track/icse-2027/icse-2027-research-track | Software engineering | Main-track abstract registration has passed as of June 25, 2026. Consider ICSE colocated tracks with October 2026 deadlines if the scope matches. |
-| NeurIPS 2026 E\&D | Abstract May 4, 2026; full paper May 6, 2026. Source: https://neurips.cc/Conferences/2026/CallForEvaluationsDatasets | Evaluation artifacts and benchmarks | Main E\&D deadline has passed. Workshops may be possible only through accepted workshop calls and their own deadlines. |
+| NeurIPS 2026 E\&D / workshops | E\&D full paper deadline passed on May 6, 2026; workshop contribution timing depends on accepted workshop calls. Sources: https://neurips.cc/Conferences/2026/CallForEvaluationsDatasets and https://neurips.cc/Conferences/2026/CallForWorkshops | Evaluation artifacts and benchmarks | Main E\&D deadline has passed. Consider only a matching accepted workshop with a live submission call. |
 | ICLR 2027 | Official future-meetings page lists West Coast North America, but no checked submission deadline yet. Source: https://iclr.cc/Conferences/FutureMeetings | Agent learning and evaluation | Monitor official ICLR/OpenReview pages; likely needs stronger quantitative results than the current paper. |
 | AAMAS 2027 | OpenReview venue exists, but checked public page did not expose deadlines. Source: https://openreview.net/group?id=ifaamas.org/AAMAS/2027/Conference | Autonomous agents and multi-agent systems | Monitor deadline release; fit improves with broader agent-environment evidence and ablations. |
 

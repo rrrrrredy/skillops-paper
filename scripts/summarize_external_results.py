@@ -120,7 +120,7 @@ def summarize_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
             metric_row(
                 "overall",
                 "external_condition_results",
-                "completed_records",
+                "bounded_smoke_records",
                 0,
                 0,
                 "no_results",
@@ -129,15 +129,16 @@ def summarize_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
         ]
 
     rows: list[dict[str, Any]] = []
-    completed_records = [record for record in records if record["run_status"] == "completed"]
+    completed_smoke_records = [record for record in records if record["run_status"] == "completed"]
     rows.append(
         metric_row(
             "overall",
             "external_condition_results",
-            "completed_records",
-            len(completed_records),
+            "bounded_smoke_records",
+            len(completed_smoke_records),
             len(records),
-            "computed_from_external_results",
+            "bounded_smoke_diagnostic",
+            "Bounded smoke rows only; not an external validation result or model ranking.",
         )
     )
 
@@ -155,8 +156,8 @@ def summarize_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 subset = [record for record in records if record[group] == value]
             parse_hits = sum(1 for record in subset if bool(record["parse_success"]))
             behavior_hits = sum(1 for record in subset if record["predicted_behavior"] == record["expected_behavior"])
-            rows.append(metric_row(group, value, "parse_success_rate", parse_hits, len(subset), "computed_from_external_results"))
-            rows.append(metric_row(group, value, "behavior_match_rate", behavior_hits, len(subset), "computed_from_external_results"))
+            rows.append(metric_row(group, value, "parse_success_rate", parse_hits, len(subset), "bounded_smoke_diagnostic"))
+            rows.append(metric_row(group, value, "behavior_match_rate", behavior_hits, len(subset), "bounded_smoke_diagnostic"))
 
     risk_records = [record for record in records if record["case_type"] == "risk_constraint"]
     if risk_records:
@@ -168,7 +169,7 @@ def summarize_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "constraint_pass_rate",
                 constraint_hits,
                 len(risk_records),
-                "computed_from_external_results",
+                "bounded_smoke_diagnostic",
             )
         )
     return rows
@@ -176,11 +177,11 @@ def summarize_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 def build_stat_summary(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     plan_rows = read_csv_rows(STAT_PLAN_CSV_PATH)
-    status = "no_results" if not records else "requires_statistical_model_run"
+    status = "no_results" if not records else "smoke_records_present_no_powered_inference"
     notes = (
         "No external live-result records are available."
         if not records
-        else "External records are available; inferential statistical modeling is not run by this summary script."
+        else "Bounded smoke records are available; powered annotated inference has not run."
     )
     return [
         {
@@ -209,6 +210,7 @@ def write_markdown(summary_rows: list[dict[str, Any]], stat_rows: list[dict[str,
         "# External Result Summary",
         "",
         "This summary is computed only from external condition live-result JSONL files. When none are present, it reports a no-results boundary.",
+        "Current records are bounded smoke rows over the first external shard prefix; they are execution-path diagnostics, not external validation, statistical significance, or model ranking.",
         "",
         markdown_table(
             ["Group", "Value", "Metric", "Count", "Rate", "Status"],
@@ -231,7 +233,7 @@ def write_markdown(summary_rows: list[dict[str, Any]], stat_rows: list[dict[str,
     stat_lines = [
         "# External Statistical Summary",
         "",
-        "This file tracks whether planned external statistical metrics have live-result inputs. It does not run inferential models.",
+        "This file tracks whether planned external statistical metrics have live-result inputs. Bounded smoke rows may be present, but powered annotated inference has not run.",
         "",
         markdown_table(
             ["Metric", "Planned status", "Result status", "Records"],

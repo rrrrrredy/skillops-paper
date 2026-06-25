@@ -66,9 +66,12 @@ def _read_jsonl(path: Path) -> list[dict[str, Any]]:
     return records
 
 
-def _first_raw_output(records: list[dict[str, Any]]) -> dict[str, Any]:
+def _first_run_metadata(records: list[dict[str, Any]]) -> dict[str, Any]:
     if not records:
         return {}
+    metadata = records[0].get("run_metadata", {})
+    if isinstance(metadata, dict) and metadata:
+        return metadata
     raw_output = records[0].get("raw_output", {})
     return raw_output if isinstance(raw_output, dict) else {}
 
@@ -98,10 +101,10 @@ def _metric_value(row: dict[str, Any]) -> str:
 
 def summarize_raw_file(path: Path) -> list[dict[str, Any]]:
     records = _read_jsonl(path)
-    raw_output = _first_raw_output(records)
-    experiment = str(raw_output.get("experiment", "")).strip()
-    provider = str(raw_output.get("provider", "")).strip()
-    model = str(raw_output.get("model", "")).strip()
+    metadata = _first_run_metadata(records)
+    experiment = str(metadata.get("experiment", "")).strip()
+    provider = str(metadata.get("provider", "")).strip()
+    model = str(metadata.get("model", "")).strip()
 
     if not provider or provider == "None" or provider == "null":
         return []
@@ -135,6 +138,7 @@ def _write_markdown(rows: list[dict[str, Any]]) -> None:
         "# Live Model Experiment Summary",
         "",
         "These metrics are recomputed from raw JSONL outputs produced during live model calls.",
+        "They are single-run metrics on manually constructed internal cases and do not establish statistical significance, broad generality, or model ranking.",
         "",
     ]
 

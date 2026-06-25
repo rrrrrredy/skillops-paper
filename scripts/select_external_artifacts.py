@@ -85,6 +85,37 @@ RELEVANT_SEGMENTS = {
     "workflows",
 }
 
+NON_CAPABILITY_NAMES = {
+    "funding.yml",
+    "license",
+    "license.md",
+    "license.txt",
+    "copying",
+    "notice",
+    "readme.license",
+}
+
+NON_CAPABILITY_SEGMENTS = {
+    ".github",
+    ".gitlab",
+    "canvas-fonts",
+    "fonts",
+    "font",
+    "licenses",
+    "license",
+}
+
+NON_CAPABILITY_NAME_PATTERNS = [
+    re.compile(pattern, re.IGNORECASE)
+    for pattern in (
+        r"(^|[-_])ofl(\.|$)",
+        r"font[-_]?license",
+        r"codeowners",
+        r"dependabot",
+        r"funding",
+    )
+]
+
 PROHIBITED_PUBLIC_REFERENCE_PATTERNS = [
     re.compile(pattern, re.IGNORECASE)
     for pattern in (
@@ -143,7 +174,10 @@ def ensure_git_tree_cache(source: dict[str, str]) -> Path:
     if target.exists() and not (target / ".git").exists():
         raise RuntimeError(f"Cache path exists but is not a Git checkout: {target}")
     if (target / ".git").exists():
-        git_command(["fetch", "--depth", "1", "origin"], cwd=target)
+        try:
+            git_command(["fetch", "--depth", "1", "origin"], cwd=target)
+        except RuntimeError:
+            pass
     else:
         git_command(
             [
@@ -195,6 +229,22 @@ def add_candidate(
         candidates[reference] = (priority, basis)
 
 
+def is_capability_reference(path: PurePosixPath) -> bool:
+    name = path.name.lower()
+    segments = lower_segments(path)
+    if name in NON_CAPABILITY_NAMES:
+        return False
+    if segments & NON_CAPABILITY_SEGMENTS:
+        return False
+    if any(pattern.search(name) for pattern in NON_CAPABILITY_NAME_PATTERNS):
+        return False
+    if "workflow" in segments or "workflows" in segments:
+        return path.suffix.lower() in {".md", ".mdx", ".json", ".yaml", ".yml", ".py", ".js", ".ts"} and not (
+            ".github" in segments
+        )
+    return True
+
+
 def tree_path_candidates(paths: list[str]) -> list[tuple[str, str]]:
     candidates: dict[str, tuple[int, str]] = {}
     for raw_path in paths:
@@ -204,6 +254,8 @@ def tree_path_candidates(paths: list[str]) -> list[tuple[str, str]]:
         segments = lower_segments(path)
 
         if suffix in BINARY_OR_ASSET_SUFFIXES:
+            continue
+        if not is_capability_reference(path):
             continue
         if name == "skill.md":
             add_candidate(candidates, str(path.parent), 0, "skill_package_directory")
@@ -300,13 +352,29 @@ def build_selection_rows() -> list[dict[str, Any]]:
 
 
 def summarize(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    concrete_rows = [row for row in rows if row["selection_status"] == "metadata_candidate"]
+    pending_rows = [row for row in rows if row["selection_status"] == "target_slot_pending"]
     summary_rows: list[dict[str, Any]] = [
         {
             "group": "overall",
             "value": "target_artifacts",
             "metric": "count",
             "count": len(rows),
-            "notes": "Metadata-only candidate rows selected from the external allocation.",
+            "notes": "Target rows in the external allocation, including concrete references and pending replacement slots.",
+        },
+        {
+            "group": "overall",
+            "value": "concrete_candidate_references",
+            "metric": "count",
+            "count": len(concrete_rows),
+            "notes": "Concrete metadata-only third-party references selected from source trees or indexes.",
+        },
+        {
+            "group": "overall",
+            "value": "pending_replacement_slots",
+            "metric": "count",
+            "count": len(pending_rows),
+            "notes": "Unfilled target slots that require eligibility review and replacement before outcome-bearing execution.",
         },
         {
             "group": "overall",
@@ -360,14 +428,22 @@ def write_markdown(selection_rows: list[dict[str, Any]], summary_rows: list[dict
     lines = [
         "# External Artifact Selection",
         "",
-        "This file records metadata-only candidate artifact references for the planned external-corpus study. It stores repository paths, upstream links, source versions, and selection bases; it does not copy third-party prose or code.",
+        "This file records metadata-only candidate artifact references and pending replacement slots for the planned external-corpus study. It stores repository paths, upstream links, source versions, and selection bases; it does not copy third-party prose or code.",
         "",
         "## Totals",
         "",
         markdown_table(
             ["Quantity", "Count"],
             [
-                ["Candidate artifact rows", str(len(selection_rows))],
+                ["Target artifact slots", str(len(selection_rows))],
+                [
+                    "Concrete candidate references",
+                    str(sum(1 for row in selection_rows if row["selection_status"] == "metadata_candidate")),
+                ],
+                [
+                    "Pending replacement slots",
+                    str(sum(1 for row in selection_rows if row["selection_status"] == "target_slot_pending")),
+                ],
                 ["Base cases", str(sum(int(row["case_count"]) for row in selection_rows))],
                 ["Condition evaluations", str(sum(int(row["condition_evaluation_count"]) for row in selection_rows))],
             ],

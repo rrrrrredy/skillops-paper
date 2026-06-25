@@ -14,7 +14,7 @@ This inventory summarizes the major changes in the current working copy.
 - Added DeepSeek and Kimi/Moonshot provider support to the experiment utilities and runners.
 - Added current provider configuration tests.
 - Added live model summary generation and raw-output sanitization.
-- Preserved model names as experiment subjects while keeping public prose free of tool-process traces.
+- Preserved model names as experiment subjects while keeping public prose free of legacy implementation notes.
 
 ## Completed Live Evidence
 
@@ -36,7 +36,8 @@ This inventory summarizes the major changes in the current working copy.
 
 - Added external case schema and seed cases.
 - Added source allocation, case-plan, and condition-plan generation.
-- Added metadata-only artifact selection for 240 candidate references.
+- Added metadata-only artifact selection for a 240-slot external design: 232
+  concrete third-party references plus 8 pending replacement slots.
 - Added 960-case construction packet.
 - Added pending review and condition packets.
 - Added dry-run external condition manifest and shard summaries.
@@ -52,11 +53,14 @@ This inventory summarizes the major changes in the current working copy.
 - Added bounded external live smoke results for 16 metadata-only condition rows.
 - Added external result and statistical summary files that separate smoke
   metrics from inferential statistical claims.
+- Added account-side and external-study execution readiness covering Zenodo,
+  arXiv, OpenReview, human annotation, bounded provider pilots, and an
+  excluding-OpenAI sensitivity corpus plan.
 
 ## Tests
 
-- Expanded repository tests to cover provider configuration, live result hygiene, external corpus structure, external case scaffolding, artifact selection, annotation packets, dry-run manifests, representation payloads, pilot execution planning, pilot runner readiness, pilot annotation calibration, smoke-test planning, and external result summaries.
-- Final status: 90 tests discovered, 90 passed.
+- Expanded repository tests to cover provider configuration, live result hygiene, external corpus structure, external case scaffolding, artifact selection, annotation packets, dry-run manifests, representation payloads, pilot execution planning, pilot runner readiness, pilot annotation calibration, smoke-test planning, external result summaries, and account-side execution readiness.
+- Final status: 126 discovered, 126 passed.
 
 ## Remaining Work
 

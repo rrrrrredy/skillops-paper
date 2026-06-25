@@ -26,7 +26,7 @@ Song Luo\\
 \texttt{luosongred@gmail.com}
 }
 
-\date{April 2026}
+\date{June 2026}
 
 \begin{document}
 
@@ -669,8 +669,8 @@ deployed software systems.
 
 The public repository for this paper is
 \url{https://github.com/rrrrrredy/skillops-paper}. The versioned artifact
-release used for this revision is \texttt{v1.0.0} with Zenodo version DOI
-\href{https://doi.org/10.5281/zenodo.20838908}{10.5281/zenodo.20838908};
+release used for this revision is \texttt{v1.1.0} with Zenodo version DOI
+\href{https://doi.org/10.5281/zenodo.20844038}{10.5281/zenodo.20844038};
 the Zenodo concept DOI for the release family is
 \href{https://doi.org/10.5281/zenodo.20061198}{10.5281/zenodo.20061198}
 \citep{luo2026skillopsartifact}.
@@ -1042,9 +1042,9 @@ records, \path{experiments/external_case_seed.csv} provides seed cases,
 \path{results/tables/external_condition_plan.csv}, and
 \path{docs/annotation_guide.md} plus
 \path{docs/preregistration_template.md} specify labeling and pre-analysis
-rules. The scaffold assigns 240 target artifacts to source strata, yielding
-960 base cases and 2880 condition-level evaluations; these files are protocol
-artifacts, not outcome data.
+rules. The scaffold assigns 240 target artifact slots to source strata,
+yielding 960 planned base cases and 2880 planned condition rows; these files
+are protocol artifacts, not outcome data.
 
 A second metadata-only layer selects candidate artifact references for that
 allocation. \path{scripts/select_external_artifacts.py} reads the allocation
@@ -1052,13 +1052,14 @@ and public Git trees, then writes
 \path{results/tables/external_artifact_selection.csv} and
 \path{results/tables/external_artifact_selection.md}. It records source
 versions, repository paths or upstream links, and selection bases without
-copying third-party prose or code. The resulting inventory contains 240
-candidate rows across the four study families: 49 \texttt{SKILL.md}-anchored
-directories, 20 index-derived upstream links, 24 manifest directories, 16
-README-scoped directories, 128 relevant tree paths, and 3 additional
-text-like tree paths. These rows make the external study auditable at the
-artifact-reference level, but they still require annotation before behavioral
-claims can be made.
+copying third-party prose or code. The resulting inventory contains 232
+concrete metadata-only third-party references plus 8 pending replacement slots
+within the 240-slot design: 49 \texttt{SKILL.md}-anchored directories, 20
+index-derived upstream links, 24 manifest directories, 15 README-scoped
+directories, 106 relevant tree paths, 18 additional text-like tree paths, and
+8 replacement slots. These rows make the external study auditable at the
+artifact-reference level, but they still require replacement, eligibility
+review, and annotation before behavioral claims can be made.
 
 The repository also contains a planned annotation and execution packet derived
 from those references. \path{scripts/generate_external_annotation_packet.py}
@@ -1108,9 +1109,12 @@ treating the 2880-row packet as completed evidence.
 
 For a smaller execution rehearsal, \path{scripts/prepare_external_pilot_plan.py}
 selects a seeded 24-artifact subset from within-cap external candidates: six
-agent skills, six agent workflow templates, six MCP/tool recipes, and six
-prompt/function recipes. The resulting pilot has 96 base cases, 288 condition
-rows per provider, and 576 provider-condition rows across DeepSeek and Kimi.
+candidate references from each of the four study-family strata. The resulting
+pilot has 96 base cases, 288 condition rows per provider, and 576
+provider-condition rows across DeepSeek and Kimi. The selected references are
+still pending eligibility review; their role is to rehearse annotation,
+representation construction, parsing, and provider logistics, not to certify
+the final external corpus.
 \path{scripts/run_external_pilot_experiment.py} consumes that plan, writes a
 not-run provider-condition execution plan and no-secret provider-readiness
 table, skips rows already completed in prior pilot raw outputs, and refuses
@@ -1198,10 +1202,13 @@ behavioral benchmark.}
 \label{tab:external-static}
 \end{table}
 
-The proposed external study samples 240 artifacts across Agent Skills, MCP and
-tool recipes, agent workflow templates, and prompt/function recipes. For each
-artifact, it constructs positive-trigger, negative-trigger, boundary, and
-risk-or-constraint cases, yielding 960 paired cases. The planned analysis uses
+The planned external study is designed around 240 target artifact slots across
+Agent Skills, MCP and tool recipes, agent workflow templates, and
+prompt/function recipes. Before outcome-bearing execution, the 8 pending
+replacement slots must be filled and all concrete references must pass
+eligibility review. For each eligible artifact, the protocol would construct
+positive-trigger, negative-trigger, boundary, and risk-or-constraint cases,
+yielding 960 paired cases. The planned analysis uses
 paired stratification, mixed-effects logistic models, McNemar robustness
 checks for paired binary outcomes, bootstrap intervals for F1, and
 Holm-Bonferroni correction across metrics. The 24-artifact pilot described

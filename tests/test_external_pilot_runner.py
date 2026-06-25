@@ -13,6 +13,8 @@ RUN_PLAN_PATH = REPO_ROOT / "results" / "experiments" / "external_pilot_run_plan
 RUN_PLAN_MD_PATH = REPO_ROOT / "results" / "experiments" / "external_pilot_run_plan.md"
 READINESS_PATH = REPO_ROOT / "results" / "experiments" / "external_pilot_provider_readiness.csv"
 READINESS_MD_PATH = REPO_ROOT / "results" / "experiments" / "external_pilot_provider_readiness.md"
+LIVE_MANIFEST_PATH = REPO_ROOT / "results" / "experiments" / "external_pilot_live_run_manifest.csv"
+LIVE_MANIFEST_MD_PATH = REPO_ROOT / "results" / "experiments" / "external_pilot_live_run_manifest.md"
 
 EXPECTED_MODELS = {
     ("deepseek", "deepseek-v4-flash"),
@@ -33,7 +35,16 @@ def read_csv_rows(path: Path) -> list[dict[str, str]]:
 
 class ExternalPilotRunnerTests(unittest.TestCase):
     def test_pilot_runner_files_exist(self) -> None:
-        for path in (RUNNER_PATH, UTILS_PATH, RUN_PLAN_PATH, RUN_PLAN_MD_PATH, READINESS_PATH, READINESS_MD_PATH):
+        for path in (
+            RUNNER_PATH,
+            UTILS_PATH,
+            RUN_PLAN_PATH,
+            RUN_PLAN_MD_PATH,
+            READINESS_PATH,
+            READINESS_MD_PATH,
+            LIVE_MANIFEST_PATH,
+            LIVE_MANIFEST_MD_PATH,
+        ):
             self.assertTrue(path.exists(), f"Missing {path}")
             self.assertGreater(path.stat().st_size, 0, f"Empty {path}")
 
@@ -65,9 +76,22 @@ class ExternalPilotRunnerTests(unittest.TestCase):
         self.assertIn("Refusing to run", text)
         self.assertIn("not_run_missing_credentials", text)
 
+    def test_live_manifest_records_missing_credential_boundary(self) -> None:
+        rows = read_csv_rows(LIVE_MANIFEST_PATH)
+        self.assertEqual(len(rows), 2)
+        self.assertEqual({row["provider"] for row in rows}, {"deepseek"})
+        self.assertEqual({row["model"] for row in rows}, {"deepseek-v4-flash"})
+        self.assertEqual({row["run_status"] for row in rows}, {"not_run_missing_credentials"})
+        self.assertEqual({row["credential_env"] for row in rows}, {"DEEPSEEK_API_KEY"})
+        self.assertEqual({row["credential_available"] for row in rows}, {"false"})
+        self.assertEqual({row["raw_output_path"] for row in rows}, {""})
+        self.assertEqual({row["evidence_boundary"] for row in rows}, {"pilot_logistics_not_external_effect_estimate"})
+        self.assertTrue(all(row["content_boundary"] == "metadata_only_no_third_party_prose_or_code_copied" for row in rows))
+
     def test_summary_states_no_effect_estimate(self) -> None:
         self.assertIn("does not report external effect estimates", RUN_PLAN_MD_PATH.read_text(encoding="utf-8"))
         self.assertIn("does not report external effect estimates", READINESS_MD_PATH.read_text(encoding="utf-8"))
+        self.assertIn("not run because credentials were unavailable", LIVE_MANIFEST_MD_PATH.read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":
