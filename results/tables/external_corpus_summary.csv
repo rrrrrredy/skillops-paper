@@ -1,0 +1,23 @@
+group,value,metric,count,notes
+overall,sources,count,11,All rows from the external source frame.
+overall,github_static_analysis,count,10,GitHub repositories with successful metadata and tree analysis.
+artifact_family,agent_skill_index,count,1,
+artifact_family,agent_skill_repository,count,1,
+artifact_family,agent_skill_standard,count,1,
+artifact_family,agent_workflow_repository,count,3,
+artifact_family,agent_workflow_template,count,1,
+artifact_family,function_recipe_repository,count,1,
+artifact_family,mcp_server,count,1,
+artifact_family,mcp_server_repository,count,1,
+artifact_family,prompt_corpus,count,1,
+static_indicator,readme_files,source_count,10,Count among successfully analyzed GitHub repositories.
+static_indicator,license_files,source_count,10,Count among successfully analyzed GitHub repositories.
+static_indicator,skill_md_files,source_count,4,Count among successfully analyzed GitHub repositories.
+static_indicator,example_files,source_count,6,Count among successfully analyzed GitHub repositories.
+static_indicator,test_files,source_count,9,Count among successfully analyzed GitHub repositories.
+static_indicator,script_files,source_count,9,Count among successfully analyzed GitHub repositories.
+static_indicator,workflow_files,source_count,8,Count among successfully analyzed GitHub repositories.
+static_indicator,schema_files,source_count,9,Count among successfully analyzed GitHub repositories.
+static_indicator,security_files,source_count,7,Count among successfully analyzed GitHub repositories.
+static_indicator,manifest_files,source_count,7,Count among successfully analyzed GitHub repositories.
+static_indicator,docs_files,source_count,7,Count among successfully analyzed GitHub repositories.

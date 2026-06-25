@@ -17,9 +17,14 @@ class EvidenceMatrixTests(unittest.TestCase):
 
     def test_execution_matrix_states_missing_execution_layers(self) -> None:
         text = normalize_text(read_text(EXECUTION_MATRIX_PATH))
-        self.assertIn("model execution was not run", text)
+        self.assertIn("model-backed trigger, constraint, security, and memory runs", text)
+        self.assertIn("deepseek-v4-flash", text)
+        self.assertIn("kimi-k2.7-code", text)
+        self.assertIn("external corpus static analysis", text)
+        self.assertIn("external_corpus_static_analysis.csv", text)
         self.assertIn("scanner accuracy was not measured", text)
         self.assertIn("user study and production validation were not run", text)
+        self.assertIn("external source repositories were not executed", text)
 
 
 if __name__ == "__main__":

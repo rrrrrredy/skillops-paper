@@ -1,0 +1,25 @@
+group,value,metric,count,notes
+overall,target_artifacts,count,240,Metadata-only candidate rows selected from the external allocation.
+overall,base_cases,count,960,Four base cases are planned per candidate artifact.
+overall,condition_evaluations,count,2880,Each base case is crossed with three representation conditions.
+study_family,agent_skills,count,80,
+study_family,agent_workflow_templates,count,50,
+study_family,mcp_and_tool_recipes,count,60,
+study_family,prompt_and_function_recipes,count,50,
+source_id,anthropics-skills,count,60,
+source_id,autogen-examples,count,15,
+source_id,github-mcp-server,count,20,
+source_id,langgraph-template,count,7,
+source_id,mcp-reference-servers,count,40,
+source_id,open-webui-functions,count,25,
+source_id,openai-agents-js,count,14,
+source_id,openai-agents-python,count,14,
+source_id,prompts-chat,count,25,
+source_id,voltagent-awesome,count,20,
+selection_status,metadata_candidate,count,240,
+selection_basis,index_upstream_link,count,20,
+selection_basis,manifest_directory,count,24,
+selection_basis,readme_directory,count,16,
+selection_basis,relevant_tree_path,count,128,
+selection_basis,skill_package_directory,count,49,
+selection_basis,textlike_tree_path,count,3,

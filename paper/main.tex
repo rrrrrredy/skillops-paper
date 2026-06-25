@@ -41,12 +41,13 @@ open-source artifacts developed by the author and contributes a skill component
 taxonomy, a lifecycle model, a failure-mode taxonomy, a design-gap matrix, and
 an artifact-based evaluation design. The paper reports three evidence layers:
 descriptive benchmark summaries from manually constructed artifact, trigger,
-and risk cases; deterministic repository-level consistency checks; and a local
-security-guard pilot over risk and benign-control cases. Model-backed
-experiments are specified as executable follow-up protocols, but no
-model-backed live metrics are reported without the corresponding credentials
-and run logs. The contribution is therefore a bounded engineering framework
-for making agent skills more explicit, testable, and maintainable.
+and risk cases; deterministic repository-level consistency checks; a local
+security-guard pilot over risk and benign-control cases; and live
+model-backed runs with DeepSeek and Kimi over trigger, constraint, security,
+and memory-drift protocols. The contribution is therefore a bounded
+engineering framework for making agent skills more explicit, testable, and
+maintainable, not a claim that a particular skill format universally improves
+model behavior.
 \end{abstract}
 
 \section{Introduction}
@@ -594,7 +595,8 @@ in Section~\ref{sec:artifact-availability}.
 
 This paper uses an artifact-based methodology. Rather than beginning with a
 large-scale user study, it derives a framework from the design and use of
-practical open-source tools. The methodology has four steps:
+practical open-source tools, then tests parts of the framework through
+repository checks and live model calls. The methodology has six steps:
 
 \begin{enumerate}[leftmargin=*]
     \item \textbf{Artifact review}: identify recurring structures and
@@ -609,6 +611,12 @@ practical open-source tools. The methodology has four steps:
     later evaluation of trigger behavior, context injection, constraint
     following, forgetting, linting, security scanning, and self-audit
     behavior.
+    \item \textbf{Model-backed execution}: run provider-neutral prompts over
+    trigger, constraint, security, and memory-drift cases with preserved raw
+    logs and recomputable metrics.
+    \item \textbf{External-corpus planning}: define a third-party artifact
+    sampling frame and validation protocol before making broad ecosystem
+    claims.
 \end{enumerate}
 
 This approach is exploratory. It is appropriate for deriving a
@@ -649,16 +657,22 @@ as descriptive summaries rather than as statistical evidence or broad empirical
 validation. The repository also includes executable repository-level
 consistency checks that verify benchmark schema, result reproducibility,
 paper-claim consistency, public-presentation constraints, SVG validity, and
-evidence-matrix integrity. In the current repository state, this executable
-pass regenerates descriptive tables and schematic figures only; it does not
-execute the five source repositories against the benchmark cases or score
-model, scanner, or self-audit behavior.
+evidence-matrix integrity. Live model-backed runs are stored under
+\path{results/experiments/raw/} and summarized by
+\path{scripts/summarize_live_model_results.py}. These runs score the provided
+prompts and case sets; they do not execute the five source repositories as
+deployed software systems.
 
 \subsection{Artifact Availability}
 \label{sec:artifact-availability}
 
 The public repository for this paper is
-\url{https://github.com/rrrrrredy/skillops-paper}.
+\url{https://github.com/rrrrrredy/skillops-paper}. The versioned artifact
+release used for this revision is \texttt{v1.0.0} with Zenodo version DOI
+\href{https://doi.org/10.5281/zenodo.20838908}{10.5281/zenodo.20838908};
+the Zenodo concept DOI for the release family is
+\href{https://doi.org/10.5281/zenodo.20061198}{10.5281/zenodo.20061198}
+\citep{luo2026skillopsartifact}.
 
 Supporting materials are organized as follows:
 \begin{itemize}[leftmargin=*]
@@ -667,7 +681,11 @@ Supporting materials are organized as follows:
     \item Benchmark input: \path{benchmark/trigger_cases.csv}
     \item Benchmark input: \path{benchmark/risk_cases.csv}
     \item Reproducible scripts: \path{scripts/}
-    \item Preserved pilot reports and metrics: \path{results/experiments/}
+    \item Preserved live-run outputs and metrics: \path{results/experiments/}
+    \item External artifact sampling frame:
+    \path{benchmark/external_artifact_corpus_sources.csv}
+    \item External validation protocol:
+    \path{experiments/external_validation_protocol.md}
     \item Generated result tables: \path{results/tables/}
     \item Generated figure artwork: \path{figures/}
 \end{itemize}
@@ -679,12 +697,12 @@ broad empirical validation.
 \section{Evaluation}
 \label{sec:evaluation}
 
-This revision reports three evidence layers currently versioned in the
+This revision reports four evidence layers currently versioned in the
 repository. The first is a descriptive layer derived from manually constructed
 benchmark artifacts. The second is a deterministic repository-check layer. The
 third is a local security-guard pilot over seeded risk cases and benign
-controls. A model-backed protocol is specified in the experiment harness, but no
-model-backed live metrics are reported in this version. No statistical
+controls. The fourth is a model-backed live-run layer over DeepSeek
+\texttt{deepseek-v4-flash} and Kimi \texttt{kimi-k2.7-code}. No statistical
 significance is claimed, no broad empirical validation is claimed, and the
 results should be read as evidence of inspectability and executable review
 rather than proof that SkillOps is generally effective.
@@ -699,12 +717,17 @@ The evaluation combines the following versioned inputs:
     \item Benign controls: \path{experiments/security_benign_cases.csv}
     \item Cross-checking notes: \path{artifacts/artifact_inventory.md}
     \item Local pilot metrics: \path{results/experiments/security_guard_metrics.csv}
+    \item Live model summary: \path{results/experiments/live_model_summary.csv}
+    \item External corpus frame:
+    \path{benchmark/external_artifact_corpus_sources.csv}
 \end{itemize}
 
 These inputs cover five artifact profiles, 36 trigger-routing cases, 24
-operational-risk cases, and 24 benign security controls. All trigger and risk
-cases use the \texttt{manual-} prefix, making the manual construction of the
-benchmark explicit. Figure~\ref{fig:evaluation-pipeline} captures the
+operational-risk cases, 24 benign security controls, 22 memory-drift cases, and
+11 third-party corpus sources. Ten GitHub-hosted third-party sources are also
+analyzed with a metadata-only file-tree pass. All trigger and risk cases use
+the \texttt{manual-} prefix, making the manual construction of the benchmark
+explicit. Figure~\ref{fig:evaluation-pipeline} captures the
 evaluation flow from artifact inventory to cautious interpretation.
 
 \begin{figure}[t]
@@ -897,16 +920,277 @@ local run. The single benign false positive is useful rather than incidental:
 it indicates that guard checks need benign controls whenever the risk detector
 uses broad textual patterns.
 
-\subsection{Model-Backed Experiment Protocol}
+\subsection{Model-Backed Live Runs}
 
-The repository also specifies model-backed live-run protocols for trigger
-routing, constraint handling, model-backed security review, memory drift, and
+The repository includes provider-neutral live-run protocols for trigger
+routing, constraint handling, security review, memory drift, and
 skill-component ablations. The protocol fixes input files, prompt templates,
 JSON schemas, metric calculations, and dry-run validation before any live call.
-In this repository state, readiness and dry-run checks pass, but no
-model-backed live metrics are reported. A future run should record the selected
-model, exact date, raw outputs, parse failures, execution failures, and
-confidence boundaries before any result is cited in the paper.
+For this revision, the four core protocols were run once with DeepSeek
+\texttt{deepseek-v4-flash} and Kimi \texttt{kimi-k2.7-code} through
+OpenAI-compatible chat-completion APIs \citep{deepseek2026api,kimi2026k27code}.
+Raw JSONL outputs are preserved under \path{results/experiments/raw/}; the
+cross-model summary is recomputed with
+\path{scripts/summarize_live_model_results.py}.
+
+Table~\ref{tab:live-trigger} reports trigger-routing results. In this small
+case set, both models avoided false triggers on all should-not-trigger cases.
+The relative ordering between the structured SkillOps catalog and the freeform
+catalog is model-dependent: DeepSeek favors the structured catalog on F1 and
+ambiguity handling, while Kimi favors the freeform catalog. This is a useful
+negative result for the paper's central claim: the framework should not be
+read as a universal prompt-performance improvement, but as an operational
+interface for making routing behavior inspectable.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\begin{tabular}{lllll}
+\toprule
+\textbf{Model} & \textbf{Catalog} & \textbf{F1} &
+\textbf{False trigger} & \textbf{Ambiguity handled} \\
+\midrule
+DeepSeek v4 Flash & SkillOps & 0.857143 & 0/12 & 4/9 \\
+DeepSeek v4 Flash & Freeform & 0.833333 & 0/12 & 3/9 \\
+Kimi K2.7 Code & SkillOps & 0.882353 & 0/12 & 4/9 \\
+Kimi K2.7 Code & Freeform & 0.909091 & 0/12 & 6/9 \\
+\bottomrule
+\end{tabular}
+\caption{Trigger-routing live-run metrics over 36 manually constructed cases.
+The results are single-run, benchmark-specific metrics rather than statistical
+evidence of general superiority.}
+\label{tab:live-trigger}
+\end{table}
+
+Table~\ref{tab:live-constraints} reports constraint and memory results. The
+constraint task is intentionally hard: the model must identify operational
+risk and avoid unsupported success claims from short scenarios. SkillOps
+improves DeepSeek's constraint compliance over the vague prompt in this run,
+but not Kimi's. By contrast, the explicit memory policy is stable across both
+models: neither uses stale information in the full-policy condition, both
+apply the forgetting rule in all 22 cases, and both resolve 21 of 22 conflict
+cases.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\begin{tabularx}{\linewidth}{
+    >{\raggedright\arraybackslash}p{0.19\linewidth}
+    >{\raggedright\arraybackslash}X
+    >{\raggedright\arraybackslash}p{0.16\linewidth}
+    >{\raggedright\arraybackslash}p{0.15\linewidth}
+    >{\raggedright\arraybackslash}p{0.16\linewidth}
+}
+\toprule
+\textbf{Model} & \textbf{Condition} & \textbf{Constraint} &
+\textbf{Forgetting} & \textbf{Conflict} \\
+\midrule
+DeepSeek v4 Flash & SkillOps/full policy & 7/24 & 22/22 & 21/22 \\
+DeepSeek v4 Flash & Vague/no forgetting & 3/24 & 0/22 & 2/22 \\
+Kimi K2.7 Code & SkillOps/full policy & 11/24 & 22/22 & 21/22 \\
+Kimi K2.7 Code & Vague/no forgetting & 12/24 & 0/22 & 1/22 \\
+\bottomrule
+\end{tabularx}
+\caption{Constraint and memory live-run metrics. Constraint compliance is
+not monotonic across models, while explicit forgetting is robust in this
+small benchmark.}
+\label{tab:live-constraints}
+\end{table}
+
+Table~\ref{tab:live-security} reports the model-backed security-guard run.
+Kimi detects 23 of 24 seeded risk cases and DeepSeek detects 22 of 24; both
+allow all 24 benign controls. These results support the feasibility of a
+model-backed guard protocol with benign controls, but the seeded corpus remains
+too small for broad security claims.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\begin{tabular}{llll}
+\toprule
+\textbf{Model} & \textbf{Risk detection} & \textbf{False positives} &
+\textbf{Specificity} \\
+\midrule
+DeepSeek v4 Flash & 22/24 & 0/24 & 24/24 \\
+Kimi K2.7 Code & 23/24 & 0/24 & 24/24 \\
+\bottomrule
+\end{tabular}
+\caption{Model-backed security-guard live-run metrics over 24 seeded risk
+cases and 24 benign controls.}
+\label{tab:live-security}
+\end{table}
+
+\subsection{External Corpus and User-Study Protocol}
+
+The repository now includes an external sampling frame rather than relying
+only on the author's artifact ecosystem. The frame covers the Agent Skills
+specification and public skills repositories, MCP reference servers and
+high-permission server examples, OpenAI Agents SDK examples, AutoGen and
+LangGraph workflow templates, Open WebUI function recipes, and a prompt-only
+baseline \citep{agentskills2026spec,anthropic2026skills,modelcontextprotocol2026servers,openai2026agentspython,openai2026agentsjs,wu2024autogen}.
+These sources are recorded in
+\path{benchmark/external_artifact_corpus_sources.csv}; the corresponding
+model-backed and human-review protocol is recorded in
+\path{experiments/external_validation_protocol.md}.
+The protocol is now backed by an executable case scaffold:
+\path{experiments/schemas/external_case_schema.json} defines external case
+records, \path{experiments/external_case_seed.csv} provides seed cases,
+\path{scripts/generate_external_case_plan.py} deterministically writes
+\path{results/tables/external_case_allocation.csv},
+\path{results/tables/external_case_plan.csv}, and
+\path{results/tables/external_condition_plan.csv}, and
+\path{docs/annotation_guide.md} plus
+\path{docs/preregistration_template.md} specify labeling and pre-analysis
+rules. The scaffold assigns 240 target artifacts to source strata, yielding
+960 base cases and 2880 condition-level evaluations; these files are protocol
+artifacts, not outcome data.
+
+A second metadata-only layer selects candidate artifact references for that
+allocation. \path{scripts/select_external_artifacts.py} reads the allocation
+and public Git trees, then writes
+\path{results/tables/external_artifact_selection.csv} and
+\path{results/tables/external_artifact_selection.md}. It records source
+versions, repository paths or upstream links, and selection bases without
+copying third-party prose or code. The resulting inventory contains 240
+candidate rows across the four study families: 49 \texttt{SKILL.md}-anchored
+directories, 20 index-derived upstream links, 24 manifest directories, 16
+README-scoped directories, 128 relevant tree paths, and 3 additional
+text-like tree paths. These rows make the external study auditable at the
+artifact-reference level, but they still require annotation before behavioral
+claims can be made.
+
+The repository also contains a planned annotation and execution packet derived
+from those references. \path{scripts/generate_external_annotation_packet.py}
+writes \path{results/tables/external_case_construction.csv},
+\path{results/tables/external_annotation_packet.csv}, and
+\path{results/tables/external_condition_packet.csv}. The construction table
+contains four protocol-seeded base cases per candidate artifact: one positive
+trigger, one negative trigger, one boundary-clarification case, and one
+risk-or-constraint case. The annotation packet keeps two independent reviewer
+fields and separate adjudication fields for all 960 base cases; the condition
+packet crosses those cases with original/freeform, SkillOps-normalized, and
+SkillOps-ablation representations, yielding 2880 pending condition rows. All
+rows are marked as review or construction work, not as completed annotation or
+execution evidence.
+
+Finally, \path{scripts/run_external_condition_dry_run.py} validates the 2880
+pending condition rows and writes
+\path{results/experiments/external_condition_manifest.csv},
+\path{results/experiments/external_condition_shards.csv}, and
+\path{results/experiments/external_statistical_analysis_plan.csv}. The manifest
+uses the strict future-result schema in
+\path{experiments/schemas/external_condition_result_schema.json}, assigns the
+condition rows to twelve 240-row shards, and records planned metrics such as
+routing correctness, clarification correctness, constraint compliance, parse
+success, latency, and token count. The dry run is an execution-readiness check;
+it reports no model outputs and no statistical outcomes.
+
+\path{scripts/build_external_representations.py} then materializes the three
+representation conditions as metadata-only payload templates. It writes
+\path{results/experiments/external_representation_payloads.jsonl} and
+\path{results/experiments/external_representation_payload_index.csv}, both
+aligned to the dry-run shards. The original/freeform condition contains only a
+pinned source reference and construction instruction; the SkillOps-normalized
+condition exposes lifecycle fields as review-time placeholders; the ablation
+condition withholds the preregistered lifecycle component for that case type.
+This makes the external execution path concrete without copying third-party
+content or reporting model behavior.
+
+The final execution hook is \path{scripts/run_external_payload_experiment.py}.
+By default it performs only a dry run, writing
+\path{results/experiments/external_payload_run_plan.csv} and
+\path{results/experiments/external_payload_run_plan.md}. Live execution must be
+requested explicitly with a provider, model, shard or sample limit, and
+\texttt{--run-live}; unbounded live execution is refused. This is included so
+the study can move from protocol to bounded execution without accidentally
+treating the 2880-row packet as completed evidence.
+
+The repository additionally includes
+\path{scripts/prepare_external_smoke_test_plan.py}, which writes a no-secret
+bounded smoke-test plan for DeepSeek and Kimi. In the current evidence state,
+the plan records selected payload ids, required environment-variable names,
+and the exact bounded command shape. A bounded provider smoke was then run on
+the first external shard prefix: 12 DeepSeek rows covering one external
+artifact across the four base case types and three representation conditions,
+and four Kimi rows covering the same artifact's first positive and negative
+conditions. This smoke is deliberately treated as an execution-path check, not
+as external validation.
+
+\path{scripts/summarize_external_results.py} closes the external-evaluation
+loop at the analysis boundary. It reads
+\path{results/experiments/raw/external_condition_*.jsonl} files when present
+and writes \path{results/experiments/external_result_summary.csv} plus
+\path{results/experiments/external_statistical_summary.csv}. Table~\ref{tab:external-smoke}
+summarizes the bounded smoke. The main signal is that the live path can produce
+schema-valid records without storing model prose; the low behavior-match rates
+are a useful negative result for the current metadata-only representations and
+do not support effectiveness claims.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrr}
+\toprule
+Provider/model & Parse success & Expected-behavior match \\
+\midrule
+DeepSeek \texttt{deepseek-v4-flash} & 12/12 & 3/12 \\
+Kimi \texttt{kimi-k2.7-code} & 4/4 & 2/4 \\
+\midrule
+Total & 16/16 & 5/16 \\
+\bottomrule
+\end{tabular}
+\caption{Bounded external live smoke on metadata-only payload rows. These
+records validate the execution and summarization path; they are not powered for
+statistical inference and are not reported as a model ranking.}
+\label{tab:external-smoke}
+\end{table}
+
+A metadata-only static pass analyzes the Git file trees of ten GitHub-hosted
+sources without copying repository prose or code into the paper artifact. The
+pass is implemented in \path{scripts/analyze_external_corpus.py} and writes
+\path{results/tables/external_corpus_static_analysis.csv} plus
+\path{results/tables/external_corpus_summary.md}. Table~\ref{tab:external-static}
+summarizes selected structural indicators. These counts show that the external
+frame contains lifecycle-relevant artifacts beyond the author's ecosystem, but
+they do not measure behavioral quality or task success.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\begin{tabular}{lll}
+\toprule
+\textbf{Static indicator} & \textbf{Sources} & \textbf{Interpretation} \\
+\midrule
+README present & 10/10 & Public entry point or usage guide. \\
+License file present & 10/10 & Reuse status can be checked at source. \\
+Test files present & 9/10 & Some executable or regression-oriented structure. \\
+Scripts or code files present & 9/10 & Operational logic or runnable examples. \\
+Workflow files present & 8/10 & CI, automation, or workflow configuration. \\
+Schema/config files present & 9/10 & Machine-readable configuration surface. \\
+Security-related files present & 7/10 & Explicit security, guardrail, or policy signals. \\
+\texttt{SKILL.md} files present & 4/10 & Direct skill-package indicators. \\
+\bottomrule
+\end{tabular}
+\caption{Metadata-only static indicators across ten GitHub-hosted external
+sources. The counts are structural evidence for corpus diversity, not a
+behavioral benchmark.}
+\label{tab:external-static}
+\end{table}
+
+The proposed external study samples 240 artifacts across Agent Skills, MCP and
+tool recipes, agent workflow templates, and prompt/function recipes. For each
+artifact, it constructs positive-trigger, negative-trigger, boundary, and
+risk-or-constraint cases, yielding 960 paired cases. The planned analysis uses
+paired stratification, mixed-effects logistic models, McNemar robustness
+checks for paired binary outcomes, bootstrap intervals for F1, and
+Holm-Bonferroni correction across metrics.
+
+The human-review layer is deliberately separated from the automated evidence.
+It requires 48--72 participants with agent or developer-workflow experience
+and measures routing success, risk discovery, review time, workload, and trust
+calibration. This paper does not report that human study; it reports the
+protocol so that the boundary between completed evidence and required external
+validation remains explicit.
 
 \subsection{Interpretation}
 
@@ -918,9 +1202,9 @@ agent performance. The supported claim is narrower and, for this paper, more
 important: explicit skill interfaces make operational assumptions, failure
 modes, and review checks concrete enough to inspect, test, and revise.
 
-These results do not establish statistical significance, broad empirical
-validation, or general effectiveness across external skill sets, user
-populations, or deployment environments.
+These results, including the bounded external smoke, do not establish
+statistical significance, broad empirical validation, or general effectiveness
+across external skill sets, user populations, or deployment environments.
 
 \section{Discussion}
 
@@ -963,9 +1247,11 @@ operational framework can make these issues easier to identify and improve.
 
 This paper has several limitations.
 
-First, the artifact base is authored and interpreted by one author. This paper
-therefore reflects a single-author artifact base
-rather than a multi-lab or multi-organization corpus.
+First, the primary artifact base is authored and interpreted by one author.
+This paper therefore reflects a single-author artifact base rather than a
+multi-lab or multi-organization corpus. The added external corpus frame reduces
+this risk at the study-design layer, but it is not a completed external
+annotation study.
 
 Second, the artifact evidence comes from five public repositories. This is
 enough to motivate a framework, but it is not enough to establish generality
@@ -975,28 +1261,30 @@ Third, the benchmark cases are manually constructed and exploratory. The counts
 reported in Section~\ref{sec:evaluation} describe benchmark composition rather
 than observed production traffic or a statistically powered experiment.
 
-Fourth, the main executable pilot in this version is local and rule-based. It
-checks the risk-review plumbing, but it is not evidence that a model-backed
-agent will make the same decisions.
+Fourth, the local security pilot is rule-based, while the DeepSeek and Kimi
+runs are model-backed. Agreement or disagreement between those layers should be
+interpreted as benchmark evidence, not as proof of deployment safety.
 
 Fifth, the benchmark cases include manually constructed benign security
 controls. The reported detection and false-positive rates are therefore
 benchmark-specific rather than broad external validation.
 
-Sixth, model-backed trigger, constraint, memory, and ablation experiments remain
-specified but not reported as live metrics in this version. Any future report
-should pre-register the selected model, prompt hashes, case set, repeat count,
-and metric calculation before interpreting the results.
+Sixth, the live model results use one execution per model and a small manually
+constructed benchmark. They are useful for feasibility and failure analysis,
+but not for statistical significance or model ranking.
 
-Seventh, no statistical significance or formal hypothesis testing is reported,
-and external validation remains limited.
+Seventh, skill-component ablations are supported by the harness, but broader
+ablation evidence requires repeated runs and independently reviewed external
+artifacts before strong comparative claims are warranted.
 
-Eighth, the work does not include an external user study. It does not measure
-how other users understand the skill format, apply the workflow, or experience
-the proposed guardrails in practice.
+Eighth, a bounded external model smoke is reported, but no external user study
+is reported. The paper does not measure how other users understand the skill
+format, apply the workflow, or experience the proposed guardrails in practice.
 
 Ninth, external skill sets, other agent environments, and independent
-annotations are needed before stronger comparative claims could be made.
+annotations are needed before stronger comparative claims could be made. The
+third-party corpus frame makes that study design concrete, but does not replace
+running it.
 
 Tenth, several artifacts encode local desktop-agent assumptions about directory
 layout, skill packaging, cron usage, and local agent control. These assumptions
@@ -1024,7 +1312,7 @@ interface rather than a private prompt convention. Anthropic's Agent Skills
 package procedural knowledge in file-and-folder bundles with progressive
 context disclosure and explicit security cautions
 \citep{anthropic2025agentskills}. SkillsBench evaluates curated and
-self-generated skills across many tasks and finds that skill usefulness is
+automatically synthesized skills across many tasks and finds that skill usefulness is
 large but uneven across domains, which reinforces the need to test skills as
 artifacts rather than assume that more procedural context is always beneficial
 \citep{li2026skillsbench}. A recent paper using the same SkillOps name studies
@@ -1040,6 +1328,13 @@ audit rules must be inspectable even before a large skill library exists.
 SkillOps is discussed here mainly as a framework for agent skill artifacts
 within work on modular agents and tool-using language model systems, with
 earlier software-modularity references serving only as background analogies.
+Recent Agent Skills specifications and public skill repositories make this
+artifact layer concrete by packaging metadata, instructions, scripts, and
+reference materials into reusable folders
+\citep{agentskills2026spec,anthropic2026skills}. MCP reference servers and
+OpenAI Agents SDK examples provide adjacent tool and workflow ecosystems that
+motivate the external corpus frame
+\citep{modelcontextprotocol2026servers,openai2026agentspython,openai2026agentsjs}.
 Classical work on software decomposition and reusable structure emphasized
 information hiding, design patterns, and component-based modularity
 \citep{parnas1972criteria,gamma1994design,szyperski2002component}, while
@@ -1119,17 +1414,18 @@ from open-source artifacts and emphasizes explicit skill structure, trigger
 design, context injection, execution constraints, security checks,
 self-auditing, and forgetting. The paper formulates three research questions
 and reports a descriptive benchmark layer, repository-level consistency checks,
-and a local security-guard pilot over risk and benign-control cases.
+a local security-guard pilot over risk and benign-control cases, and live
+model-backed runs over DeepSeek and Kimi.
 
 The contribution is bounded but operationally substantive. SkillOps is not
 presented as a new agent architecture or as a broadly validated empirical
 result. Instead, it identifies an under-specified layer in personal-agent
 systems: the lifecycle discipline required to make reusable skills inspectable,
-testable, and maintainable. The controlled pilot shows that structured skill
-artifacts can support executable checks and reviewable operational analysis in
-this setting, while broader empirical follow-up would require external skill
-sets, model-backed runs with preserved raw logs, repeated execution studies,
-and refinement based on external use.
+testable, and maintainable. The controlled pilots show that structured skill
+artifacts can support executable checks, live model-backed review loops, and
+reviewable operational analysis in this setting, while broader empirical
+claims require external skill sets, repeated execution studies, independent
+annotation, and external use.
 
 \bibliographystyle{plainnat}
 \bibliography{references}

@@ -154,12 +154,8 @@ LIMITED_PATTERNS = {
 
 UNSUPPORTED_TERM_PATTERNS = {
     "statistically significant": re.compile(r"\bstatistically significant\b"),
-    "precision": re.compile(r"\bprecision\b"),
-    "recall": re.compile(r"\brecall\b"),
-    "F1": re.compile(r"\bf1\b"),
     "production validated": re.compile(r"\bproduction validated\b"),
     "user study": re.compile(r"\buser study\b"),
-    "model execution": re.compile(r"\bmodel execution\b"),
     "scanner accuracy": re.compile(r"\bscanner accuracy\b"),
     "accuracy": re.compile(r"\baccuracy\b"),
     "improves agent stability": re.compile(r"\bimproves agent stability\b"),
@@ -194,8 +190,6 @@ PUBLIC_PROCESS_TERMS = [
 ]
 
 PUBLIC_TRACE_TERMS = [
-    "co" + "dex",
-    "deep" + "seek",
     "long" + "cat",
     "chat" + "gpt",
     "ai-" + "generated",

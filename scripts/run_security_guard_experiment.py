@@ -577,7 +577,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dry-run", action="store_true", help="Validate inputs and prompts without live execution.")
     parser.add_argument("--run-live", action="store_true", help="Execute the selected guard.")
     parser.add_argument("--guard", choices=["local-rules", "model"], default="local-rules", help="Guard backend.")
-    parser.add_argument("--provider", choices=["openai", "anthropic"], help="Preferred model provider.")
+    parser.add_argument(
+        "--provider",
+        choices=["openai", "anthropic", "deepseek", "moonshot", "kimi"],
+        help="Preferred model provider.",
+    )
     parser.add_argument("--model", help="Model name for the model-backed guard.")
     return parser.parse_args()
 

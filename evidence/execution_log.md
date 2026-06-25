@@ -16,12 +16,75 @@ Status `passed` unless noted otherwise.
 5. `python scripts/check_experiment_readiness.py`
 6. `python scripts/run_empirical_experiments.py --dry-run`
 7. `python scripts/run_security_guard_experiment.py --run-live --guard local-rules`
+8. `python scripts/run_trigger_experiment.py --run-live --provider deepseek --model deepseek-v4-flash`
+9. `python scripts/run_constraint_experiment.py --run-live --provider deepseek --model deepseek-v4-flash`
+10. `python scripts/run_security_guard_experiment.py --run-live --guard model --provider deepseek --model deepseek-v4-flash`
+11. `python scripts/run_memory_drift_experiment.py --run-live --provider deepseek --model deepseek-v4-flash`
+12. `python scripts/run_trigger_experiment.py --run-live --provider kimi --model kimi-k2.7-code`
+13. `python scripts/run_constraint_experiment.py --run-live --provider kimi --model kimi-k2.7-code`
+14. `python scripts/run_security_guard_experiment.py --run-live --guard model --provider kimi --model kimi-k2.7-code`
+15. `python scripts/run_memory_drift_experiment.py --run-live --provider kimi --model kimi-k2.7-code`
+16. `python scripts/sanitize_raw_results.py`
+17. `python scripts/summarize_live_model_results.py`
+18. `python scripts/analyze_external_corpus.py`
+19. `python scripts/generate_external_case_plan.py`
+20. `python scripts/select_external_artifacts.py`
+21. `python scripts/generate_external_annotation_packet.py`
+22. `python scripts/run_external_condition_dry_run.py --shards 12`
+23. `python scripts/build_external_representations.py`
+24. `python scripts/run_external_payload_experiment.py --dry-run`
+25. `python scripts/prepare_external_smoke_test_plan.py`
+26. `python scripts/run_external_payload_experiment.py --run-live --provider deepseek --model deepseek-v4-flash --sample-limit 12 --max-live-rows 12`
+27. `python scripts/run_external_payload_experiment.py --run-live --provider kimi --model kimi-k2.7-code --sample-limit 4 --max-live-rows 4`
+28. `python scripts/summarize_external_results.py`
 
 ## Outputs Generated
 
 - `results/experiments/security_guard_metrics.csv`
 - `results/experiments/security_guard_metrics.md`
-- `results/experiments/raw/security_guard_20260625T025048Z.jsonl`
+- `results/experiments/raw/security_guard_20260625T070833Z.jsonl`
+- `results/experiments/raw/trigger_20260625T051034Z.jsonl`
+- `results/experiments/raw/constraint_20260625T051633Z.jsonl`
+- `results/experiments/raw/security_guard_20260625T051917Z.jsonl`
+- `results/experiments/raw/memory_drift_20260625T054747Z.jsonl`
+- `results/experiments/raw/trigger_20260625T055723Z.jsonl`
+- `results/experiments/raw/constraint_20260625T060926Z.jsonl`
+- `results/experiments/raw/security_guard_20260625T061851Z.jsonl`
+- `results/experiments/raw/memory_drift_20260625T063033Z.jsonl`
+- `results/experiments/live_model_summary.csv`
+- `results/experiments/live_model_summary.md`
+- `results/tables/external_corpus_static_analysis.csv`
+- `results/tables/external_corpus_summary.csv`
+- `results/tables/external_corpus_summary.md`
+- `results/tables/external_case_allocation.csv`
+- `results/tables/external_case_plan.csv`
+- `results/tables/external_condition_plan.csv`
+- `results/tables/external_case_plan.md`
+- `results/tables/external_artifact_selection.csv`
+- `results/tables/external_artifact_selection_summary.csv`
+- `results/tables/external_artifact_selection.md`
+- `results/tables/external_case_construction.csv`
+- `results/tables/external_annotation_packet.csv`
+- `results/tables/external_condition_packet.csv`
+- `results/tables/external_annotation_packet.md`
+- `results/experiments/external_condition_manifest.csv`
+- `results/experiments/external_condition_shards.csv`
+- `results/experiments/external_statistical_analysis_plan.csv`
+- `results/experiments/external_condition_dry_run.md`
+- `results/experiments/external_statistical_analysis_plan.md`
+- `results/experiments/external_representation_payloads.jsonl`
+- `results/experiments/external_representation_payload_index.csv`
+- `results/experiments/external_representation_payloads.md`
+- `results/experiments/external_payload_run_plan.csv`
+- `results/experiments/external_payload_run_plan.md`
+- `results/experiments/external_smoke_test_plan.csv`
+- `results/experiments/external_smoke_test_plan.md`
+- `results/experiments/raw/external_condition_20260625T084916Z.jsonl`
+- `results/experiments/raw/external_condition_20260625T085750Z.jsonl`
+- `results/experiments/external_result_summary.csv`
+- `results/experiments/external_result_summary.md`
+- `results/experiments/external_statistical_summary.csv`
+- `results/experiments/external_statistical_summary.md`
 
 ## Counts Verified
 
@@ -33,6 +96,28 @@ Status `passed` unless noted otherwise.
 - `benchmark/risk_cases.csv`: `24` total cases
 - `benchmark/risk_cases.csv`: `8` risk categories
 - `experiments/security_benign_cases.csv`: `24` benign controls
+- `results/tables/external_case_allocation.csv`: `240` target artifacts
+- `results/tables/external_case_plan.csv`: `960` target base cases
+- `results/tables/external_condition_plan.csv`: `2880` target condition-level
+  evaluations
+- `results/tables/external_artifact_selection.csv`: `240` metadata-only
+  candidate artifact rows
+- `results/tables/external_case_construction.csv`: `960` planned base cases
+- `results/tables/external_annotation_packet.csv`: `960` pending review rows
+- `results/tables/external_condition_packet.csv`: `2880` pending condition rows
+- `results/experiments/external_condition_manifest.csv`: `2880` not-run
+  manifest rows
+- `results/experiments/external_condition_shards.csv`: `12` shards with `240`
+  rows each
+- `results/experiments/external_statistical_analysis_plan.csv`: `6` planned
+  metrics
+- `results/experiments/external_representation_payloads.jsonl`: `2880`
+  metadata-only payload templates
+- `results/experiments/external_payload_run_plan.csv`: `2880` not-run plan rows
+- `results/experiments/external_smoke_test_plan.csv`: `4` no-secret smoke-plan
+  rows
+- `results/experiments/external_result_summary.csv`: `16` bounded external
+  live-smoke records
 
 ## Local Security-Guard Pilot
 
@@ -42,9 +127,152 @@ Status `passed` unless noted otherwise.
 - Benign false-positive rate: `1/24`
 - Benign specificity: `23/24`
 
+## Live Model Runs
+
+- DeepSeek model: `deepseek-v4-flash`
+- Kimi model: `kimi-k2.7-code`
+- Core protocols: trigger routing, constraint compliance, model-backed security
+  guard, and memory drift
+- DeepSeek trigger F1: SkillOps `0.857143`, freeform `0.833333`
+- Kimi trigger F1: SkillOps `0.882353`, freeform `0.909091`
+- DeepSeek model-backed security detection: `22/24`, false positives `0/24`
+- Kimi model-backed security detection: `23/24`, false positives `0/24`
+- Full memory policy conflict resolution: `21/22` for both models
+
+## External Corpus Static Analysis
+
+- Source frame: `11` third-party sources
+- GitHub file-tree analysis: `10` successfully analyzed sources
+- README indicators: `10/10`
+- License-file indicators: `10/10`
+- Test-file indicators: `9/10`
+- Script/code indicators: `9/10`
+- Security-related indicators: `7/10`
+- `SKILL.md` indicators: `4/10`
+
+## External Case-Plan Scaffold
+
+- Command: `python scripts/generate_external_case_plan.py`
+- Status: passed
+- Target artifacts: `240`
+- Base cases: `960`
+- Condition-level evaluations: `2880`
+- Supporting files:
+  - `experiments/schemas/external_case_schema.json`
+  - `experiments/external_case_seed.csv`
+  - `docs/annotation_guide.md`
+  - `docs/preregistration_template.md`
+
+## External Artifact-Selection Scaffold
+
+- Command: `python scripts/select_external_artifacts.py`
+- Status: passed
+- Candidate artifact rows: `240`
+- Base cases implied by candidate rows: `960`
+- Condition-level evaluations implied by candidate rows: `2880`
+- Selection bases:
+  - `skill_package_directory`: `49`
+  - `index_upstream_link`: `20`
+  - `manifest_directory`: `24`
+  - `readme_directory`: `16`
+  - `relevant_tree_path`: `128`
+  - `textlike_tree_path`: `3`
+
+## External Annotation Packet
+
+- Command: `python scripts/generate_external_annotation_packet.py`
+- Status: passed
+- Candidate artifacts: `240`
+- Planned base cases: `960`
+- Pending review rows: `960`
+- Pending condition rows: `2880`
+- Case-type balance:
+  - `positive_trigger`: `240`
+  - `negative_trigger`: `240`
+  - `boundary_clarification`: `240`
+  - `risk_constraint`: `240`
+
+## External Condition Dry Run
+
+- Command: `python scripts/run_external_condition_dry_run.py --shards 12`
+- Status: passed
+- Manifest rows: `2880`
+- Shards: `12`
+- Rows per shard: `240`
+- Planned metrics: `6`
+- Execution status: `not_run`
+
+## External Representation Payloads
+
+- Command: `python scripts/build_external_representations.py`
+- Status: passed
+- Payload rows: `2880`
+- Conditions:
+  - `original_freeform`: `960`
+  - `skillops_normalized`: `960`
+  - `skillops_ablation`: `960`
+- Content boundary: metadata-only; no third-party prose or code copied
+
+## External Payload Runner Dry Run
+
+- Command: `python scripts/run_external_payload_experiment.py --dry-run`
+- Status: passed
+- Selected payload rows: `2880`
+- Run status: `not_run`
+- Live execution: not run
+
+## External Smoke-Test Plan
+
+- Command: `python scripts/prepare_external_smoke_test_plan.py`
+- Status: passed; bounded provider execution completed separately
+- Provider/model pairs:
+  - `deepseek` / `deepseek-v4-flash`
+  - `kimi` / `kimi-k2.7-code`
+- Selected payload rows: `4`
+- Environment availability in this run:
+  - `DEEPSEEK_API_KEY`: `true`
+  - `MOONSHOT_API_KEY`: `true`
+
+## External Bounded Live Smoke
+
+- Command: `python scripts/run_external_payload_experiment.py --run-live --provider deepseek --model deepseek-v4-flash --sample-limit 12 --max-live-rows 12`
+- Status: passed
+- Output: `results/experiments/raw/external_condition_20260625T084916Z.jsonl`
+- Records: `12`
+- Command: `python scripts/run_external_payload_experiment.py --run-live --provider kimi --model kimi-k2.7-code --sample-limit 4 --max-live-rows 4`
+- Status: passed
+- Output: `results/experiments/raw/external_condition_20260625T085750Z.jsonl`
+- Records: `4`
+
+## External Result Summary
+
+- Command: `python scripts/summarize_external_results.py`
+- Status: passed; bounded external live-smoke records summarized
+- External live-result records: `16`
+- Parse success: `16/16`
+- Expected-behavior match: `5/16`
+- Statistical result status: `requires_statistical_model_run`
+
 ## Limitations
 
-- Model-backed live runs were not reported in this repository state.
 - External source repositories were not executed against the benchmark cases.
 - The local security-guard pilot uses deterministic rules over manually
   constructed cases and controls.
+- Live model-backed runs are single-run metrics over a manually constructed
+  benchmark, not statistical evidence or broad model ranking.
+- External case-plan files define a study protocol, not measured external
+  outcomes.
+- External artifact-selection files are metadata-only candidate references for
+  annotation, not validated artifacts.
+- External annotation packet files define pending review work and not-run
+  condition rows, not measured outcomes.
+- External dry-run files validate execution readiness but do not include model
+  outputs or statistical outcomes.
+- External representation payloads are not-run templates and do not include
+  third-party source content.
+- External payload runner dry-run output is a run plan; the separate bounded
+  live smoke covers only 16 condition rows.
+- External smoke-test outputs are normalized provider records, not a powered
+  external evaluation.
+- External result summaries record bounded smoke metrics, not measured
+  statistical effects.

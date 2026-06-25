@@ -1,0 +1,135 @@
+{
+  "title": "External Condition Evaluation Result",
+  "type": "object",
+  "required": [
+    "condition_case_id",
+    "case_id",
+    "artifact_id",
+    "source_id",
+    "artifact_family_group",
+    "case_type",
+    "condition",
+    "provider",
+    "model",
+    "run_status",
+    "expected_behavior",
+    "predicted_behavior",
+    "risk_label",
+    "constraint_pass",
+    "parse_success",
+    "latency_ms",
+    "input_tokens",
+    "output_tokens",
+    "error_type"
+  ],
+  "properties": {
+    "condition_case_id": {
+      "type": "string"
+    },
+    "case_id": {
+      "type": "string"
+    },
+    "artifact_id": {
+      "type": "string"
+    },
+    "source_id": {
+      "type": "string"
+    },
+    "artifact_family_group": {
+      "enum": [
+        "agent_skills",
+        "mcp_and_tool_recipes",
+        "agent_workflow_templates",
+        "prompt_and_function_recipes"
+      ]
+    },
+    "case_type": {
+      "enum": [
+        "positive_trigger",
+        "negative_trigger",
+        "boundary_clarification",
+        "risk_constraint"
+      ]
+    },
+    "condition": {
+      "enum": [
+        "original_freeform",
+        "skillops_normalized",
+        "skillops_ablation"
+      ]
+    },
+    "provider": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    },
+    "run_status": {
+      "enum": [
+        "completed",
+        "failed",
+        "excluded"
+      ]
+    },
+    "expected_behavior": {
+      "enum": [
+        "trigger",
+        "no_trigger",
+        "clarify_scope",
+        "apply_constraint_or_refuse"
+      ]
+    },
+    "predicted_behavior": {
+      "enum": [
+        "trigger",
+        "no_trigger",
+        "clarify_scope",
+        "apply_constraint_or_refuse",
+        "invalid"
+      ]
+    },
+    "risk_label": {
+      "enum": [
+        "none",
+        "permission_boundary",
+        "privacy",
+        "license",
+        "safety",
+        "stale_context",
+        "execution_constraint",
+        "prompt_injection"
+      ]
+    },
+    "constraint_pass": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "parse_success": {
+      "type": "boolean"
+    },
+    "latency_ms": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "input_tokens": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "output_tokens": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "error_type": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

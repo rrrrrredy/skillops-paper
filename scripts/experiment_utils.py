@@ -62,11 +62,16 @@ ALLOWED_TRIGGER_LABELS = {
 REQUIRED_PROVIDER_ENV_VARS = (
     "OPENAI_API_KEY",
     "ANTHROPIC_API_KEY",
+    "DEEPSEEK_API_KEY",
+    "MOONSHOT_API_KEY",
 )
 
 KNOWN_PROVIDER_PREFIXES = (
     "OPENAI",
     "ANTHROPIC",
+    "DEEPSEEK",
+    "MOONSHOT",
+    "KIMI",
     "GOOGLE",
     "GEMINI",
     "MISTRAL",
@@ -149,7 +154,7 @@ def write_jsonl(path: Path, records: Iterable[Mapping[str, Any]]) -> None:
 def write_csv_rows(path: Path, fieldnames: Sequence[str], rows: Iterable[Mapping[str, Any]]) -> None:
     ensure_directories([path.parent])
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(fieldnames))
+        writer = csv.DictWriter(handle, fieldnames=list(fieldnames), lineterminator="\n")
         writer.writeheader()
         for row in rows:
             writer.writerow(dict(row))
@@ -238,13 +243,17 @@ def _join_url(base_url: str, suffix: str) -> str:
 
 def resolve_provider_config(provider: str | None = None, model: str | None = None) -> tuple[ProviderConfig | None, str | None]:
     provider_name = (provider or "").strip().lower()
+    supported_providers = {"openai", "anthropic", "deepseek", "moonshot", "kimi"}
     available_providers = [
         candidate
-        for candidate in ("openai", "anthropic")
-        if _env_has_value(f"{candidate.upper()}_API_KEY")
+        for candidate in ("openai", "anthropic", "deepseek", "moonshot", "kimi")
+        if (
+            _env_has_value(f"{candidate.upper()}_API_KEY")
+            or (candidate == "kimi" and _env_has_value("MOONSHOT_API_KEY"))
+        )
     ]
 
-    if provider_name and provider_name not in {"openai", "anthropic"}:
+    if provider_name and provider_name not in supported_providers:
         return None, f"not run: unsupported provider {provider_name}"
     if not provider_name:
         if not available_providers:
@@ -252,6 +261,8 @@ def resolve_provider_config(provider: str | None = None, model: str | None = Non
         provider_name = available_providers[0]
 
     env_name = f"{provider_name.upper()}_API_KEY"
+    if provider_name == "kimi" and not _env_has_value(env_name):
+        env_name = "MOONSHOT_API_KEY"
     api_key = os.getenv(env_name, "").strip()
     if not api_key:
         return None, "not run: missing credentials"
@@ -275,6 +286,35 @@ def resolve_provider_config(provider: str | None = None, model: str | None = Non
             base_url = os.getenv("ANTHROPIC_BASE_URL", "https://api.anthropic.com/v1").strip()
             endpoint = _join_url(base_url, "messages")
         return ProviderConfig("anthropic", api_key, model_name, endpoint, "anthropic_messages"), None
+
+    if provider_name == "deepseek":
+        model_name = (model or os.getenv("DEEPSEEK_MODEL", "deepseek-v4-flash")).strip()
+        if not model_name:
+            return None, "not run: missing model selection"
+        endpoint = os.getenv("DEEPSEEK_API_URL", "").strip()
+        if not endpoint:
+            base_url = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com").strip()
+            endpoint = _join_url(base_url, "chat/completions")
+        return ProviderConfig("deepseek", api_key, model_name, endpoint, "openai_chat_compatible"), None
+
+    if provider_name in {"moonshot", "kimi"}:
+        model_name = (
+            model
+            or os.getenv("MOONSHOT_MODEL", "")
+            or os.getenv("KIMI_MODEL", "")
+            or "kimi-k2.7-code"
+        ).strip()
+        if not model_name:
+            return None, "not run: missing model selection"
+        endpoint = (os.getenv("MOONSHOT_API_URL", "") or os.getenv("KIMI_API_URL", "")).strip()
+        if not endpoint:
+            base_url = (
+                os.getenv("MOONSHOT_BASE_URL", "")
+                or os.getenv("KIMI_BASE_URL", "")
+                or "https://api.moonshot.cn/v1"
+            ).strip()
+            endpoint = _join_url(base_url, "chat/completions")
+        return ProviderConfig("kimi", api_key, model_name, endpoint, "openai_chat_compatible"), None
 
     return None, f"not run: unsupported provider {provider_name}"
 
@@ -375,6 +415,19 @@ def _extract_chat_completion_text(response_json: Any) -> str:
     raise RuntimeError("Chat completion response did not contain extractable text output")
 
 
+def sanitize_provider_response(response_json: Any) -> Any:
+    if isinstance(response_json, dict):
+        sanitized: dict[str, Any] = {}
+        for key, value in response_json.items():
+            if key in {"content", "reasoning_content", "role"}:
+                continue
+            sanitized[key] = sanitize_provider_response(value)
+        return sanitized
+    if isinstance(response_json, list):
+        return [sanitize_provider_response(item) for item in response_json]
+    return response_json
+
+
 def call_model(prompt: str, config: ProviderConfig) -> tuple[str, Any]:
     import time as _time
     _time.sleep(0.5)  # rate-limit guard: 0.5s between calls
@@ -390,7 +443,7 @@ def call_model(prompt: str, config: ProviderConfig) -> tuple[str, Any]:
             headers={"Authorization": f"Bearer {config.api_key}"},
             payload=payload,
         )
-        return _extract_openai_responses_text(response_json), response_json
+        return _extract_openai_responses_text(response_json), sanitize_provider_response(response_json)
 
     if config.protocol == "anthropic_messages":
         payload = {
@@ -417,12 +470,11 @@ def call_model(prompt: str, config: ProviderConfig) -> tuple[str, Any]:
             },
             payload=payload,
         )
-        return _extract_anthropic_text(response_json), response_json
+        return _extract_anthropic_text(response_json), sanitize_provider_response(response_json)
 
     if config.protocol == "openai_chat_compatible":
         payload = {
             "model": config.model,
-            "temperature": 0,
             "messages": [
                 {
                     "role": "user",
@@ -430,12 +482,15 @@ def call_model(prompt: str, config: ProviderConfig) -> tuple[str, Any]:
                 }
             ],
         }
+        if config.provider == "deepseek":
+            payload["temperature"] = 0
+            payload["response_format"] = {"type": "json_object"}
         response_json = _post_json(
             config.endpoint,
             headers={"Authorization": f"Bearer {config.api_key}"},
             payload=payload,
         )
-        return _extract_chat_completion_text(response_json), response_json
+        return _extract_chat_completion_text(response_json), sanitize_provider_response(response_json)
 
     raise RuntimeError(f"Unsupported provider protocol: {config.protocol}")
 

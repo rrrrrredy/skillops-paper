@@ -344,7 +344,11 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the Trigger Routing Accuracy experiment.")
     parser.add_argument("--dry-run", action="store_true", help="Validate inputs and prompts without model calls.")
     parser.add_argument("--run-live", action="store_true", help="Execute live model calls.")
-    parser.add_argument("--provider", choices=["openai", "anthropic"], help="Preferred model provider.")
+    parser.add_argument(
+        "--provider",
+        choices=["openai", "anthropic", "deepseek", "moonshot", "kimi"],
+        help="Preferred model provider.",
+    )
     parser.add_argument("--model", help="Model name for live execution.")
     return parser.parse_args()
 

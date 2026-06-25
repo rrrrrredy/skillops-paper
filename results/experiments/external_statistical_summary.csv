@@ -1,0 +1,7 @@
+metric,planned_status,result_status,records_available,notes
+routing_correct,planned_no_outcomes_yet,requires_statistical_model_run,16,External records are available; inferential statistical modeling is not run by this summary script.
+clarification_correct,planned_no_outcomes_yet,requires_statistical_model_run,16,External records are available; inferential statistical modeling is not run by this summary script.
+constraint_compliance,planned_no_outcomes_yet,requires_statistical_model_run,16,External records are available; inferential statistical modeling is not run by this summary script.
+parse_success,planned_no_outcomes_yet,requires_statistical_model_run,16,External records are available; inferential statistical modeling is not run by this summary script.
+latency_ms,planned_no_outcomes_yet,requires_statistical_model_run,16,External records are available; inferential statistical modeling is not run by this summary script.
+token_count,planned_no_outcomes_yet,requires_statistical_model_run,16,External records are available; inferential statistical modeling is not run by this summary script.

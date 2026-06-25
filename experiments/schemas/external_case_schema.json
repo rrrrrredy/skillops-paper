@@ -1,0 +1,83 @@
+{
+  "title": "External Corpus Base Case Record",
+  "type": "object",
+  "required": [
+    "case_id",
+    "source_id",
+    "source_version",
+    "artifact_reference",
+    "artifact_family_group",
+    "case_type",
+    "user_request",
+    "expected_behavior",
+    "risk_label",
+    "label_source",
+    "notes"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "pattern": "^ext-[a-z0-9-]+$"
+    },
+    "source_id": {
+      "type": "string"
+    },
+    "source_version": {
+      "type": "string"
+    },
+    "artifact_reference": {
+      "type": "string"
+    },
+    "artifact_family_group": {
+      "enum": [
+        "agent_skills",
+        "mcp_and_tool_recipes",
+        "agent_workflow_templates",
+        "prompt_and_function_recipes"
+      ]
+    },
+    "case_type": {
+      "enum": [
+        "positive_trigger",
+        "negative_trigger",
+        "boundary_clarification",
+        "risk_constraint"
+      ]
+    },
+    "user_request": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expected_behavior": {
+      "enum": [
+        "trigger",
+        "no_trigger",
+        "clarify_scope",
+        "apply_constraint_or_refuse"
+      ]
+    },
+    "risk_label": {
+      "enum": [
+        "none",
+        "permission_boundary",
+        "privacy",
+        "license",
+        "safety",
+        "stale_context",
+        "execution_constraint",
+        "prompt_injection"
+      ]
+    },
+    "label_source": {
+      "enum": [
+        "protocol_seed",
+        "annotator",
+        "adjudicated"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

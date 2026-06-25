@@ -3,7 +3,7 @@
 These metrics were produced by an actual live run.
 
 - Guard mode: `local-rules`
-- Raw output: `results\experiments\raw\security_guard_20260625T025048Z.jsonl`
+- Raw output: `results\experiments\raw\security_guard_20260625T070833Z.jsonl`
 
 ## Overall
 

@@ -1,0 +1,13 @@
+shard_id,row_count,first_condition_case_id,last_condition_case_id,status
+external-shard-001,240,ext-art-001-pos::original_freeform,ext-art-020-risk::skillops_ablation,not_run
+external-shard-002,240,ext-art-021-pos::original_freeform,ext-art-040-risk::skillops_ablation,not_run
+external-shard-003,240,ext-art-041-pos::original_freeform,ext-art-060-risk::skillops_ablation,not_run
+external-shard-004,240,ext-art-061-pos::original_freeform,ext-art-080-risk::skillops_ablation,not_run
+external-shard-005,240,ext-art-081-pos::original_freeform,ext-art-100-risk::skillops_ablation,not_run
+external-shard-006,240,ext-art-101-pos::original_freeform,ext-art-120-risk::skillops_ablation,not_run
+external-shard-007,240,ext-art-121-pos::original_freeform,ext-art-140-risk::skillops_ablation,not_run
+external-shard-008,240,ext-art-141-pos::original_freeform,ext-art-160-risk::skillops_ablation,not_run
+external-shard-009,240,ext-art-161-pos::original_freeform,ext-art-180-risk::skillops_ablation,not_run
+external-shard-010,240,ext-art-181-pos::original_freeform,ext-art-200-risk::skillops_ablation,not_run
+external-shard-011,240,ext-art-201-pos::original_freeform,ext-art-220-risk::skillops_ablation,not_run
+external-shard-012,240,ext-art-221-pos::original_freeform,ext-art-240-risk::skillops_ablation,not_run
