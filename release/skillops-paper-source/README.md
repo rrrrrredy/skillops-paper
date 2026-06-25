@@ -58,12 +58,17 @@ python scripts/summarize_live_model_results.py
 python scripts/analyze_external_corpus.py
 python scripts/generate_external_case_plan.py
 python scripts/select_external_artifacts.py
+python scripts/build_external_sampling_manifest.py
 python scripts/generate_external_annotation_packet.py
 python scripts/run_external_condition_dry_run.py --shards 12
 python scripts/build_external_representations.py
 python scripts/run_external_payload_experiment.py --dry-run
+python scripts/prepare_external_pilot_plan.py
+python scripts/run_external_pilot_experiment.py --dry-run
+python scripts/generate_external_pilot_annotation_calibration.py
 python scripts/prepare_external_smoke_test_plan.py
 python scripts/summarize_external_results.py
+python scripts/run_external_statistical_analysis.py
 python scripts/run_tests.py
 ```
 
@@ -89,10 +94,17 @@ inventory for the 240 external artifact references. It records source versions,
 repository paths or upstream links, and selection bases without copying
 third-party prose or code.
 
+`python scripts/build_external_sampling_manifest.py` adds deterministic random
+keys, owner/ecosystem strata, and cap-pressure indicators to the metadata-only
+candidate set. It reports sampling pressure and eligibility status; it does not
+report artifact eligibility, annotation, or model outcomes.
+
 `python scripts/generate_external_annotation_packet.py` expands those 240
-candidate references into 960 planned base cases, 960 pending review rows, and
-2880 condition rows. These files define review and execution work; they do not
-report collected annotations or behavior measurements.
+candidate references into eligibility and replacement manifests, 960 planned
+base cases, 960 pending review rows, and 2880 condition rows. These files
+define artifact-specific request construction, review, adjudication, and
+execution work; they do not report collected annotations or behavior
+measurements.
 
 `python scripts/run_external_condition_dry_run.py --shards 12` validates the
 2880 pending condition rows, writes a not-run execution manifest, creates twelve
@@ -109,6 +121,23 @@ selection and writes a not-run execution plan. Bounded live execution is
 available only with explicit `--run-live --sample-limit N`; the command refuses
 unbounded live execution.
 
+`python scripts/prepare_external_pilot_plan.py` selects a seeded 24-artifact
+pilot from within-cap external candidates and writes the 96 base-case, 288
+condition-row, and 576 provider-condition-row execution plan for DeepSeek and
+Kimi. The plan is for annotation disagreement, provider logistics, and parsing
+readiness; it is not a final external effect estimate.
+
+`python scripts/run_external_pilot_experiment.py --dry-run` consumes the pilot
+model plan and writes a not-run provider-condition execution plan plus
+no-secret provider readiness. Bounded live execution requires explicit
+`--run-live --provider ... --sample-limit N --max-live-rows N` and uses resume
+state from prior pilot raw outputs.
+
+`python scripts/generate_external_pilot_annotation_calibration.py` writes the
+96-case pilot annotation worklist and a balanced 32-case calibration subset for
+two-annotator review and adjudication. These files define review work only;
+they do not report collected annotations.
+
 `python scripts/prepare_external_smoke_test_plan.py` writes a no-secret,
 bounded smoke-test plan for DeepSeek and Kimi. It records whether the required
 environment variables are available, selected payload ids, and the exact
@@ -120,6 +149,11 @@ those files contain normalized result records, not model prose.
 result JSONL files when present. In this version it summarizes 16 bounded smoke
 records and marks the planned statistical metrics as requiring a separate
 statistical model run.
+
+`python scripts/run_external_statistical_analysis.py` writes descriptive paired
+contrast, cluster-bootstrap, McNemar, annotation-reliability, and exclusion
+tables. In the current repository state these are diagnostics over bounded
+smoke records, not statistical significance claims.
 
 The provider-backed commands require the corresponding provider credentials in
 environment variables. Raw outputs are written under `results/experiments/raw/`;
@@ -142,8 +176,9 @@ artifact consistency.
   `benchmark/external_artifact_corpus_sources.csv` and
   `experiments/external_validation_protocol.md`, with executable allocation
   files, metadata-only candidate files, and pending review packets under
-  `results/tables/`. A bounded external live smoke is included, but broad
-  external validation is not claimed.
+  `results/tables/`. A seeded 24-artifact external pilot execution plan,
+  annotation-calibration worklist, provider-readiness plan, and bounded external
+  live smoke are included, but broad external validation is not claimed.
 
 ## Citation
 

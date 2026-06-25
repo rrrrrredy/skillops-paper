@@ -1,6 +1,6 @@
 # External Annotation Packet
 
-This file summarizes the planned annotation packet derived from metadata-only external artifact references. It defines review work to be performed; it does not report collected annotations or behavioral outcomes.
+This file summarizes the planned annotation packet derived from metadata-only external artifact references. It defines eligibility, replacement, review, and adjudication work to be performed; it does not report collected annotations or behavioral outcomes.
 
 ## Totals
 
@@ -10,6 +10,8 @@ This file summarizes the planned annotation packet derived from metadata-only ex
 | Base cases | 960 |
 | Annotation rows | 960 |
 | Condition rows | 2880 |
+| Eligibility rows | 240 |
+| Replacement rows | 100 |
 
 ## Families
 

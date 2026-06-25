@@ -23,6 +23,15 @@
     "error_type"
   ],
   "properties": {
+    "payload_id": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "batch_id": {
+      "type": "string"
+    },
     "condition_case_id": {
       "type": "string"
     },
@@ -129,6 +138,57 @@
     },
     "error_type": {
       "type": "string"
+    },
+    "shard_id": {
+      "type": "string"
+    },
+    "prompt_hash": {
+      "type": "string"
+    },
+    "representation_hash": {
+      "type": "string"
+    },
+    "model_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "temperature": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "max_tokens": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "finish_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "usage": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "rationale": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "retry_count": {
+      "type": [
+        "integer",
+        "null"
+      ]
     }
   },
   "additionalProperties": false

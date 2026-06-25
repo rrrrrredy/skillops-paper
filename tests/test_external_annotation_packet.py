@@ -10,6 +10,8 @@ ARTIFACT_SELECTION_PATH = REPO_ROOT / "results" / "tables" / "external_artifact_
 CASE_CONSTRUCTION_PATH = REPO_ROOT / "results" / "tables" / "external_case_construction.csv"
 ANNOTATION_PACKET_PATH = REPO_ROOT / "results" / "tables" / "external_annotation_packet.csv"
 CONDITION_PACKET_PATH = REPO_ROOT / "results" / "tables" / "external_condition_packet.csv"
+ELIGIBILITY_MANIFEST_PATH = REPO_ROOT / "results" / "tables" / "external_eligibility_manifest.csv"
+REPLACEMENT_MANIFEST_PATH = REPO_ROOT / "results" / "tables" / "external_replacement_manifest.csv"
 SUMMARY_PATH = REPO_ROOT / "results" / "tables" / "external_annotation_packet.md"
 
 EXPECTED_CASE_TYPES = {
@@ -40,7 +42,14 @@ def read_csv_rows(path: Path) -> list[dict[str, str]]:
 
 class ExternalAnnotationPacketTests(unittest.TestCase):
     def test_annotation_packet_files_exist(self) -> None:
-        for path in (CASE_CONSTRUCTION_PATH, ANNOTATION_PACKET_PATH, CONDITION_PACKET_PATH, SUMMARY_PATH):
+        for path in (
+            CASE_CONSTRUCTION_PATH,
+            ANNOTATION_PACKET_PATH,
+            CONDITION_PACKET_PATH,
+            ELIGIBILITY_MANIFEST_PATH,
+            REPLACEMENT_MANIFEST_PATH,
+            SUMMARY_PATH,
+        ):
             self.assertTrue(path.exists(), f"Missing {path}")
             self.assertGreater(path.stat().st_size, 0, f"Empty {path}")
 
@@ -58,6 +67,9 @@ class ExternalAnnotationPacketTests(unittest.TestCase):
             self.assertIn(row["expected_behavior"], EXPECTED_BEHAVIORS)
             self.assertEqual(row["label_source"], "protocol_seed")
             self.assertTrue(row["user_request"])
+            self.assertEqual(row["protocol_seed_request"], row["user_request"])
+            self.assertEqual(row["artifact_specific_request_status"], "pending_artifact_specific_construction")
+            self.assertEqual(row["evidence_review_status"], "pending_review")
 
         self.assertEqual(set(by_artifact), {row["artifact_id"] for row in artifact_rows})
         self.assertTrue(all(case_types == EXPECTED_CASE_TYPES for case_types in by_artifact.values()))
@@ -68,6 +80,22 @@ class ExternalAnnotationPacketTests(unittest.TestCase):
         self.assertTrue(all(row["review_status"] == "pending_review" for row in rows))
         self.assertTrue(all(row["adjudicated_expected_behavior"] == "" for row in rows))
         self.assertTrue(all(row["adjudicated_risk_label"] == "" for row in rows))
+        self.assertTrue(all(row["annotator_a_id"] == "" for row in rows))
+        self.assertTrue(all(row["annotator_b_id"] == "" for row in rows))
+        self.assertTrue(all(row["adjudicated_user_request"] == "" for row in rows))
+        self.assertEqual({row["eligibility_status"] for row in rows}, {"pending_review"})
+
+    def test_eligibility_and_replacement_manifests_track_cap_pressure(self) -> None:
+        eligibility_rows = read_csv_rows(ELIGIBILITY_MANIFEST_PATH)
+        replacement_rows = read_csv_rows(REPLACEMENT_MANIFEST_PATH)
+        self.assertEqual(len(eligibility_rows), 240)
+        self.assertEqual(len(replacement_rows), 100)
+        self.assertEqual({row["eligibility_status"] for row in eligibility_rows}, {"pending_review"})
+        self.assertEqual({row["replacement_status"] for row in replacement_rows}, {"pending_replacement_or_corpus_expansion"})
+        self.assertEqual(
+            {row["replacement_for"] for row in replacement_rows},
+            {row["artifact_id"] for row in eligibility_rows if row["replacement_required"] == "true"},
+        )
 
     def test_condition_packet_crosses_three_conditions(self) -> None:
         case_rows = read_csv_rows(CASE_CONSTRUCTION_PATH)
@@ -89,6 +117,8 @@ class ExternalAnnotationPacketTests(unittest.TestCase):
         self.assertIn("does not report collected annotations or behavioral outcomes", text)
         self.assertIn("Base cases | 960", text)
         self.assertIn("Condition rows | 2880", text)
+        self.assertIn("Eligibility rows | 240", text)
+        self.assertIn("Replacement rows | 100", text)
 
 
 if __name__ == "__main__":

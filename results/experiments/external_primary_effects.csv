@@ -1,0 +1,5 @@
+contrast,provider_model,paired_units,condition_a_rate,condition_b_rate,risk_difference,analysis_status,notes
+skillops_normalized_vs_original_freeform,deepseek::deepseek-v4-flash,4,0.250000,0.250000,0.000000,descriptive_only,Paired descriptive contrast; not a powered inferential result.
+skillops_normalized_vs_skillops_ablation,deepseek::deepseek-v4-flash,4,0.250000,0.250000,0.000000,descriptive_only,Paired descriptive contrast; not a powered inferential result.
+skillops_normalized_vs_original_freeform,kimi::kimi-k2.7-code,1,1.000000,1.000000,0.000000,descriptive_only,Paired descriptive contrast; not a powered inferential result.
+skillops_normalized_vs_skillops_ablation,kimi::kimi-k2.7-code,1,1.000000,0.000000,1.000000,descriptive_only,Paired descriptive contrast; not a powered inferential result.

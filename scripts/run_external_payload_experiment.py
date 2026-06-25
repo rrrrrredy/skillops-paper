@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import sys
 import time
@@ -190,7 +191,22 @@ def render_payload_prompt(row: dict[str, Any]) -> str:
     )
 
 
-def normalize_live_result(row: dict[str, Any], provider: str, model: str, response_text: str, response_json: Any, elapsed_ms: float) -> dict[str, Any]:
+def sha256_text(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def normalize_live_result(
+    row: dict[str, Any],
+    provider: str,
+    model: str,
+    response_text: str,
+    response_json: Any,
+    elapsed_ms: float,
+    *,
+    prompt_hash: str,
+    run_id: str,
+    batch_id: str,
+) -> dict[str, Any]:
     parsed = parse_json_object(response_text)
     parsed_ok = isinstance(parsed, dict)
     predicted_behavior = "invalid"
@@ -209,6 +225,9 @@ def normalize_live_result(row: dict[str, Any], provider: str, model: str, respon
         error_type = "parse_error"
 
     return {
+        "payload_id": row["payload_id"],
+        "run_id": run_id,
+        "batch_id": batch_id,
         "condition_case_id": row["condition_case_id"],
         "case_id": row["case_id"],
         "artifact_id": row["artifact_id"],
@@ -228,6 +247,16 @@ def normalize_live_result(row: dict[str, Any], provider: str, model: str, respon
         "input_tokens": None,
         "output_tokens": None,
         "error_type": error_type,
+        "shard_id": row["shard_id"],
+        "prompt_hash": prompt_hash,
+        "representation_hash": sha256_text(row["artifact_representation"]),
+        "model_version": model,
+        "temperature": 0 if provider == "deepseek" else None,
+        "max_tokens": None,
+        "finish_reason": "",
+        "usage": None,
+        "rationale": parsed.get("rationale", "") if parsed_ok else "",
+        "retry_count": 0,
     }
 
 
@@ -241,12 +270,26 @@ def run_live(selected: list[dict[str, Any]], provider: str | None, model: str | 
         raise RuntimeError(skip_reason or "provider configuration unavailable")
 
     records: list[dict[str, Any]] = []
+    run_id = f"external-{filename_timestamp()}"
+    batch_id = f"{config.provider}-{config.model}-{len(selected)}"
     for row in selected:
         prompt = render_payload_prompt(row)
         started = time.perf_counter()
         response_text, response_json = call_model(prompt, config)
         elapsed_ms = (time.perf_counter() - started) * 1000
-        records.append(normalize_live_result(row, config.provider, config.model, response_text, response_json, elapsed_ms))
+        records.append(
+            normalize_live_result(
+                row,
+                config.provider,
+                config.model,
+                response_text,
+                response_json,
+                elapsed_ms,
+                prompt_hash=sha256_text(prompt),
+                run_id=run_id,
+                batch_id=batch_id,
+            )
+        )
 
     output_path = RAW_RESULTS_DIR / f"external_condition_{filename_timestamp()}.jsonl"
     write_jsonl(output_path, records)

@@ -39,15 +39,15 @@ paper introduces SkillOps, a practical framework for designing, testing, and
 operating modular skills in personal AI agents. The framework is derived from
 open-source artifacts developed by the author and contributes a skill component
 taxonomy, a lifecycle model, a failure-mode taxonomy, a design-gap matrix, and
-an artifact-based evaluation design. The paper reports three evidence layers:
-descriptive benchmark summaries from manually constructed artifact, trigger,
-and risk cases; deterministic repository-level consistency checks; a local
-security-guard pilot over risk and benign-control cases; and live
-model-backed runs with DeepSeek and Kimi over trigger, constraint, security,
-and memory-drift protocols. The contribution is therefore a bounded
-engineering framework for making agent skills more explicit, testable, and
-maintainable, not a claim that a particular skill format universally improves
-model behavior.
+an artifact-based evaluation design. The paper reports completed descriptive
+summaries, repository-level consistency checks, a local security-guard pilot,
+and live model-backed runs with DeepSeek and Kimi over trigger, constraint,
+security, and memory-drift protocols. It also reports an external-validation
+readiness layer: a metadata-only third-party corpus protocol, a seeded
+24-artifact pilot plan, bounded runner readiness, and a two-annotator
+calibration worklist. The contribution is therefore a bounded engineering
+framework for making agent skills more explicit, testable, and maintainable,
+not a claim that a particular skill format universally improves model behavior.
 \end{abstract}
 
 \section{Introduction}
@@ -97,8 +97,9 @@ skills become easier to inspect, test, and govern when they are treated as
 lifecycle-managed artifacts with explicit structure, tests, and operational
 controls. The paper contributes a framework, a taxonomy of skill components, a
 methodology for artifact-based study, a descriptive benchmark layer built from
-manually constructed inputs, and a local executable risk-review pilot. The
-reported tables and pilot summaries should not be read as broad empirical
+manually constructed inputs, a local executable risk-review pilot, and a
+third-party corpus protocol with pilot-readiness artifacts. The reported
+tables, pilots, and readiness files should not be read as broad empirical
 validation or as a general model comparison.
 
 \section{Background and Motivation}
@@ -1105,6 +1106,26 @@ requested explicitly with a provider, model, shard or sample limit, and
 the study can move from protocol to bounded execution without accidentally
 treating the 2880-row packet as completed evidence.
 
+For a smaller execution rehearsal, \path{scripts/prepare_external_pilot_plan.py}
+selects a seeded 24-artifact subset from within-cap external candidates: six
+agent skills, six agent workflow templates, six MCP/tool recipes, and six
+prompt/function recipes. The resulting pilot has 96 base cases, 288 condition
+rows per provider, and 576 provider-condition rows across DeepSeek and Kimi.
+\path{scripts/run_external_pilot_experiment.py} consumes that plan, writes a
+not-run provider-condition execution plan and no-secret provider-readiness
+table, skips rows already completed in prior pilot raw outputs, and refuses
+unbounded live execution. In the evidence state reported here, this pilot
+runner is readiness evidence; no completed pilot live slice is counted as an
+external effect estimate.
+
+The human-review side of the same pilot is made concrete by
+\path{scripts/generate_external_pilot_annotation_calibration.py}. It writes a
+96-case pilot annotation worklist and a balanced 32-case calibration subset:
+two artifacts from each study family, crossed with the four case types. These
+files reserve independent annotator and adjudication fields, but the fields
+remain empty in this release. They therefore support annotation logistics and
+disagreement estimation, not collected human labels.
+
 The repository additionally includes
 \path{scripts/prepare_external_smoke_test_plan.py}, which writes a no-secret
 bounded smoke-test plan for DeepSeek and Kimi. In the current evidence state,
@@ -1183,7 +1204,11 @@ artifact, it constructs positive-trigger, negative-trigger, boundary, and
 risk-or-constraint cases, yielding 960 paired cases. The planned analysis uses
 paired stratification, mixed-effects logistic models, McNemar robustness
 checks for paired binary outcomes, bootstrap intervals for F1, and
-Holm-Bonferroni correction across metrics.
+Holm-Bonferroni correction across metrics. The 24-artifact pilot described
+above is the intended calibration step before that larger study: it is large
+enough to expose annotation disagreement, provider failures, parsing failures,
+and representation-construction mistakes, but too small to support broad
+external-effect claims.
 
 The human-review layer is deliberately separated from the automated evidence.
 It requires 48--72 participants with agent or developer-workflow experience
@@ -1205,6 +1230,9 @@ modes, and review checks concrete enough to inspect, test, and revise.
 These results, including the bounded external smoke, do not establish
 statistical significance, broad empirical validation, or general effectiveness
 across external skill sets, user populations, or deployment environments.
+The new pilot-readiness layer improves the path to such validation by making
+the next 24-artifact execution and annotation step explicit, but it does not
+change the claim boundary.
 
 \section{Discussion}
 
@@ -1250,7 +1278,8 @@ This paper has several limitations.
 First, the primary artifact base is authored and interpreted by one author.
 This paper therefore reflects a single-author artifact base rather than a
 multi-lab or multi-organization corpus. The added external corpus frame reduces
-this risk at the study-design layer, but it is not a completed external
+this risk at the study-design layer, and the 24-artifact pilot worklist makes
+the next validation step concrete. It is still not a completed external
 annotation study.
 
 Second, the artifact evidence comes from five public repositories. This is
@@ -1278,13 +1307,16 @@ ablation evidence requires repeated runs and independently reviewed external
 artifacts before strong comparative claims are warranted.
 
 Eighth, a bounded external model smoke is reported, but no external user study
-is reported. The paper does not measure how other users understand the skill
-format, apply the workflow, or experience the proposed guardrails in practice.
+is reported. The 96-case pilot worklist and 32-case calibration subset prepare
+two-annotator review, but they do not measure how other users understand the
+skill format, apply the workflow, or experience the proposed guardrails in
+practice.
 
 Ninth, external skill sets, other agent environments, and independent
 annotations are needed before stronger comparative claims could be made. The
 third-party corpus frame makes that study design concrete, but does not replace
-running it.
+running it. The pilot runner adds bounded execution mechanics and resume
+behavior, not completed external outcomes.
 
 Tenth, several artifacts encode local desktop-agent assumptions about directory
 layout, skill packaging, cron usage, and local agent control. These assumptions
@@ -1297,7 +1329,9 @@ algorithm.
 
 Twelfth, some evaluation criteria still require human judgment. For example,
 audit usefulness and context relevance may be difficult to score objectively.
-Later benchmark revisions should therefore include clear annotation guidelines.
+The external annotation guide and pilot calibration files address this at the
+protocol level, but reliability statistics require completed independent
+annotations.
 
 Thirteenth, personal agent environments differ substantially in their tool access,
 memory mechanisms, security policies, and user expectations. A skill format
@@ -1415,7 +1449,9 @@ design, context injection, execution constraints, security checks,
 self-auditing, and forgetting. The paper formulates three research questions
 and reports a descriptive benchmark layer, repository-level consistency checks,
 a local security-guard pilot over risk and benign-control cases, and live
-model-backed runs over DeepSeek and Kimi.
+model-backed runs over DeepSeek and Kimi. It also provides a third-party
+external corpus protocol, a 24-artifact pilot execution plan, bounded pilot
+runner readiness, and a two-annotator calibration worklist.
 
 The contribution is bounded but operationally substantive. SkillOps is not
 presented as a new agent architecture or as a broadly validated empirical
@@ -1423,9 +1459,10 @@ result. Instead, it identifies an under-specified layer in personal-agent
 systems: the lifecycle discipline required to make reusable skills inspectable,
 testable, and maintainable. The controlled pilots show that structured skill
 artifacts can support executable checks, live model-backed review loops, and
-reviewable operational analysis in this setting, while broader empirical
-claims require external skill sets, repeated execution studies, independent
-annotation, and external use.
+reviewable operational analysis in this setting. The external protocol and
+pilot-readiness artifacts make the next validation step auditable, while
+broader empirical claims still require external skill sets, repeated execution
+studies, independent annotation, and external use.
 
 \bibliographystyle{plainnat}
 \bibliography{references}

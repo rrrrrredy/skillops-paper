@@ -29,14 +29,21 @@ Status `passed` unless noted otherwise.
 18. `python scripts/analyze_external_corpus.py`
 19. `python scripts/generate_external_case_plan.py`
 20. `python scripts/select_external_artifacts.py`
-21. `python scripts/generate_external_annotation_packet.py`
-22. `python scripts/run_external_condition_dry_run.py --shards 12`
-23. `python scripts/build_external_representations.py`
-24. `python scripts/run_external_payload_experiment.py --dry-run`
-25. `python scripts/prepare_external_smoke_test_plan.py`
-26. `python scripts/run_external_payload_experiment.py --run-live --provider deepseek --model deepseek-v4-flash --sample-limit 12 --max-live-rows 12`
-27. `python scripts/run_external_payload_experiment.py --run-live --provider kimi --model kimi-k2.7-code --sample-limit 4 --max-live-rows 4`
-28. `python scripts/summarize_external_results.py`
+21. `python scripts/build_external_sampling_manifest.py`
+22. `python scripts/generate_external_annotation_packet.py`
+23. `python scripts/run_external_condition_dry_run.py --shards 12`
+24. `python scripts/build_external_representations.py`
+25. `python scripts/run_external_payload_experiment.py --dry-run`
+26. `python scripts/prepare_external_smoke_test_plan.py`
+27. `python scripts/run_external_payload_experiment.py --run-live --provider deepseek --model deepseek-v4-flash --sample-limit 12 --max-live-rows 12`
+28. `python scripts/run_external_payload_experiment.py --run-live --provider kimi --model kimi-k2.7-code --sample-limit 4 --max-live-rows 4`
+29. `python scripts/summarize_external_results.py`
+30. `python scripts/run_external_statistical_analysis.py`
+31. `python scripts/prepare_external_pilot_plan.py`
+32. `python scripts/run_external_pilot_experiment.py --dry-run`
+33. `python scripts/generate_external_pilot_annotation_calibration.py`
+34. `D:\codex-work\.tools\tectonic-0.16.9\tectonic.exe -o release paper\main.tex`
+35. `python scripts/package_release.py`
 
 ## Outputs Generated
 
@@ -63,6 +70,10 @@ Status `passed` unless noted otherwise.
 - `results/tables/external_artifact_selection.csv`
 - `results/tables/external_artifact_selection_summary.csv`
 - `results/tables/external_artifact_selection.md`
+- `results/tables/external_sampling_manifest.csv`
+- `results/tables/external_sampling_manifest.md`
+- `results/tables/external_eligibility_manifest.csv`
+- `results/tables/external_replacement_manifest.csv`
 - `results/tables/external_case_construction.csv`
 - `results/tables/external_annotation_packet.csv`
 - `results/tables/external_condition_packet.csv`
@@ -77,6 +88,17 @@ Status `passed` unless noted otherwise.
 - `results/experiments/external_representation_payloads.md`
 - `results/experiments/external_payload_run_plan.csv`
 - `results/experiments/external_payload_run_plan.md`
+- `results/experiments/external_pilot_artifacts.csv`
+- `results/experiments/external_pilot_condition_plan.csv`
+- `results/experiments/external_pilot_model_plan.csv`
+- `results/experiments/external_pilot_plan.md`
+- `results/experiments/external_pilot_run_plan.csv`
+- `results/experiments/external_pilot_run_plan.md`
+- `results/experiments/external_pilot_provider_readiness.csv`
+- `results/experiments/external_pilot_provider_readiness.md`
+- `results/tables/external_pilot_annotation_worklist.csv`
+- `results/tables/external_pilot_annotation_calibration.csv`
+- `results/tables/external_pilot_annotation_calibration.md`
 - `results/experiments/external_smoke_test_plan.csv`
 - `results/experiments/external_smoke_test_plan.md`
 - `results/experiments/raw/external_condition_20260625T084916Z.jsonl`
@@ -85,6 +107,14 @@ Status `passed` unless noted otherwise.
 - `results/experiments/external_result_summary.md`
 - `results/experiments/external_statistical_summary.csv`
 - `results/experiments/external_statistical_summary.md`
+- `results/experiments/external_primary_effects.csv`
+- `results/experiments/external_f1_bootstrap.csv`
+- `results/experiments/external_mcnemar.csv`
+- `results/experiments/external_annotation_reliability.csv`
+- `results/experiments/external_exclusions.csv`
+- `results/experiments/external_statistical_analysis.md`
+- `release/skillops-paper.pdf`
+- `release/skillops-paper-source.zip`
 
 ## Counts Verified
 
@@ -102,6 +132,13 @@ Status `passed` unless noted otherwise.
   evaluations
 - `results/tables/external_artifact_selection.csv`: `240` metadata-only
   candidate artifact rows
+- `results/tables/external_sampling_manifest.csv`: `240` seeded sampling rows
+- `results/tables/external_sampling_manifest.csv`: `100` rows exceeding current
+  source/owner cap targets and requiring replacement or corpus expansion
+- `results/tables/external_eligibility_manifest.csv`: `240` pending eligibility
+  review rows
+- `results/tables/external_replacement_manifest.csv`: `100` pending replacement
+  or corpus-expansion rows
 - `results/tables/external_case_construction.csv`: `960` planned base cases
 - `results/tables/external_annotation_packet.csv`: `960` pending review rows
 - `results/tables/external_condition_packet.csv`: `2880` pending condition rows
@@ -114,10 +151,26 @@ Status `passed` unless noted otherwise.
 - `results/experiments/external_representation_payloads.jsonl`: `2880`
   metadata-only payload templates
 - `results/experiments/external_payload_run_plan.csv`: `2880` not-run plan rows
+- `results/experiments/external_pilot_artifacts.csv`: `24` selected
+  within-cap pilot artifacts
+- `results/experiments/external_pilot_condition_plan.csv`: `288` selected
+  pilot condition rows
+- `results/experiments/external_pilot_model_plan.csv`: `576`
+  provider-condition rows
+- `results/experiments/external_pilot_run_plan.csv`: `576` not-run pilot
+  provider-condition rows
+- `results/experiments/external_pilot_provider_readiness.csv`: `2` provider
+  readiness rows
+- `results/tables/external_pilot_annotation_worklist.csv`: `96` pending
+  pilot annotation cases
+- `results/tables/external_pilot_annotation_calibration.csv`: `32` balanced
+  calibration cases
 - `results/experiments/external_smoke_test_plan.csv`: `4` no-secret smoke-plan
   rows
 - `results/experiments/external_result_summary.csv`: `16` bounded external
   live-smoke records
+- `results/experiments/external_primary_effects.csv`: descriptive paired
+  contrasts only
 
 ## Local Security-Guard Pilot
 
@@ -178,11 +231,22 @@ Status `passed` unless noted otherwise.
   - `relevant_tree_path`: `128`
   - `textlike_tree_path`: `3`
 
+## External Sampling Manifest
+
+- Command: `python scripts/build_external_sampling_manifest.py`
+- Status: passed
+- Candidate artifact rows: `240`
+- Seed: `20260625`
+- Rows exceeding current source/owner cap targets: `100`
+- Evidence boundary: sampling-frame and cap-pressure diagnostics only.
+
 ## External Annotation Packet
 
 - Command: `python scripts/generate_external_annotation_packet.py`
 - Status: passed
 - Candidate artifacts: `240`
+- Pending eligibility rows: `240`
+- Pending replacement or corpus-expansion rows: `100`
 - Planned base cases: `960`
 - Pending review rows: `960`
 - Pending condition rows: `2880`
@@ -221,6 +285,52 @@ Status `passed` unless noted otherwise.
 - Run status: `not_run`
 - Live execution: not run
 
+## External Pilot Execution Plan
+
+- Command: `python scripts/prepare_external_pilot_plan.py`
+- Status: passed
+- Selected pilot artifacts: `24`
+- Base cases: `96`
+- Condition rows per provider/model: `288`
+- Provider-condition rows:
+  - `deepseek` / `deepseek-v4-flash`: `288`
+  - `kimi` / `kimi-k2.7-code`: `288`
+- Family balance:
+  - `agent_skills`: `6`
+  - `agent_workflow_templates`: `6`
+  - `mcp_and_tool_recipes`: `6`
+  - `prompt_and_function_recipes`: `6`
+- Evidence boundary: pilot logistics and annotation-readiness plan only.
+
+## External Pilot Runner Dry Run
+
+- Command: `python scripts/run_external_pilot_experiment.py --dry-run`
+- Status: passed
+- Pilot provider-condition rows: `576`
+- Provider/model pairs:
+  - `deepseek` / `deepseek-v4-flash`: `288`
+  - `kimi` / `kimi-k2.7-code`: `288`
+- Run status: `not_run`
+- Provider readiness rows: `2`
+- Environment availability in this run:
+  - `DEEPSEEK_API_KEY`: `false`
+  - `MOONSHOT_API_KEY`: `false`
+- Evidence boundary: bounded runner and readiness evidence only.
+
+## External Pilot Annotation Calibration
+
+- Command: `python scripts/generate_external_pilot_annotation_calibration.py`
+- Status: passed
+- Pilot annotation worklist cases: `96`
+- Calibration cases: `32`
+- Calibration artifacts: `8`
+- Calibration family balance:
+  - `agent_skills`: `8`
+  - `agent_workflow_templates`: `8`
+  - `mcp_and_tool_recipes`: `8`
+  - `prompt_and_function_recipes`: `8`
+- Evidence boundary: pending review plan only.
+
 ## External Smoke-Test Plan
 
 - Command: `python scripts/prepare_external_smoke_test_plan.py`
@@ -253,6 +363,19 @@ Status `passed` unless noted otherwise.
 - Expected-behavior match: `5/16`
 - Statistical result status: `requires_statistical_model_run`
 
+## External Statistical Diagnostics
+
+- Command: `python scripts/run_external_statistical_analysis.py`
+- Status: passed
+- Outputs:
+  - `results/experiments/external_primary_effects.csv`
+  - `results/experiments/external_f1_bootstrap.csv`
+  - `results/experiments/external_mcnemar.csv`
+  - `results/experiments/external_annotation_reliability.csv`
+  - `results/experiments/external_exclusions.csv`
+  - `results/experiments/external_statistical_analysis.md`
+- Evidence boundary: descriptive diagnostics over bounded smoke records only.
+
 ## Limitations
 
 - External source repositories were not executed against the benchmark cases.
@@ -264,15 +387,26 @@ Status `passed` unless noted otherwise.
   outcomes.
 - External artifact-selection files are metadata-only candidate references for
   annotation, not validated artifacts.
-- External annotation packet files define pending review work and not-run
-  condition rows, not measured outcomes.
+- External sampling manifest files expose source/owner cap pressure, but do not
+  complete replacement, eligibility review, or corpus balancing.
+- External annotation packet files define pending eligibility, replacement,
+  artifact-specific request construction, review work, and not-run condition
+  rows, not measured outcomes.
 - External dry-run files validate execution readiness but do not include model
   outputs or statistical outcomes.
 - External representation payloads are not-run templates and do not include
   third-party source content.
 - External payload runner dry-run output is a run plan; the separate bounded
   live smoke covers only 16 condition rows.
+- External pilot execution plan output selects a bounded 24-artifact subset,
+  but does not complete annotation, adjudication, or powered external model
+  execution.
+- External pilot runner output is dry-run/readiness evidence; the current
+  process did not contain provider credentials for a pilot live slice.
+- External pilot annotation calibration output is a worklist and calibration
+  subset, not collected annotation or adjudication evidence.
 - External smoke-test outputs are normalized provider records, not a powered
   external evaluation.
 - External result summaries record bounded smoke metrics, not measured
   statistical effects.
+- External statistical diagnostic files are not powered inferential analyses.

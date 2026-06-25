@@ -37,6 +37,8 @@ class ExternalConditionDryRunTests(unittest.TestCase):
         self.assertEqual(schema["title"], "External Condition Evaluation Result")
         self.assertFalse(schema.get("additionalProperties", True))
         self.assertIn("predicted_behavior", schema["required"])
+        for field in ("payload_id", "run_id", "batch_id", "prompt_hash", "representation_hash", "retry_count"):
+            self.assertIn(field, schema["properties"])
 
     def test_external_manifest_shards_pending_rows(self) -> None:
         rows = read_csv_rows(MANIFEST_PATH)

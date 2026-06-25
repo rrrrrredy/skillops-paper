@@ -20,6 +20,14 @@ The review packet is `results/tables/external_annotation_packet.csv`. It keeps
 two independent reviewer fields and separate adjudication fields. Leave
 adjudication blank until disagreement resolution is complete.
 
+The eligibility packet is `results/tables/external_eligibility_manifest.csv`.
+Annotators must verify locator, version pin, license, and operational-boundary
+status before cases can move from protocol seed to artifact-specific execution.
+Rows marked as requiring replacement are listed in
+`results/tables/external_replacement_manifest.csv`; they should be replaced
+within the same or nearest feasible stratum before broad external-validity
+claims are made.
+
 Each artifact receives four base cases:
 
 | Case type | Decision target | Required evidence |
@@ -54,6 +62,25 @@ For prompt-only artifacts, annotate the prompt as an instruction surface rather 
 ## Review Procedure
 
 Two annotators independently label each sampled artifact and its four cases. Disagreements are resolved by adjudication before model-backed execution. Report Cohen's kappa or Krippendorff's alpha for case type and expected behavior, plus raw agreement for risk labels.
+
+Annotators should construct artifact-specific user requests from the pinned
+source evidence. The protocol seed request is only a starting point. The final
+adjudicated request must cite the evidence reference used to determine purpose,
+accepted inputs, missing preconditions, and relevant risk boundaries.
+
+## Pilot Calibration
+
+The 24-artifact pilot worklist is
+`results/tables/external_pilot_annotation_worklist.csv`. It contains 96
+pending review cases drawn from the seeded pilot execution plan.
+
+The calibration subset is
+`results/tables/external_pilot_annotation_calibration.csv`. It contains 32
+cases: two artifacts per study family, crossed with the four case types. Use
+this subset to estimate annotator disagreement and clarify labeling rules
+before executing the pilot model run. Do not treat calibration rows as collected
+annotation evidence until both independent annotations and adjudication fields
+are complete.
 
 Annotators should not copy third-party prose into the released artifact unless the source license permits reuse. Metadata-only references are acceptable when text reuse is unclear.
 

@@ -42,6 +42,12 @@ This inventory summarizes the major changes in the current working copy.
 - Added dry-run external condition manifest and shard summaries.
 - Added metadata-only representation payloads for 2880 condition rows.
 - Added live-ready external payload runner with bounded execution safeguards.
+- Added seeded 24-artifact external pilot execution plan with 96 base cases,
+  288 condition rows, and 576 provider-condition rows across DeepSeek and Kimi.
+- Added resumable bounded pilot runner readiness over the 576
+  provider-condition rows.
+- Added 96-case pilot annotation worklist and balanced 32-case calibration
+  subset for two-annotator review and adjudication.
 - Added no-secret smoke-test plan.
 - Added bounded external live smoke results for 16 metadata-only condition rows.
 - Added external result and statistical summary files that separate smoke
@@ -49,12 +55,16 @@ This inventory summarizes the major changes in the current working copy.
 
 ## Tests
 
-- Expanded repository tests to cover provider configuration, live result hygiene, external corpus structure, external case scaffolding, artifact selection, annotation packets, dry-run manifests, representation payloads, smoke-test planning, and external result summaries.
-- Final status: 67 tests discovered, 67 passed.
+- Expanded repository tests to cover provider configuration, live result hygiene, external corpus structure, external case scaffolding, artifact selection, annotation packets, dry-run manifests, representation payloads, pilot execution planning, pilot runner readiness, pilot annotation calibration, smoke-test planning, and external result summaries.
+- Final status: 90 tests discovered, 90 passed.
 
 ## Remaining Work
 
 - Conduct external human annotation and adjudication.
+- Use the 24-artifact pilot execution plan to estimate annotation disagreement,
+  parser/provider failure rates, and operational cost before a larger run.
+- Provide provider credentials in the process environment before running a
+  bounded pilot live slice.
 - Execute the full external model study only after annotation and adjudication.
 - Run inferential statistical analysis only after the full external result set exists.
 - Perform one final commit and one final push for the public update.

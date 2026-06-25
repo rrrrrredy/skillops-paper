@@ -1,0 +1,3 @@
+provider,model,credential_env,credential_available,planned_rows,completed_rows,pending_rows,bounded_command,status,evidence_boundary
+deepseek,deepseek-v4-flash,DEEPSEEK_API_KEY,false,288,0,288,python scripts/run_external_pilot_experiment.py --run-live --provider deepseek --model deepseek-v4-flash --sample-limit 4 --max-live-rows 4,not_run_missing_credentials,pilot_logistics_not_external_effect_estimate
+kimi,kimi-k2.7-code,MOONSHOT_API_KEY,false,288,0,288,python scripts/run_external_pilot_experiment.py --run-live --provider kimi --model kimi-k2.7-code --sample-limit 4 --max-live-rows 4,not_run_missing_credentials,pilot_logistics_not_external_effect_estimate

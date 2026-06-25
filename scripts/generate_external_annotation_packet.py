@@ -10,9 +10,12 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 RESULTS_TABLES_DIR = REPO_ROOT / "results" / "tables"
 
 ARTIFACT_SELECTION_PATH = RESULTS_TABLES_DIR / "external_artifact_selection.csv"
+SAMPLING_MANIFEST_PATH = RESULTS_TABLES_DIR / "external_sampling_manifest.csv"
 CASE_CONSTRUCTION_PATH = RESULTS_TABLES_DIR / "external_case_construction.csv"
 ANNOTATION_PACKET_PATH = RESULTS_TABLES_DIR / "external_annotation_packet.csv"
 CONDITION_PACKET_PATH = RESULTS_TABLES_DIR / "external_condition_packet.csv"
+ELIGIBILITY_MANIFEST_PATH = RESULTS_TABLES_DIR / "external_eligibility_manifest.csv"
+REPLACEMENT_MANIFEST_PATH = RESULTS_TABLES_DIR / "external_replacement_manifest.csv"
 SUMMARY_PATH = RESULTS_TABLES_DIR / "external_annotation_packet.md"
 
 CASE_CONSTRUCTION_COLUMNS = [
@@ -24,6 +27,11 @@ CASE_CONSTRUCTION_COLUMNS = [
     "artifact_family_group",
     "case_type",
     "user_request",
+    "protocol_seed_request",
+    "artifact_specific_user_request",
+    "artifact_specific_request_status",
+    "required_evidence_refs",
+    "evidence_review_status",
     "expected_behavior",
     "risk_label",
     "label_source",
@@ -38,12 +46,23 @@ ANNOTATION_PACKET_COLUMNS = [
     "case_type",
     "artifact_reference",
     "source_version",
+    "protocol_seed_request",
+    "artifact_specific_user_request",
+    "required_evidence_refs",
+    "annotator_a_id",
+    "annotator_b_id",
+    "annotator_a_user_request",
+    "annotator_b_user_request",
     "annotator_a_expected_behavior",
     "annotator_b_expected_behavior",
     "annotator_a_risk_label",
     "annotator_b_risk_label",
+    "adjudicated_user_request",
     "adjudicated_expected_behavior",
     "adjudicated_risk_label",
+    "adjudication_reason",
+    "eligibility_status",
+    "replacement_required",
     "review_status",
     "exclusion_reason",
 ]
@@ -60,6 +79,36 @@ CONDITION_PACKET_COLUMNS = [
     "risk_label",
     "representation_status",
     "execution_status",
+]
+
+ELIGIBILITY_COLUMNS = [
+    "artifact_id",
+    "source_id",
+    "source_owner",
+    "ecosystem",
+    "study_family",
+    "artifact_reference",
+    "source_version",
+    "artifact_locator_status",
+    "version_pin_status",
+    "license_review_status",
+    "operational_boundary_status",
+    "eligibility_status",
+    "exclusion_reason",
+    "replacement_required",
+    "replacement_pool",
+]
+
+REPLACEMENT_COLUMNS = [
+    "replacement_for",
+    "source_id",
+    "source_owner",
+    "ecosystem",
+    "study_family",
+    "preferred_stratum",
+    "replacement_reason",
+    "replacement_status",
+    "replacement_artifact_id",
 ]
 
 CONDITIONS = [
@@ -113,6 +162,61 @@ def write_csv(path: Path, fieldnames: list[str], rows: list[dict[str, Any]]) -> 
         writer.writerows(rows)
 
 
+def sampling_lookup() -> dict[str, dict[str, str]]:
+    if not SAMPLING_MANIFEST_PATH.exists():
+        return {}
+    return {row["artifact_id"]: row for row in read_csv_rows(SAMPLING_MANIFEST_PATH)}
+
+
+def build_eligibility_rows(artifact_rows: list[dict[str, str]], sampling_rows: dict[str, dict[str, str]]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for artifact in artifact_rows:
+        sampling = sampling_rows.get(artifact["artifact_id"], {})
+        cap_status = sampling.get("cap_status", "within_caps")
+        replacement_required = cap_status != "within_caps"
+        rows.append(
+            {
+                "artifact_id": artifact["artifact_id"],
+                "source_id": artifact["source_id"],
+                "source_owner": sampling.get("source_owner", ""),
+                "ecosystem": sampling.get("ecosystem", ""),
+                "study_family": artifact["study_family"],
+                "artifact_reference": artifact["artifact_reference"],
+                "source_version": artifact["source_version"],
+                "artifact_locator_status": "pending_review",
+                "version_pin_status": "pinned" if artifact["source_version"] != "pending_version_pin" else "pending_pin",
+                "license_review_status": "pending_review",
+                "operational_boundary_status": "pending_review",
+                "eligibility_status": "pending_review",
+                "exclusion_reason": "",
+                "replacement_required": str(replacement_required).lower(),
+                "replacement_pool": sampling.get("stratum", ""),
+            }
+        )
+    return rows
+
+
+def build_replacement_rows(eligibility_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for row in eligibility_rows:
+        if row["replacement_required"] != "true":
+            continue
+        rows.append(
+            {
+                "replacement_for": row["artifact_id"],
+                "source_id": row["source_id"],
+                "source_owner": row["source_owner"],
+                "ecosystem": row["ecosystem"],
+                "study_family": row["study_family"],
+                "preferred_stratum": row["replacement_pool"],
+                "replacement_reason": "source_or_owner_cap_pressure",
+                "replacement_status": "pending_replacement_or_corpus_expansion",
+                "replacement_artifact_id": "",
+            }
+        )
+    return rows
+
+
 def build_case_rows(artifact_rows: list[dict[str, str]]) -> list[dict[str, Any]]:
     case_rows: list[dict[str, Any]] = []
     for artifact in artifact_rows:
@@ -127,6 +231,11 @@ def build_case_rows(artifact_rows: list[dict[str, str]]) -> list[dict[str, Any]]
                     "artifact_family_group": artifact["study_family"],
                     "case_type": case_type,
                     "user_request": spec["request"],
+                    "protocol_seed_request": spec["request"],
+                    "artifact_specific_user_request": "",
+                    "artifact_specific_request_status": "pending_artifact_specific_construction",
+                    "required_evidence_refs": "",
+                    "evidence_review_status": "pending_review",
                     "expected_behavior": spec["expected_behavior"],
                     "risk_label": spec["risk_label"],
                     "label_source": "protocol_seed",
@@ -136,7 +245,8 @@ def build_case_rows(artifact_rows: list[dict[str, str]]) -> list[dict[str, Any]]
     return case_rows
 
 
-def build_annotation_rows(case_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def build_annotation_rows(case_rows: list[dict[str, Any]], eligibility_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    eligibility_by_artifact = {row["artifact_id"]: row for row in eligibility_rows}
     return [
         {
             "case_id": row["case_id"],
@@ -146,12 +256,23 @@ def build_annotation_rows(case_rows: list[dict[str, Any]]) -> list[dict[str, Any
             "case_type": row["case_type"],
             "artifact_reference": row["artifact_reference"],
             "source_version": row["source_version"],
+            "protocol_seed_request": row["protocol_seed_request"],
+            "artifact_specific_user_request": row["artifact_specific_user_request"],
+            "required_evidence_refs": row["required_evidence_refs"],
+            "annotator_a_id": "",
+            "annotator_b_id": "",
+            "annotator_a_user_request": "",
+            "annotator_b_user_request": "",
             "annotator_a_expected_behavior": "",
             "annotator_b_expected_behavior": "",
             "annotator_a_risk_label": "",
             "annotator_b_risk_label": "",
+            "adjudicated_user_request": "",
             "adjudicated_expected_behavior": "",
             "adjudicated_risk_label": "",
+            "adjudication_reason": "",
+            "eligibility_status": eligibility_by_artifact[row["artifact_id"]]["eligibility_status"],
+            "replacement_required": eligibility_by_artifact[row["artifact_id"]]["replacement_required"],
             "review_status": "pending_review",
             "exclusion_reason": "",
         }
@@ -196,6 +317,8 @@ def write_summary(
     case_rows: list[dict[str, Any]],
     annotation_rows: list[dict[str, Any]],
     condition_rows: list[dict[str, Any]],
+    eligibility_rows: list[dict[str, Any]],
+    replacement_rows: list[dict[str, Any]],
 ) -> None:
     family_counts = Counter(row["artifact_family_group"] for row in case_rows)
     case_type_counts = Counter(row["case_type"] for row in case_rows)
@@ -204,7 +327,7 @@ def write_summary(
     lines = [
         "# External Annotation Packet",
         "",
-        "This file summarizes the planned annotation packet derived from metadata-only external artifact references. It defines review work to be performed; it does not report collected annotations or behavioral outcomes.",
+        "This file summarizes the planned annotation packet derived from metadata-only external artifact references. It defines eligibility, replacement, review, and adjudication work to be performed; it does not report collected annotations or behavioral outcomes.",
         "",
         "## Totals",
         "",
@@ -215,6 +338,8 @@ def write_summary(
                 ["Base cases", str(len(case_rows))],
                 ["Annotation rows", str(len(annotation_rows))],
                 ["Condition rows", str(len(condition_rows))],
+                ["Eligibility rows", str(len(eligibility_rows))],
+                ["Replacement rows", str(len(replacement_rows))],
             ],
         ),
         "",
@@ -245,15 +370,22 @@ def write_summary(
 
 def main() -> int:
     artifact_rows = read_csv_rows(ARTIFACT_SELECTION_PATH)
+    sampling_rows = sampling_lookup()
+    eligibility_rows = build_eligibility_rows(artifact_rows, sampling_rows)
+    replacement_rows = build_replacement_rows(eligibility_rows)
     case_rows = build_case_rows(artifact_rows)
-    annotation_rows = build_annotation_rows(case_rows)
+    annotation_rows = build_annotation_rows(case_rows, eligibility_rows)
     condition_rows = build_condition_rows(case_rows)
 
+    write_csv(ELIGIBILITY_MANIFEST_PATH, ELIGIBILITY_COLUMNS, eligibility_rows)
+    write_csv(REPLACEMENT_MANIFEST_PATH, REPLACEMENT_COLUMNS, replacement_rows)
     write_csv(CASE_CONSTRUCTION_PATH, CASE_CONSTRUCTION_COLUMNS, case_rows)
     write_csv(ANNOTATION_PACKET_PATH, ANNOTATION_PACKET_COLUMNS, annotation_rows)
     write_csv(CONDITION_PACKET_PATH, CONDITION_PACKET_COLUMNS, condition_rows)
-    write_summary(artifact_rows, case_rows, annotation_rows, condition_rows)
+    write_summary(artifact_rows, case_rows, annotation_rows, condition_rows, eligibility_rows, replacement_rows)
 
+    print(f"Wrote {ELIGIBILITY_MANIFEST_PATH.relative_to(REPO_ROOT)}")
+    print(f"Wrote {REPLACEMENT_MANIFEST_PATH.relative_to(REPO_ROOT)}")
     print(f"Wrote {CASE_CONSTRUCTION_PATH.relative_to(REPO_ROOT)}")
     print(f"Wrote {ANNOTATION_PACKET_PATH.relative_to(REPO_ROOT)}")
     print(f"Wrote {CONDITION_PACKET_PATH.relative_to(REPO_ROOT)}")

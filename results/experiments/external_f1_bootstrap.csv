@@ -1,0 +1,7 @@
+condition,provider_model,clusters,records,behavior_match_rate,bootstrap_replicates,ci_low,ci_high,analysis_status
+original_freeform,deepseek::deepseek-v4-flash,1,4,0.250000,400,0.250000,0.250000,descriptive_cluster_bootstrap
+skillops_ablation,deepseek::deepseek-v4-flash,1,4,0.250000,400,0.250000,0.250000,descriptive_cluster_bootstrap
+skillops_normalized,deepseek::deepseek-v4-flash,1,4,0.250000,400,0.250000,0.250000,descriptive_cluster_bootstrap
+original_freeform,kimi::kimi-k2.7-code,1,2,0.500000,400,0.500000,0.500000,descriptive_cluster_bootstrap
+skillops_ablation,kimi::kimi-k2.7-code,1,1,0.000000,400,0.000000,0.000000,descriptive_cluster_bootstrap
+skillops_normalized,kimi::kimi-k2.7-code,1,1,1.000000,400,1.000000,1.000000,descriptive_cluster_bootstrap

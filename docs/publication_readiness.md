@@ -6,7 +6,7 @@ Audit date: 2026-06-25
 
 | Check | Status | Evidence |
 | --- | --- | --- |
-| Repository tests | Passed | `python scripts/run_tests.py` reports 67/67 passed. |
+| Repository tests | Passed | `python scripts/run_tests.py` reports 90/90 passed. |
 | PDF build | Passed | `release/skillops-paper.pdf` rebuilt with Tectonic. |
 | Source package | Passed | `release/skillops-paper-source.zip` refreshed from paper source, references, and README. |
 | Public trace scan | Passed | No matches for removed model names, prepublication markers, or machine-writing traces in scanned public paths. |
@@ -25,6 +25,18 @@ Audit date: 2026-06-25
   - 12 execution shards with 240 rows each.
   - Three representation payload conditions: original/freeform, SkillOps-normalized, and SkillOps-ablation.
   - Strict result schema and bounded-smoke summary boundary.
+- A seeded 24-artifact external pilot execution plan is available:
+  - 96 base cases.
+  - 288 condition rows per provider/model.
+  - 576 provider-condition rows across DeepSeek and Kimi.
+  - Balanced family allocation across agent skills, workflow templates, MCP/tool
+    recipes, and prompt/function recipes.
+- A resumable bounded pilot runner and no-secret provider readiness plan are
+  available for the 576 provider-condition rows.
+- A pilot annotation layer is prepared:
+  - 96 pending review cases.
+  - 32 balanced calibration cases.
+  - Two-annotator and adjudication fields, with no collected annotations.
 - Bounded external live smoke is available for 16 metadata-only condition rows:
   12 rows with `deepseek-v4-flash` and 4 rows with `kimi-k2.7-code`.
   The smoke produced 16/16 parse-success records and 5/16 expected-behavior
@@ -33,6 +45,10 @@ Audit date: 2026-06-25
 ## Claims Still Not Supported
 
 - No external human annotation has been collected.
+- The 24-artifact external pilot has not yet been annotated or executed as a
+  powered study.
+- The current process did not contain provider credentials for running a pilot
+  live slice; readiness files record this without exposing secrets.
 - No large-scale external provider execution has been run.
 - No external statistical outcomes or significance claims are supported.
 - No production deployment validation is reported.
@@ -40,7 +56,7 @@ Audit date: 2026-06-25
 
 ## Publication Readiness
 
-The repository is ready for internal author review and a single final commit. The paper is substantially stronger than the previous artifact because it now distinguishes completed evidence from external-validation scaffolding, pins the archived release DOI, removes legacy model references, and adds reproducible external-corpus preparation without overclaiming.
+The repository is ready for internal author review and a single final commit. The paper is substantially stronger than the previous artifact because it now distinguishes completed evidence from external-validation scaffolding, pins the archived release DOI, removes legacy model references, and adds reproducible external-corpus preparation, pilot-readiness, and annotation-calibration artifacts without overclaiming.
 
 For a public paper update, the strongest defensible positioning is:
 

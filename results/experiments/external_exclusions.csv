@@ -1,0 +1,3 @@
+group,value,metric,count,notes
+overall,run_status_not_completed,count,0,Rows with provider or execution failure.
+overall,parse_failure,count,0,Rows with invalid or unparseable model output.
