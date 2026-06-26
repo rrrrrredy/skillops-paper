@@ -29,7 +29,7 @@ class RequirementsClosureAuditTests(unittest.TestCase):
             "docs/submission_package_manifest.md",
             "docs/account_external_execution_readiness.md",
             "docs/publication_plan.md",
-            "10.5281/zenodo.20900771",
+            "10.5281/zenodo.20907648",
         ):
             self.assertIn(required, text)
 
@@ -41,8 +41,8 @@ class RequirementsClosureAuditTests(unittest.TestCase):
             "powered external statistical results",
             "production deployment validation",
             "account access",
-            "older github snapshot",
-            "binary provenance",
+            "later package changes require",
+            "zenodo file-state verification",
         ):
             self.assertIn(required, text)
 

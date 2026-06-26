@@ -4,13 +4,11 @@ Audit date: 2026-06-26
 
 ## Local Package Inputs
 
-Use these local files as the next submission package. They must be published as
-a new GitHub release and verified in Zenodo before the DOI is cited as binary
-provenance:
+Use these local files as the current submission package. They are published as
+GitHub release `v1.3.0` and verified in Zenodo as binary provenance:
 
-Published reference DOI for the previous public package:
-`10.5281/zenodo.20900771`. Replace it with the next verified DOI before final
-submission if using the refreshed local package below.
+Current version DOI:
+`10.5281/zenodo.20907648`.
 
 Target GitHub release: `https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.3.0`.
 
@@ -45,8 +43,8 @@ Account-side checklist:
    the final submission action.
 7. Do not claim completed external user study, production deployment
    validation, or statistical significance.
-8. Before final public upload, replace the `v1.2.0` artifact citation with the
-   next verified GitHub release and Zenodo version DOI for these local hashes.
+8. Before final public upload, use the verified `v1.3.0` GitHub release and
+   Zenodo version DOI for these local hashes.
 
 Endorsement link/code generation:
 
@@ -104,7 +102,7 @@ Account-side checklist:
 4. Enter title, abstract, author list, keywords, subject areas, conflicts, and
    artifact links exactly as required by the venue form.
 5. Add the immutable artifact DOI:
-   `https://doi.org/10.5281/zenodo.20900771`.
+   `https://doi.org/10.5281/zenodo.20907648`.
 6. Attach supplementary files only if the venue form requests them.
 7. Review venue policy fields, author declarations, conflicts, and anonymity
    settings before final submission.
@@ -132,4 +130,4 @@ git status --short --branch
 rg -n "sk-[A-Za-z0-9]{24,}|Bearer [A-Za-z0-9._-]{20,}|AKIA[0-9A-Z]{16}" README.md paper evidence docs benchmark experiments results scripts tests release\skillops-paper-source release\main.bbl -S
 ```
 
-The expected test count at this package boundary is 135.
+The expected test count at this package boundary is 141.

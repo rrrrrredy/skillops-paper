@@ -3,25 +3,25 @@
 ## Artifact Citation
 
 Use an immutable release citation for the submitted paper package. The
-published reference package is:
+current published package is:
 
-- GitHub release: https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.2.0
-- Zenodo version DOI: https://doi.org/10.5281/zenodo.20900771
+- GitHub release: https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.3.0
+- Zenodo version DOI: https://doi.org/10.5281/zenodo.20907648
 - Zenodo concept DOI: https://doi.org/10.5281/zenodo.20061198
 
-The refreshed local submission package should receive a new GitHub release tag
-and Zenodo version DOI before final upload. The version DOI is the right
-citation for a submitted paper because it fixes the exact artifact snapshot.
+The version DOI is the right citation for a submitted paper because it fixes
+the exact artifact snapshot.
 The concept DOI is useful as a moving reference to the release family.
 
 Zenodo account linking and metadata edits require an authenticated Zenodo
-session or API token. The `v1.2.0` version record is published as `20900771`
-with version DOI `10.5281/zenodo.20900771`; the GitHub-integration archive
+session or API token. The `v1.3.0` version record is published as `20907648`
+with version DOI `10.5281/zenodo.20907648`; the GitHub-integration archive
 embeds release assets whose hashes match `docs/submission_package_manifest.md`.
-The previous `v1.1.0` record `20844038` is retained as a historical archive and
-should not be used as current binary provenance.
+The previous `v1.2.0` record `20900771` and `v1.1.0` record `20844038` are
+retained as historical archives and should not be used as current binary
+provenance.
 
-For subsequent public versions, do not overwrite the existing `v1.1.0` release.
+For subsequent public versions, do not overwrite the existing `v1.3.0` release.
 Create a new GitHub release only after the final commit and let Zenodo mint the
 next version DOI through the GitHub integration. Zenodo's GitHub guide states
 that, once a repository is connected, new GitHub releases are automatically

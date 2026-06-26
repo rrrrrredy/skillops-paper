@@ -13,7 +13,7 @@ CHECKLIST_PATH = REPO_ROOT / "docs" / "submission_execution_checklist.md"
 
 
 TITLE = "SkillOps: A Practical Framework for Designing, Testing, and Operating Modular Skills in Personal AI Agents"
-REFERENCE_DOI = "10.5281/zenodo.20900771"
+VERSION_DOI = "10.5281/zenodo.20907648"
 CONCEPT_DOI = "10.5281/zenodo.20061198"
 PDF_HASH = "687B3952611A176BAB23A2A2C223D29B5BBF1C63903080B08EA2051A57542F3D"
 SOURCE_HASH = "0A41FA212495EFBDE0C7D9166F2DEBE4E5517C8CD4185B00634F551382A917CE"
@@ -38,8 +38,7 @@ class SubmissionMetadataPayloadTests(unittest.TestCase):
         manifest = MANIFEST_PATH.read_text(encoding="utf-8")
         for required in (
             "releases/tag/v1.3.0",
-            "releases/tag/v1.2.0",
-            REFERENCE_DOI,
+            VERSION_DOI,
             CONCEPT_DOI,
             "release/skillops-paper.pdf",
             "release/skillops-paper-source.zip",
@@ -78,7 +77,7 @@ class SubmissionMetadataPayloadTests(unittest.TestCase):
             "machine-checkable external-smoke metrics",
             "production deployment validation",
             "broad user-study outcome",
-            "verify zenodo file state",
+            "verified github/zenodo release doi",
         ):
             self.assertIn(phrase, payload)
         self.assertIsNone(re.search("Long" + "Cat", payload, flags=re.IGNORECASE))

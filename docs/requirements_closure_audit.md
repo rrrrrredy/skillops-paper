@@ -34,7 +34,7 @@ execution work that cannot be completed inside the repository.
 | External user or expert study | Not claimable | `docs/human_review_execution_packet.md` remains an optional future validity packet | Recruitment, consent, compensation, and user-experience measurement are outside the current machine-only evidence route. |
 | Remove public writing and tool-operation traces | Supported | `tests/test_public_presentation.py`, release PDF/source package scans, repository-level text scans | Re-run scans before any new release. |
 | Distinguish this paper from the same-name 2026 work | Supported | `paper/main.tex` related-work and positioning sections | Keep the title/subtitle and abstract focused on personal-agent artifact lifecycle. |
-| Pin GitHub and Zenodo citation | Bounded | `docs/submission_package_manifest.md`, `docs/publication_plan.md`, `docs/zenodo_file_state_audit.md`, release `v1.2.0`, DOI `10.5281/zenodo.20900771` | The prior DOI is an older GitHub snapshot, not binary provenance. The refreshed local package needs a next release tag and Zenodo version DOI before final DOI-backed submission. The `v1.2.0` DOI remains the published reference package. |
+| Pin GitHub and Zenodo citation | Supported | `docs/submission_package_manifest.md`, `docs/publication_plan.md`, `docs/zenodo_file_state_audit.md`, release `v1.3.0`, DOI `10.5281/zenodo.20907648` | Later package changes require a new release tag and Zenodo file-state verification. |
 | Prepare arXiv route | Bounded | `release/skillops-paper-source.zip`, `docs/submission_execution_checklist.md`, `docs/submission_package_manifest.md` | Account access, endorsement, category, license, and final submission action remain author-side. |
 | Prepare OpenReview route | Bounded | `release/skillops-paper.pdf`, `docs/submission_execution_checklist.md`, `docs/publication_plan.md` | A concrete venue invitation, conflicts, declarations, and final submission action remain author-side. |
 | Prepare submission metadata | Supported | `docs/submission_metadata_payload.md` | Venue-specific form fields may still differ. |
@@ -43,9 +43,9 @@ execution work that cannot be completed inside the repository.
 
 ## Evidence Summary
 
-- The previous published release is pinned at `v1.2.0` with Zenodo version DOI
-  `10.5281/zenodo.20900771`; the refreshed local package requires a next DOI
-  before final DOI-backed submission.
+- The current published release is pinned at `v1.3.0` with Zenodo version DOI
+  `10.5281/zenodo.20907648`; the previous `v1.2.0` DOI
+  `10.5281/zenodo.20900771` remains valid only for the prior package.
 - The arXiv source package contains `main.tex`, `main.bbl`, `references.bib`,
   and `README.md`.
 - Repository tests at this audit boundary: 141 discovered, 141 passed.

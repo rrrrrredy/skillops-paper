@@ -63,8 +63,8 @@ This inventory summarizes the major changes in the current working copy.
   excluding-OpenAI sensitivity corpus plan.
 - Added Zenodo file-state audit showing that the prior `v1.1.0` DOI archives
   an older GitHub snapshot and should not be used as current binary provenance.
-- Verified the `v1.2.0` Zenodo record and confirmed that its GitHub-integration
-  archive embeds the current release PDF/source assets.
+- Published and verified the `v1.3.0` Zenodo record and confirmed that its
+  GitHub-integration archive embeds the current release PDF/source assets.
 - Added arXiv endorsement outreach notes, prioritized candidate list, and a
   small-batch request template.
 
@@ -83,5 +83,5 @@ This inventory summarizes the major changes in the current working copy.
 - Execute the full external model study only after eligibility review,
   machine-checkable scoring rules, and judge-sensitivity boundaries are locked.
 - Run inferential statistical analysis only after the full external result set exists.
-- Update Zenodo/GitHub release metadata and version DOI only when publishing a
-  later public version.
+- Update Zenodo/GitHub release metadata and version DOI only if a later public
+  package changes the PDF or source zip.

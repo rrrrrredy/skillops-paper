@@ -15,10 +15,8 @@ venue submission systems. The upload files and hashes are fixed in
 | Contact | luosongred@gmail.com |
 | Manuscript date | June 2026 |
 | Target release | https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.3.0 |
-| Published reference release | https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.2.0 |
-| Published reference DOI | https://doi.org/10.5281/zenodo.20900771 |
+| Current version DOI | https://doi.org/10.5281/zenodo.20907648 |
 | Concept DOI | https://doi.org/10.5281/zenodo.20061198 |
-| Next-release DOI | Fill after publishing and verifying the next GitHub/Zenodo release. |
 | PDF asset | `release/skillops-paper.pdf` |
 | arXiv source asset | `release/skillops-paper-source.zip` |
 
@@ -47,7 +45,7 @@ not a claim that a particular skill format universally improves model behavior.
 | --- | --- |
 | Primary category | `cs.SE` |
 | Optional cross-list | `cs.AI` if agent-reliability framing is emphasized; `cs.HC` only after user-facing evaluation evidence is collected |
-| Comments | Source package and reproducibility artifacts available at the verified GitHub/Zenodo release; powered external statistical validation and broad user-study outcomes are not claimed. |
+| Comments | Source package and reproducibility artifacts available at https://doi.org/10.5281/zenodo.20907648; powered external statistical validation and broad user-study outcomes are not claimed. |
 | Report number | Leave blank unless a venue or institution assigns one. |
 | Journal reference | Leave blank unless accepted by a venue. |
 | License | Choose the author's intended arXiv license at upload time. |
@@ -58,7 +56,7 @@ not a claim that a particular skill format universally improves model behavior.
 | --- | --- |
 | Keywords | personal AI agents; agent skills; software engineering for AI agents; artifact lifecycle; reproducibility; evaluation harnesses; operational safety |
 | Subject areas | AI agents; software engineering for AI; human-agent interaction; evaluation and reproducibility; tool-use systems |
-| Artifact link | Use `https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.3.0`; add the Zenodo version DOI after verification. |
+| Artifact link | Use `https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.3.0` and `https://doi.org/10.5281/zenodo.20907648`. |
 | Supplementary material | Use `release/skillops-paper-source.zip` only when source or supplementary upload is requested. |
 | Conflict and policy fields | Complete inside the authenticated venue form. |
 
@@ -77,8 +75,8 @@ external study, production deployment validation, or broad user-study outcome.
 
 - Use the curated PDF and source zip, not GitHub's automatic source archives,
   for submission upload.
-- Publish and verify the next GitHub/Zenodo release before citing the artifact
-  DOI for the local hashes in `docs/submission_package_manifest.md`.
+- Use the verified GitHub/Zenodo release DOI for the local hashes in
+  `docs/submission_package_manifest.md`.
 - Confirm arXiv endorsement, category, license, and final submission action
   inside the author's account.
 - Confirm OpenReview venue invitation, anonymity policy, author profile,

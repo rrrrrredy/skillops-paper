@@ -19,17 +19,17 @@ The authenticated Zenodo account has the repository enabled. The historical
 | `rrrrrredy/skillops-paper-v1.1.0.zip` | 943028 | `2e10f7b5d8ea9b0e7e1b1ec0b35a4ab5` |
 
 The archive preview includes the repository `release/` directory, but the
-embedded release assets do not match the current `v1.2.0` release assets:
+embedded release assets do not match the current `v1.3.0` release assets:
 
 | Asset | Current release SHA-256 | Historical embedded SHA-256 |
 | --- | --- | --- |
-| `release/skillops-paper.pdf` | `98957f4295eafa777a234a77b9a75afb4de9294b50e60fe5b72565bd788f03b9` | `79fe4794f7788aa44c4438aa7ce8781a9e42ed56f17e3c50922695e085c5ba61` |
-| `release/skillops-paper-source.zip` | `38833a57bf1f7001eee72d3cf2ecd8e5e68b559d6dd17832f46f4f8d6fa46974` | `faafae3ceb8cd28d4f0b2caafc3d06fb9fc59c3cbecdfa95e1ea5d427b0ee1b8` |
+| `release/skillops-paper.pdf` | `687b3952611a176bab23a2a2c223d29b5bbf1c63903080b08ea2051a57542f3d` | `79fe4794f7788aa44c4438aa7ce8781a9e42ed56f17e3c50922695e085c5ba61` |
+| `release/skillops-paper-source.zip` | `0a41fa212495efbde0c7d9166f2debe4e5517c8cd4185b00634f551382a917ce` | `faafae3ceb8cd28d4f0b2caafc3d06fb9fc59c3cbecdfa95e1ea5d427b0ee1b8` |
 
 Use `10.5281/zenodo.20844038` only as the archived `v1.1.0` software
 record. Do not use it as binary provenance for the current PDF/source package.
 
-## Current Published Version
+## Previous Published Version
 
 | Field | Value |
 | --- | --- |
@@ -57,9 +57,38 @@ release assets match the local submission package:
 The embedded `release/main.bbl` contains `v1.2.0` and does not contain
 `v1.1.0`.
 
+## Current Published Version
+
+| Field | Value |
+| --- | --- |
+| Zenodo record | `https://zenodo.org/records/20907648` |
+| Version DOI | `10.5281/zenodo.20907648` |
+| Concept DOI | `10.5281/zenodo.20061198` |
+| GitHub release | `https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.3.0` |
+| Status | Published and file-verified. |
+
+Zenodo's GitHub integration ingested the `v1.3.0` GitHub release and published
+one repository archive:
+
+| File | Size | MD5 |
+| --- | ---: | --- |
+| `rrrrrredy/skillops-paper-v1.3.0.zip` | 944415 | `d939ec3d04ceaba52a11823daa7d2307` |
+
+The downloaded archive root is `rrrrrredy-skillops-paper-9199623`. Its embedded
+release assets match the current submission package:
+
+| Embedded asset | Embedded SHA-256 | Expected SHA-256 |
+| --- | --- | --- |
+| `release/skillops-paper.pdf` | `687b3952611a176bab23a2a2c223d29b5bbf1c63903080b08ea2051a57542f3d` | `687b3952611a176bab23a2a2c223d29b5bbf1c63903080b08ea2051a57542f3d` |
+| `release/skillops-paper-source.zip` | `0a41fa212495efbde0c7d9166f2debe4e5517c8cd4185b00634f551382a917ce` | `0a41fa212495efbde0c7d9166f2debe4e5517c8cd4185b00634f551382a917ce` |
+
+The embedded `release/main.bbl` contains `v1.3.0` and does not contain
+`v1.2.0`.
+
 ## Consequence
 
-The `v1.2.0` Zenodo record is the immutable public archive for the release
-family and is binary provenance for the embedded current PDF/source package.
+The `v1.3.0` Zenodo record is the immutable public archive for the current
+release package and is binary provenance for the embedded current PDF/source
+package. The `v1.2.0` record remains valid only for the previous package.
 For arXiv submission, still use the curated release asset
 `release/skillops-paper-source.zip` rather than Zenodo's repository archive.

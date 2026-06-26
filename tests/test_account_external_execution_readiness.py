@@ -17,12 +17,13 @@ class AccountExternalExecutionReadinessTests(unittest.TestCase):
         text = READINESS_PATH.read_text(encoding="utf-8")
         normalized = " ".join(text.split())
         for required in (
-            "10.5281/zenodo.20900771",
+            "10.5281/zenodo.20907648",
             "10.5281/zenodo.20844038",
+            "10.5281/zenodo.20900771",
             "release/skillops-paper-source.zip",
             "release/skillops-paper.pdf",
             "is not binary provenance for the current package",
-            "refreshed local package needs the next release DOI",
+            "published and file-verified for `v1.3.0`",
             "docs/zenodo_file_state_audit.md",
         ):
             self.assertIn(required, text)

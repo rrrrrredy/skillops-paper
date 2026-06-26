@@ -4,19 +4,17 @@ Audit date: 2026-06-25
 
 ## Artifact Citation State
 
-- Published reference release: https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.2.0
-- Published reference DOI: https://doi.org/10.5281/zenodo.20900771
-- Target release: https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.3.0
+- Current verified release: https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.3.0
+- Current version DOI: https://doi.org/10.5281/zenodo.20907648
 - Zenodo concept DOI: https://doi.org/10.5281/zenodo.20061198
-- Next-release DOI: fill after publishing the updated GitHub release and
-  verifying the new Zenodo file state.
+- Previous reference DOI: https://doi.org/10.5281/zenodo.20900771
 
-The local files below are the current submission package. They supersede the
-published `v1.2.0` package and must receive a new GitHub release tag and Zenodo
-version DOI before the DOI is cited as binary provenance. The account-side
-Zenodo file-state audit found that prior DOI `10.5281/zenodo.20844038`
-archives an older GitHub snapshot; the `v1.2.0` DOI remains valid for the
-previous published package, not for the local hashes below.
+The local files below are the current submission package. They are published as
+GitHub release `v1.3.0` and file-verified in Zenodo record `20907648`. The
+account-side Zenodo file-state audit found that prior DOI
+`10.5281/zenodo.20844038` archives an older GitHub snapshot; the `v1.2.0` DOI
+remains valid for the previous published package, not for the local hashes
+below.
 
 ## Files to Submit
 
@@ -25,9 +23,9 @@ previous published package, not for the local hashes below.
 | `release/skillops-paper.pdf` | PDF upload for OpenReview or venue review systems | `687B3952611A176BAB23A2A2C223D29B5BBF1C63903080B08EA2051A57542F3D` |
 | `release/skillops-paper-source.zip` | LaTeX source package for arXiv-style source upload | `0A41FA212495EFBDE0C7D9166F2DEBE4E5517C8CD4185B00634F551382A917CE` |
 
-Use the local files above as the submission package after the next release is
-published and file-verified. Do not use GitHub's automatic source archives as
-the arXiv source package; those archives are repository snapshots for software preservation, while
+Use the local files above as the submission package. Do not use GitHub's
+automatic source archives as the arXiv source package; those archives are
+repository snapshots for software preservation, while
 `release/skillops-paper-source.zip` is the curated LaTeX package.
 
 The source package contains `main.tex`, `main.bbl`, `references.bib`, and
@@ -42,13 +40,13 @@ clean temporary directory outside the repository and running Tectonic on
 ## Submission Routes
 
 - arXiv: upload `release/skillops-paper-source.zip` after confirming category
-  endorsement or an accepted category route, and after replacing the artifact
-  citation with the next verified DOI.
+  endorsement or an accepted category route. Use
+  `https://doi.org/10.5281/zenodo.20907648` as the immutable artifact DOI.
 - OpenReview: upload `release/skillops-paper.pdf` to a concrete venue or
   workshop invitation and attach supplementary materials only when requested by
   that venue.
-- Formal venue submission: use the same PDF and the next verified artifact
-  DOI, then adapt format only if the target venue requires a template
+- Formal venue submission: use the same PDF and verified artifact DOI, then
+  adapt format only if the target venue requires a template
   conversion.
 
 ## Evidence Boundary

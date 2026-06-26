@@ -18,7 +18,7 @@ class SubmissionExecutionChecklistTests(unittest.TestCase):
             "release/skillops-paper.pdf",
             "0A41FA212495EFBDE0C7D9166F2DEBE4E5517C8CD4185B00634F551382A917CE",
             "687B3952611A176BAB23A2A2C223D29B5BBF1C63903080B08EA2051A57542F3D",
-            "10.5281/zenodo.20900771",
+            "10.5281/zenodo.20907648",
         ):
             self.assertIn(required, text)
             self.assertIn(required, manifest)

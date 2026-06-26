@@ -3,10 +3,10 @@
 Audit date: 2026-06-26
 
 This document lists the remaining account-side and external-study actions for
-the refreshed local submission package. The published `v1.2.0` DOI remains the
-reference package until a next release is minted and verified. It is an
-execution checklist, not evidence that those account actions or studies have
-been completed. No provider keys, account
+the current submission package. GitHub release `v1.3.0` and Zenodo DOI
+`10.5281/zenodo.20907648` are published and file-verified. This is an execution
+checklist, not evidence that remaining account actions or studies have been
+completed. No provider keys, account
 tokens, participant identifiers, or payment information belong in the
 repository.
 
@@ -14,7 +14,7 @@ repository.
 
 | Route | Required account-side action | Repository asset |
 | --- | --- | --- |
-| Zenodo | Authenticated record check completed: prior DOI `10.5281/zenodo.20844038` archives an older GitHub snapshot and is not binary provenance for the current package. DOI `10.5281/zenodo.20900771` is published and file-verified for `v1.2.0`; the refreshed local package needs the next release DOI before final citation. | `docs/zenodo_file_state_audit.md` |
+| Zenodo | Authenticated record check completed: prior DOI `10.5281/zenodo.20844038` archives an older GitHub snapshot and is not binary provenance for the current package. DOI `10.5281/zenodo.20907648` is published and file-verified for `v1.3.0`; DOI `10.5281/zenodo.20900771` remains the previous package record. | `docs/zenodo_file_state_audit.md` |
 | arXiv | Confirm account status, category route, endorsement, license, and final upload action. Use the curated source zip rather than repository archive downloads. | `release/skillops-paper-source.zip` |
 | OpenReview | Choose a concrete venue invitation, verify profile and emails, complete conflicts and policy declarations, then upload the PDF under that venue's rules. | `release/skillops-paper.pdf` |
 | Formal venue | Recheck the live call for papers, formatting requirements, anonymity policy, artifact policy, and deadline before submission. | `docs/publication_plan.md` |
