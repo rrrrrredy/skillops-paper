@@ -1,6 +1,6 @@
 # External Pilot Plan
 
-This plan selects a bounded, seeded 24-artifact pilot from within-cap external candidates. It is intended to estimate annotation disagreement, parse failures, provider failures, and execution logistics; it is not a final external effect estimate.
+This plan selects a bounded, seeded 24-artifact pilot from within-cap external candidates. It is intended to expose label instability, parse failures, provider failures, and execution logistics; it is not a final external effect estimate.
 
 ## Totals
 

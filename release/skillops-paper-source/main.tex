@@ -44,8 +44,9 @@ summaries, repository-level consistency checks, a local security-guard pilot,
 and live model-backed runs with DeepSeek and Kimi over trigger, constraint,
 security, and memory-drift protocols. It also reports an external-validation
 readiness layer: a metadata-only third-party corpus protocol, a seeded
-24-artifact pilot plan, bounded runner readiness, and a two-annotator
-calibration worklist. The contribution is therefore a bounded engineering
+24-artifact pilot plan, bounded runner readiness, machine-checkable external
+smoke metrics, and an LLM-as-judge case-label sensitivity plan. The
+contribution is therefore a bounded engineering
 framework for making agent skills more explicit, testable, and maintainable,
 not a claim that a particular skill format universally improves model behavior.
 \end{abstract}
@@ -669,9 +670,9 @@ deployed software systems.
 
 The public repository for this paper is
 \url{https://github.com/rrrrrredy/skillops-paper}. The versioned artifact
-release used for this revision is \texttt{v1.2.0} with Zenodo version DOI
-\href{https://doi.org/10.5281/zenodo.20900771}{10.5281/zenodo.20900771};
-the Zenodo concept DOI for the release family is
+release used for this revision is \texttt{v1.3.0} at
+\url{https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.3.0}. The
+Zenodo concept DOI for the release family is
 \href{https://doi.org/10.5281/zenodo.20061198}{10.5281/zenodo.20061198}
 \citep{luo2026skillopsartifact}.
 
@@ -1021,7 +1022,7 @@ cases and 24 benign controls.}
 \label{tab:live-security}
 \end{table}
 
-\subsection{External Corpus and User-Study Protocol}
+\subsection{External Corpus and Machine-Checkable Evaluation}
 
 The repository now includes an external sampling frame rather than relying
 only on the author's artifact ecosystem. The frame covers the Agent Skills
@@ -1031,7 +1032,7 @@ LangGraph workflow templates, Open WebUI function recipes, and a prompt-only
 baseline \citep{agentskills2026spec,anthropic2026skills,modelcontextprotocol2026servers,openai2026agentspython,openai2026agentsjs,wu2024autogen}.
 These sources are recorded in
 \path{benchmark/external_artifact_corpus_sources.csv}; the corresponding
-model-backed and human-review protocol is recorded in
+model-backed and machine-checkable protocol is recorded in
 \path{experiments/external_validation_protocol.md}.
 The protocol is now backed by an executable case scaffold:
 \path{experiments/schemas/external_case_schema.json} defines external case
@@ -1059,21 +1060,19 @@ index-derived upstream links, 24 manifest directories, 15 README-scoped
 directories, 106 relevant tree paths, 18 additional text-like tree paths, and
 8 replacement slots. These rows make the external study auditable at the
 artifact-reference level, but they still require replacement, eligibility
-review, and annotation before behavioral claims can be made.
+review, and bounded execution before broad behavioral claims can be made.
 
-The repository also contains a planned annotation and execution packet derived
-from those references. \path{scripts/generate_external_annotation_packet.py}
+The repository also contains a planned case-construction and execution packet
+derived from those references. \path{scripts/generate_external_annotation_packet.py}
 writes \path{results/tables/external_case_construction.csv},
 \path{results/tables/external_annotation_packet.csv}, and
 \path{results/tables/external_condition_packet.csv}. The construction table
 contains four protocol-seeded base cases per candidate artifact: one positive
 trigger, one negative trigger, one boundary-clarification case, and one
-risk-or-constraint case. The annotation packet keeps two independent reviewer
-fields and separate adjudication fields for all 960 base cases; the condition
-packet crosses those cases with original/freeform, SkillOps-normalized, and
-SkillOps-ablation representations, yielding 2880 pending condition rows. All
-rows are marked as review or construction work, not as completed annotation or
-execution evidence.
+risk-or-constraint case. The condition packet crosses those cases with
+original/freeform, SkillOps-normalized, and SkillOps-ablation representations,
+yielding 2880 pending condition rows. These rows are construction and
+execution-planning artifacts, not completed outcome evidence.
 
 Finally, \path{scripts/run_external_condition_dry_run.py} validates the 2880
 pending condition rows and writes
@@ -1112,8 +1111,9 @@ selects a seeded 24-artifact subset from within-cap external candidates: six
 candidate references from each of the four study-family strata. The resulting
 pilot has 96 base cases, 288 condition rows per provider, and 576
 provider-condition rows across DeepSeek and Kimi. The selected references are
-still pending eligibility review; their role is to rehearse annotation,
-representation construction, parsing, and provider logistics, not to certify
+still pending eligibility review; their role is to rehearse
+representation construction, parsing, provider logistics, and bounded
+machine-checkable scoring, not to certify
 the final external corpus.
 \path{scripts/run_external_pilot_experiment.py} consumes that plan, writes a
 not-run provider-condition execution plan and no-secret provider-readiness
@@ -1122,13 +1122,16 @@ unbounded live execution. In the evidence state reported here, this pilot
 runner is readiness evidence; no completed pilot live slice is counted as an
 external effect estimate.
 
-The human-review side of the same pilot is made concrete by
-\path{scripts/generate_external_pilot_annotation_calibration.py}. It writes a
-96-case pilot annotation worklist and a balanced 32-case calibration subset:
-two artifacts from each study family, crossed with the four case types. These
-files reserve independent annotator and adjudication fields, but the fields
-remain empty in this release. They therefore support annotation logistics and
-disagreement estimation, not collected human labels.
+The label-sensitivity side of the same pilot is made concrete by
+\path{scripts/generate_external_pilot_annotation_calibration.py} and
+\path{scripts/run_llm_judge_sensitivity.py}. The former writes a 96-case
+worklist and a balanced 32-case calibration subset: two artifacts from each
+study family, crossed with the four case types. The latter prepares a bounded
+LLM-as-judge audit over those case labels. This judge route is deliberately
+secondary: it checks whether authored expected-behavior and risk labels are
+stable under another model, but it does not provide primary model outcome
+labels and does not replace machine-checkable parse, behavior-match, or
+constraint-pass rules.
 
 The repository additionally includes
 \path{scripts/prepare_external_smoke_test_plan.py}, which writes a no-secret
@@ -1150,6 +1153,16 @@ summarizes the bounded smoke. The main signal is that the live path can produce
 schema-valid records without storing model prose; the low behavior-match rates
 are a useful negative result for the current metadata-only representations and
 do not support effectiveness claims.
+
+\path{scripts/run_machine_checkable_external_analysis.py} makes that boundary
+explicit by writing
+\path{results/experiments/external_machine_checkable_metrics.csv}. These
+metrics are the primary external-smoke evidence route: completed-record counts,
+parse success, expected-behavior exact match, and constraint-pass checks are
+computed by deterministic rules over normalized JSONL records. The
+LLM-as-judge output, when run, is reported separately in
+\path{results/experiments/llm_judge_sensitivity_summary.csv} as a secondary
+case-label sensitivity analysis.
 
 \begin{table}[t]
 \centering
@@ -1202,7 +1215,7 @@ behavioral benchmark.}
 \label{tab:external-static}
 \end{table}
 
-The planned external study is designed around 240 target artifact slots across
+The planned powered external study is designed around 240 target artifact slots across
 Agent Skills, MCP and tool recipes, agent workflow templates, and
 prompt/function recipes. Before outcome-bearing execution, the 8 pending
 replacement slots must be filled and all concrete references must pass
@@ -1213,16 +1226,14 @@ paired stratification, mixed-effects logistic models, McNemar robustness
 checks for paired binary outcomes, bootstrap intervals for F1, and
 Holm-Bonferroni correction across metrics. The 24-artifact pilot described
 above is the intended calibration step before that larger study: it is large
-enough to expose annotation disagreement, provider failures, parsing failures,
-and representation-construction mistakes, but too small to support broad
+enough to expose provider failures, parsing failures, label instability, and
+representation-construction mistakes, but too small to support broad
 external-effect claims.
 
-The human-review layer is deliberately separated from the automated evidence.
-It requires 48--72 participants with agent or developer-workflow experience
-and measures routing success, risk discovery, review time, workload, and trust
-calibration. This paper does not report that human study; it reports the
-protocol so that the boundary between completed evidence and required external
-validation remains explicit.
+This release therefore uses a machine-first evidence design. External human
+review remains a possible future validity study for audit usefulness and user
+experience, but it is not required for the paper's current bounded claims and
+is not mixed into the reported outcome labels.
 
 \subsection{Interpretation}
 
@@ -1238,7 +1249,7 @@ These results, including the bounded external smoke, do not establish
 statistical significance, broad empirical validation, or general effectiveness
 across external skill sets, user populations, or deployment environments.
 The new pilot-readiness layer improves the path to such validation by making
-the next 24-artifact execution and annotation step explicit, but it does not
+the next 24-artifact execution and label-sensitivity step explicit, but it does not
 change the claim boundary.
 
 \section{Discussion}
@@ -1286,8 +1297,8 @@ First, the primary artifact base is authored and interpreted by one author.
 This paper therefore reflects a single-author artifact base rather than a
 multi-lab or multi-organization corpus. The added external corpus frame reduces
 this risk at the study-design layer, and the 24-artifact pilot worklist makes
-the next validation step concrete. It is still not a completed external
-annotation study.
+the next validation step concrete. It is still not a completed powered
+external execution study.
 
 Second, the artifact evidence comes from five public repositories. This is
 enough to motivate a framework, but it is not enough to establish generality
@@ -1310,20 +1321,20 @@ constructed benchmark. They are useful for feasibility and failure analysis,
 but not for statistical significance or model ranking.
 
 Seventh, skill-component ablations are supported by the harness, but broader
-ablation evidence requires repeated runs and independently reviewed external
+ablation evidence requires repeated runs and eligibility-checked external
 artifacts before strong comparative claims are warranted.
 
-Eighth, a bounded external model smoke is reported, but no external user study
-is reported. The 96-case pilot worklist and 32-case calibration subset prepare
-two-annotator review, but they do not measure how other users understand the
-skill format, apply the workflow, or experience the proposed guardrails in
-practice.
+Eighth, a bounded external model smoke is reported, but no user study is
+reported. The 96-case pilot worklist and 32-case calibration subset now
+support machine execution and LLM-as-judge case-label sensitivity, but they do
+not measure how other users understand the skill format, apply the workflow,
+or experience the proposed guardrails in practice.
 
 Ninth, external skill sets, other agent environments, and independent
-annotations are needed before stronger comparative claims could be made. The
-third-party corpus frame makes that study design concrete, but does not replace
-running it. The pilot runner adds bounded execution mechanics and resume
-behavior, not completed external outcomes.
+replicated executions are needed before stronger comparative claims could be
+made. The third-party corpus frame makes that study design concrete, but does
+not replace running it. The pilot runner adds bounded execution mechanics and
+resume behavior, not completed powered external outcomes.
 
 Tenth, several artifacts encode local desktop-agent assumptions about directory
 layout, skill packaging, cron usage, and local agent control. These assumptions
@@ -1334,11 +1345,10 @@ Eleventh, SkillOps focuses on the operational layer of skill design. It does not
 propose a new model architecture, training method, planner, or tool-use
 algorithm.
 
-Twelfth, some evaluation criteria still require human judgment. For example,
-audit usefulness and context relevance may be difficult to score objectively.
-The external annotation guide and pilot calibration files address this at the
-protocol level, but reliability statistics require completed independent
-annotations.
+Twelfth, some evaluation criteria remain outside the machine-only route. For
+example, audit usefulness and context relevance may be difficult to score
+objectively. The current paper therefore keeps those claims out of the primary
+evaluation rather than substituting unverifiable labels for them.
 
 Thirteenth, personal agent environments differ substantially in their tool access,
 memory mechanisms, security policies, and user expectations. A skill format
@@ -1458,7 +1468,8 @@ and reports a descriptive benchmark layer, repository-level consistency checks,
 a local security-guard pilot over risk and benign-control cases, and live
 model-backed runs over DeepSeek and Kimi. It also provides a third-party
 external corpus protocol, a 24-artifact pilot execution plan, bounded pilot
-runner readiness, and a two-annotator calibration worklist.
+runner readiness, machine-checkable smoke metrics, and an LLM-as-judge
+case-label sensitivity plan.
 
 The contribution is bounded but operationally substantive. SkillOps is not
 presented as a new agent architecture or as a broadly validated empirical
@@ -1469,7 +1480,7 @@ artifacts can support executable checks, live model-backed review loops, and
 reviewable operational analysis in this setting. The external protocol and
 pilot-readiness artifacts make the next validation step auditable, while
 broader empirical claims still require external skill sets, repeated execution
-studies, independent annotation, and external use.
+studies, and external use.
 
 \bibliographystyle{plainnat}
 \bibliography{references}

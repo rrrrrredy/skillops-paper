@@ -30,7 +30,7 @@ This inventory summarizes the major changes in the current working copy.
 - Added `scripts/analyze_external_corpus.py`.
 - Added metadata-only external corpus result tables.
 - Added `experiments/external_validation_protocol.md`.
-- Added annotation and preregistration documents.
+- Added case-label and preregistration documents.
 
 ## External Case and Execution Preparation
 
@@ -47,17 +47,19 @@ This inventory summarizes the major changes in the current working copy.
   288 condition rows, and 576 provider-condition rows across DeepSeek and Kimi.
 - Added resumable bounded pilot runner readiness over the 576
   provider-condition rows.
-- Added 96-case pilot annotation worklist and balanced 32-case calibration
-  subset for two-annotator review and adjudication.
-- Added external annotation execution plan, reviewer assignment manifest,
-  adjudication log template, participant-interface contract, and reliability
-  computation for completed human labels.
+- Added 96-case pilot case-label worklist and balanced 32-case calibration
+  subset for LLM-as-judge sensitivity checks.
+- Added primary machine-checkable external-smoke metrics over completed
+  normalized external result records.
+- Added LLM-as-judge dry-run plan and summary outputs for secondary
+  case-label sensitivity.
 - Added no-secret smoke-test plan.
 - Added bounded external live smoke results for 16 metadata-only condition rows.
 - Added external result and statistical summary files that separate smoke
   metrics from inferential statistical claims.
 - Added account-side and external-study execution readiness covering Zenodo,
-  arXiv, OpenReview, human annotation, bounded provider pilots, and an
+  arXiv, OpenReview, machine-checkable scoring, LLM-as-judge sensitivity,
+  bounded provider pilots, and an
   excluding-OpenAI sensitivity corpus plan.
 - Added Zenodo file-state audit showing that the prior `v1.1.0` DOI archives
   an older GitHub snapshot and should not be used as current binary provenance.
@@ -68,17 +70,18 @@ This inventory summarizes the major changes in the current working copy.
 
 ## Tests
 
-- Expanded repository tests to cover provider configuration, live result hygiene, external corpus structure, external case scaffolding, artifact selection, annotation packets, annotation execution assets, dry-run manifests, representation payloads, pilot execution planning, pilot runner readiness, pilot annotation calibration, smoke-test planning, external result summaries, Zenodo file-state auditing, arXiv endorsement outreach, and account-side execution readiness.
-- Final status: 135 discovered, 135 passed.
+- Expanded repository tests to cover provider configuration, live result hygiene, external corpus structure, external case scaffolding, artifact selection, case-construction packets, dry-run manifests, representation payloads, pilot execution planning, pilot runner readiness, pilot case-label calibration, smoke-test planning, machine-checkable external metrics, LLM-as-judge sensitivity, external result summaries, Zenodo file-state auditing, arXiv endorsement outreach, and account-side execution readiness.
+- Final status: 141 discovered, 141 passed.
 
 ## Remaining Work
 
-- Conduct external human annotation and adjudication.
-- Use the 24-artifact pilot execution plan to estimate annotation disagreement,
+- Run bounded provider-backed LLM-as-judge sensitivity checks.
+- Use the 24-artifact pilot execution plan to estimate label instability,
   parser/provider failure rates, and operational cost before a larger run.
 - Provide provider credentials in the process environment before running a
   bounded pilot live slice.
-- Execute the full external model study only after annotation and adjudication.
+- Execute the full external model study only after eligibility review,
+  machine-checkable scoring rules, and judge-sensitivity boundaries are locked.
 - Run inferential statistical analysis only after the full external result set exists.
 - Update Zenodo/GitHub release metadata and version DOI only when publishing a
   later public version.

@@ -13,10 +13,10 @@ CHECKLIST_PATH = REPO_ROOT / "docs" / "submission_execution_checklist.md"
 
 
 TITLE = "SkillOps: A Practical Framework for Designing, Testing, and Operating Modular Skills in Personal AI Agents"
-VERSION_DOI = "10.5281/zenodo.20900771"
+REFERENCE_DOI = "10.5281/zenodo.20900771"
 CONCEPT_DOI = "10.5281/zenodo.20061198"
-PDF_HASH = "98957F4295EAFA777A234A77B9A75AFB4DE9294B50E60FE5B72565BD788F03B9"
-SOURCE_HASH = "38833A57BF1F7001EEE72D3CF2ECD8E5E68B559D6DD17832F46F4F8D6FA46974"
+PDF_HASH = "687B3952611A176BAB23A2A2C223D29B5BBF1C63903080B08EA2051A57542F3D"
+SOURCE_HASH = "0A41FA212495EFBDE0C7D9166F2DEBE4E5517C8CD4185B00634F551382A917CE"
 
 
 def normalized(text: str) -> str:
@@ -37,8 +37,9 @@ class SubmissionMetadataPayloadTests(unittest.TestCase):
         payload = PAYLOAD_PATH.read_text(encoding="utf-8")
         manifest = MANIFEST_PATH.read_text(encoding="utf-8")
         for required in (
+            "releases/tag/v1.3.0",
             "releases/tag/v1.2.0",
-            VERSION_DOI,
+            REFERENCE_DOI,
             CONCEPT_DOI,
             "release/skillops-paper.pdf",
             "release/skillops-paper-source.zip",
@@ -55,7 +56,8 @@ class SubmissionMetadataPayloadTests(unittest.TestCase):
         paper = normalized(PAPER_PATH.read_text(encoding="utf-8"))
         for phrase in (
             "metadata-only third-party corpus protocol",
-            "two-annotator calibration worklist",
+            "machine-checkable external smoke metrics",
+            "LLM-as-judge case-label sensitivity plan",
             "not a claim that a particular skill format universally improves model behavior",
         ):
             self.assertIn(phrase, payload)
@@ -72,8 +74,8 @@ class SubmissionMetadataPayloadTests(unittest.TestCase):
     def test_payload_preserves_nonclaimable_limits(self) -> None:
         payload = normalized(PAYLOAD_PATH.read_text(encoding="utf-8")).lower()
         for phrase in (
-            "does not report a completed external human study",
-            "powered external statistical result",
+            "does not report a completed powered external study",
+            "machine-checkable external-smoke metrics",
             "production deployment validation",
             "broad user-study outcome",
             "verify zenodo file state",

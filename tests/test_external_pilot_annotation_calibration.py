@@ -54,7 +54,7 @@ class ExternalPilotAnnotationCalibrationTests(unittest.TestCase):
         self.assertTrue(all(count == 8 for count in Counter(row["study_family"] for row in rows).values()))
         self.assertTrue(all(count == 8 for count in Counter(row["case_type"] for row in rows).values()))
         self.assertEqual({row["review_status"] for row in rows}, {"pending_review"})
-        self.assertEqual({row["evidence_boundary"] for row in rows}, {"pilot_annotation_plan_not_collected_annotation"})
+        self.assertEqual({row["evidence_boundary"] for row in rows}, {"pilot_label_sensitivity_plan_not_model_outcomes"})
 
     def test_annotation_fields_are_empty_before_review(self) -> None:
         for row in read_csv_rows(CALIBRATION_PATH):
@@ -63,9 +63,9 @@ class ExternalPilotAnnotationCalibrationTests(unittest.TestCase):
             self.assertEqual(row["adjudicated_expected_behavior"], "")
             self.assertEqual(row["adjudicated_risk_label"], "")
 
-    def test_summary_states_no_collected_annotations(self) -> None:
+    def test_summary_states_no_model_outcomes(self) -> None:
         text = SUMMARY_PATH.read_text(encoding="utf-8")
-        self.assertIn("does not report collected annotations", text)
+        self.assertIn("does not report model outcomes", text)
         self.assertIn("Pilot worklist cases | 96", text)
         self.assertIn("Calibration cases | 32", text)
 

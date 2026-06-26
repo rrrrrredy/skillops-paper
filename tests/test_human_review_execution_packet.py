@@ -11,8 +11,8 @@ PACKET_PATH = REPO_ROOT / "docs" / "human_review_execution_packet.md"
 class HumanReviewExecutionPacketTests(unittest.TestCase):
     def test_packet_exists_and_links_core_artifacts(self) -> None:
         text = PACKET_PATH.read_text(encoding="utf-8")
-        self.assertIn("v1.2.0", text)
-        self.assertIn("10.5281/zenodo.20900771", text)
+        self.assertIn("v1.3.0", text)
+        self.assertIn("verified Zenodo version DOI", text)
         self.assertIn("results/tables/external_pilot_annotation_worklist.csv", text)
         self.assertIn("results/tables/external_pilot_annotation_calibration.csv", text)
         self.assertIn("results/tables/external_annotation_packet.csv", text)

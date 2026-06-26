@@ -4,15 +4,15 @@ Audit date: 2026-06-25
 
 ## Purpose
 
-This packet operationalizes the human-review layer for the external corpus
-study. It is a protocol artifact, not collected evidence. Do not report human
-outcomes until recruitment, consent, annotation, adjudication, and analysis are
-complete.
+This packet is an optional future validity-study packet for the external
+corpus. It is not part of the current machine-first evidence route. It is a
+protocol artifact, not collected evidence. Do not report human outcomes unless
+a separate recruitment, consent, review, and analysis process is completed.
 
 ## Study Boundary
 
-- Target release: `v1.2.0`
-- Artifact DOI: `10.5281/zenodo.20900771`
+- Target release: `v1.3.0`
+- Artifact DOI: use the verified Zenodo version DOI after release publication.
 - Candidate packet: `results/tables/external_pilot_annotation_worklist.csv`
 - Calibration packet: `results/tables/external_pilot_annotation_calibration.csv`
 - Main annotation packet: `results/tables/external_annotation_packet.csv`

@@ -2,15 +2,17 @@
 
 ## Artifact Citation
 
-Use an immutable release citation for the submitted paper package:
+Use an immutable release citation for the submitted paper package. The
+published reference package is:
 
 - GitHub release: https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.2.0
 - Zenodo version DOI: https://doi.org/10.5281/zenodo.20900771
 - Zenodo concept DOI: https://doi.org/10.5281/zenodo.20061198
 
-The version DOI is the right citation for a submitted paper because it fixes the
-exact artifact snapshot. The concept DOI is useful as a moving reference to the
-release family.
+The refreshed local submission package should receive a new GitHub release tag
+and Zenodo version DOI before final upload. The version DOI is the right
+citation for a submitted paper because it fixes the exact artifact snapshot.
+The concept DOI is useful as a moving reference to the release family.
 
 Zenodo account linking and metadata edits require an authenticated Zenodo
 session or API token. The `v1.2.0` version record is published as `20900771`
@@ -47,7 +49,7 @@ Likely categories to evaluate are `cs.SE`, `cs.AI`, and `cs.HC`:
 | --- | --- | --- |
 | `cs.SE` | Strong fit for lifecycle, tests, harnesses, artifact governance. | Needs software-engineering framing and reproducibility emphasis. |
 | `cs.AI` | Fit for agent skills and model-backed evaluation. | Needs stronger empirical evidence to avoid looking like tooling notes. |
-| `cs.HC` | Fit for personal agents and human review workflow. | Needs human study evidence for best fit. |
+| `cs.HC` | Fit for personal agents and user-facing workflow. | Needs user-facing study evidence for best fit. |
 
 Without endorsement, the practical path is to request endorsement from a
 qualified submitter in the chosen category or submit after acceptance to a venue
@@ -82,8 +84,8 @@ venue hosted on OpenReview.
 | Venue | Deadline status on 2026-06-25 | Fit | Recommendation |
 | --- | --- | --- | --- |
 | FSE 2027 | Research full paper due October 2, 2026. Source: https://conf.researchr.org/home/fse-2027 | Software-engineering lifecycle and artifact governance | Best long-paper fit for the current contribution shape. Emphasize artifact lifecycle, reproducibility, tests, and evidence boundaries. |
-| CHI 2027 | Full paper due September 10, 2026; no abstract deadline. Source: https://chi2027.acm.org/authors/papers/ | Personal agents, HCI, workflow design | Strong if the pilot annotation or expert/user study is completed before submission. |
-| IUI 2027 | Abstract August 13, 2026; full paper August 20, 2026. Source: https://iui.acm.org/2027/ | Intelligent interfaces and human-centered agent tooling | Good if a compact expert-review or annotation-calibration result is completed soon. |
+| CHI 2027 | Full paper due September 10, 2026; no abstract deadline. Source: https://chi2027.acm.org/authors/papers/ | Personal agents, HCI, workflow design | Strong only if a separate user-facing evaluation is completed before submission. |
+| IUI 2027 | Abstract August 13, 2026; full paper August 20, 2026. Source: https://iui.acm.org/2027/ | Intelligent interfaces and human-centered agent tooling | Good if a compact user-facing or expert-evaluation result is completed soon. |
 | AAAI 2027 | Abstract July 21, 2026; full paper July 28, 2026. Source: https://aaai.org/conference/aaai/aaai-27/ | General AI and agent systems | Time is tight; submit only if the argument is compressed around agent reliability and the current evidence is not overextended. |
 | ICSE 2027 Research Track | Mandatory abstract June 23, 2026; paper June 30, 2026. Source: https://conf.researchr.org/track/icse-2027/icse-2027-research-track | Software engineering | Main-track abstract registration has passed as of June 25, 2026. Consider ICSE colocated tracks with October 2026 deadlines if the scope matches. |
 | NeurIPS 2026 E\&D / workshops | E\&D full paper deadline passed on May 6, 2026; workshop contribution timing depends on accepted workshop calls. Sources: https://neurips.cc/Conferences/2026/CallForEvaluationsDatasets and https://neurips.cc/Conferences/2026/CallForWorkshops | Evaluation artifacts and benchmarks | Main E\&D deadline has passed. Consider only a matching accepted workshop with a live submission call. |
@@ -93,9 +95,11 @@ venue hosted on OpenReview.
 Best ordering for the current manuscript:
 
 1. FSE 2027 as the main target for the current contribution shape.
-2. CHI 2027 if the human-review or expert-review layer is completed.
-3. IUI 2027 if a compact pilot annotation result can be completed before August 2026.
-4. AAAI 2027 only if no additional human-study work is possible and the paper is reframed as agent reliability infrastructure.
+2. AAAI 2027 only if the paper is reframed tightly as agent reliability
+   infrastructure and the evidence boundary remains conservative.
+3. IUI 2027 if a compact user-facing or expert-evaluation result can be
+   completed before August 2026.
+4. CHI 2027 if a separate user-facing evaluation is completed.
 5. AAMAS 2027 or ICLR 2027 only after stronger external execution and ablation evidence.
 
 ## Submission Support Boundary

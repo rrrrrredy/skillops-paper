@@ -140,7 +140,7 @@ def write_summary(worklist_rows: list[dict[str, str]], assignment_rows: list[dic
     lines = [
         "# External Annotation Execution Summary",
         "",
-        "This summary turns the 24-artifact pilot review plan into assignable rows and an adjudication log template. It does not report collected human labels.",
+        "This optional future summary turns the 24-artifact pilot review plan into assignable rows and an adjudication log template. It is not part of the current machine-first evidence route and does not report collected human labels.",
         "",
         "## Totals",
         "",

@@ -23,6 +23,8 @@ class RequirementsClosureAuditTests(unittest.TestCase):
             "results/experiments/live_model_summary.md",
             "benchmark/external_artifact_corpus_sources.csv",
             "docs/human_review_execution_packet.md",
+            "results/experiments/external_machine_checkable_metrics.md",
+            "results/experiments/llm_judge_sensitivity_plan.csv",
             "docs/submission_execution_checklist.md",
             "docs/submission_package_manifest.md",
             "docs/account_external_execution_readiness.md",
@@ -35,7 +37,7 @@ class RequirementsClosureAuditTests(unittest.TestCase):
         text = " ".join(AUDIT_PATH.read_text(encoding="utf-8").split()).lower()
         for required in (
             "not claimable",
-            "external human annotation",
+            "llm-as-judge label sensitivity",
             "powered external statistical results",
             "production deployment validation",
             "account access",
@@ -57,7 +59,7 @@ class RequirementsClosureAuditTests(unittest.TestCase):
             self.assertNotIn(prohibited, text)
 
     def test_current_test_count_is_aligned(self) -> None:
-        expected = "135 discovered, 135 passed"
+        expected = "141 discovered, 141 passed"
         for path in (AUDIT_PATH, READINESS_PATH, CHANGE_INVENTORY_PATH, TEST_REPORT_PATH):
             self.assertIn(expected, path.read_text(encoding="utf-8"))
 

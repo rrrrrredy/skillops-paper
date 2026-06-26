@@ -6,7 +6,7 @@ Audit date: 2026-06-26
 
 | Check | Status | Evidence |
 | --- | --- | --- |
-| Repository tests | Passed | `python scripts/run_tests.py` reports 135 discovered, 135 passed. |
+| Repository tests | Passed | `python scripts/run_tests.py` reports 141 discovered, 141 passed. |
 | Submission metadata payload | Passed | `docs/submission_metadata_payload.md` records copy-ready arXiv, OpenReview, and venue metadata tied to the current paper and release package. |
 | Requirements closure audit | Passed | `docs/requirements_closure_audit.md` maps the full author request to supported evidence, bounded account actions, and not-claimable items. |
 | PDF build | Passed | `release/skillops-paper.pdf` rebuilt with Tectonic. |
@@ -14,8 +14,8 @@ Audit date: 2026-06-26
 | Standalone source compile | Passed | The source zip was extracted into a repository-external temporary directory and compiled with Tectonic outside the repository context. |
 | Submission asset boundary | Passed | The attached release PDF and source zip are the submission package; automatic repository source archives are not used for arXiv submission. |
 | Submission execution checklist | Passed | `docs/submission_execution_checklist.md` records account-side arXiv and OpenReview actions, official references, and non-automatable boundaries. |
-| Account and external execution readiness | Passed | `docs/account_external_execution_readiness.md` records account-side blockers, human annotation sequencing, bounded provider pilot order, and excluding-OpenAI sensitivity planning. |
-| Versioned release | Passed | GitHub release `v1.2.0` exists with the current PDF/source assets and Zenodo record `20900771` is published. |
+| Account and external execution readiness | Passed | `docs/account_external_execution_readiness.md` records account-side blockers, machine-checkable scoring, LLM-as-judge sensitivity, bounded provider pilot order, and excluding-OpenAI sensitivity planning. |
+| Versioned release | Pending refresh | GitHub release `v1.2.0` and Zenodo record `20900771` exist for the previous public package. The local PDF/source package has been updated and needs a new release tag and Zenodo file-state verification before DOI-backed submission. |
 | Zenodo file-state audit | Published and verified | Zenodo record `20900771` has DOI `10.5281/zenodo.20900771` and a GitHub-integration archive whose embedded PDF/source assets match the release hashes; prior record `20844038` archives an older GitHub snapshot and is not binary provenance for the current PDF. |
 | Public trace scan | Passed | No matches for removed model names, prepublication markers, or machine-writing traces in scanned public paths. |
 | Whitespace check | Passed with Windows line-ending warnings | `git diff --check` exits 0; warnings are CRLF conversion notices. |
@@ -47,25 +47,24 @@ Audit date: 2026-06-26
 - A no-secret bounded live-selection manifest records a 2-row DeepSeek pilot
   selection that was not executed because `DEEPSEEK_API_KEY` was unavailable in
   the shell environment.
-- A pilot annotation layer is prepared:
-  - 96 pending review cases.
+- A case-label sensitivity layer is prepared:
+  - 96 pilot case-label rows.
   - 32 balanced calibration cases.
-  - Two-annotator and adjudication fields, with no collected annotations.
-  - Two-reviewer assignment manifest, adjudication log template, interface
-    spec, execution plan, and reliability computation script.
-- A human-review execution packet now specifies consent, data handling,
-  calibration, quality controls, and stop conditions for the external review
-  layer.
+  - A bounded LLM-as-judge dry-run plan.
+  - Separate summary files so judge sensitivity cannot be mistaken for primary
+    model outcomes.
 - Bounded external live smoke is available for 16 metadata-only condition rows:
   12 rows with `deepseek-v4-flash` and 4 rows with `kimi-k2.7-code`.
   The smoke produced 16/16 parse-success records and 5/16 expected-behavior
   matches.
+- Machine-checkable external-smoke metrics are available for completed-record
+  counts, parse success, expected-behavior exact match, and constraint-pass
+  checks.
 
 ## Claims Still Not Supported
 
-- No external human annotation has been collected.
-- The 24-artifact external pilot has not yet been annotated or executed as a
-  powered study.
+- The 24-artifact external pilot has not yet been executed as a powered study.
+- Provider-backed LLM-as-judge sensitivity has not yet been run live.
 - Provider-backed pilot execution remains bounded to the completed smoke layer;
   the 24-artifact pilot has not been run as an outcome-bearing study.
 - No model API key is stored in repository files or release artifacts.
@@ -76,10 +75,11 @@ Audit date: 2026-06-26
 
 ## Publication Readiness
 
-The repository is prepared for author-side submission checks at the `v1.2.0`
-artifact boundary. This version adds clearer evidence boundaries, DOI-pinned
-release materials, external-corpus preparation, pilot-readiness, and
-annotation-calibration artifacts without overclaiming.
+The repository is prepared for author-side submission checks with a refreshed
+local package. This version adds clearer evidence boundaries, external-corpus
+preparation, pilot-readiness, and
+machine-checkable external-smoke metrics plus judge-sensitivity planning
+without overclaiming.
 
 For a public paper update, the strongest defensible positioning is:
 
@@ -92,15 +92,17 @@ For a public paper update, the strongest defensible positioning is:
 
 | Blocker | Required action |
 | --- | --- |
-| External statistical validation | Complete human annotation/adjudication and run the planned external statistical analysis. |
+| External statistical validation | Complete the 24-artifact powered provider pilot and run the planned external statistical analysis. |
+| LLM-as-judge sensitivity | Run bounded provider-backed label-sensitivity checks and keep them separate from primary machine-checkable metrics. |
 | Excluding-OpenAI sensitivity corpus | Replace OpenAI Agents SDK rows with non-OpenAI workflow-template rows, then regenerate and run a separate sensitivity frame. |
+| Artifact DOI refresh | Publish the updated package as the next GitHub release and verify the new Zenodo version DOI before arXiv or venue upload. |
 | arXiv submission | Requires account access and category endorsement or an endorsed category choice. |
 | OpenReview submission | Requires selecting an active venue or workshop invitation. |
 | Conference submission | Requires target venue selection, formatting check, and deadlines. |
 
 ## Recommended Next Publish Sequence
 
-1. Review the `v1.2.0` PDF and source package locally.
+1. Review the `v1.3.0` target PDF and source package locally.
 2. Submit the source package through the chosen venue workflow.
 3. For arXiv, use an endorsed category or obtain endorsement before upload.
 4. For OpenReview, select a concrete venue or workshop invitation before upload.

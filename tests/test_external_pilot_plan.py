@@ -62,7 +62,7 @@ class ExternalPilotPlanTests(unittest.TestCase):
         self.assertEqual(len(rows), 24)
         self.assertEqual(len({row["artifact_id"] for row in rows}), 24)
         self.assertEqual({row["random_seed"] for row in rows}, {"20260625"})
-        self.assertEqual({row["pilot_status"] for row in rows}, {"selected_pending_annotation"})
+        self.assertEqual({row["pilot_status"] for row in rows}, {"selected_pending_label_review"})
         self.assertEqual(set(Counter(row["study_family"] for row in rows)), EXPECTED_FAMILIES)
         self.assertTrue(all(count == 6 for count in Counter(row["study_family"] for row in rows).values()))
         self.assertGreaterEqual(len({row["source_owner"] for row in rows}), 8)
@@ -87,7 +87,7 @@ class ExternalPilotPlanTests(unittest.TestCase):
             self.assertTrue(row["study_family"])
             self.assertTrue(row["source_owner"])
             self.assertTrue(row["ecosystem"])
-            self.assertEqual(row["pilot_status"], "selected_pending_annotation")
+            self.assertEqual(row["pilot_status"], "selected_pending_label_review")
 
         self.assertTrue(all(len(case_ids) == 4 for case_ids in cases_by_artifact.values()))
         self.assertTrue(all(conditions == EXPECTED_CONDITIONS for conditions in conditions_by_case.values()))

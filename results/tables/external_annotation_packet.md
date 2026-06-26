@@ -1,6 +1,6 @@
-# External Annotation Packet
+# External Case Construction Packet
 
-This file summarizes the planned annotation packet derived from metadata-only external artifact references. It defines eligibility, replacement, review, and adjudication work to be performed; it does not report collected annotations or behavioral outcomes.
+This file summarizes the planned case-construction packet derived from metadata-only external artifact references. It defines eligibility, replacement, label review, and execution-planning work; it does not report behavioral outcomes.
 
 ## Totals
 
@@ -10,7 +10,7 @@ This file summarizes the planned annotation packet derived from metadata-only ex
 | Concrete candidate references | 232 |
 | Pending replacement slots | 8 |
 | Base cases | 960 |
-| Annotation rows | 960 |
+| Case-label rows | 960 |
 | Condition rows | 2880 |
 | Eligibility rows | 240 |
 | Replacement rows | 100 |

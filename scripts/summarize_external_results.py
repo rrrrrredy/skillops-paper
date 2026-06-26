@@ -181,7 +181,7 @@ def build_stat_summary(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     notes = (
         "No external live-result records are available."
         if not records
-        else "Bounded smoke records are available; powered annotated inference has not run."
+        else "Bounded smoke records are available; powered external inference has not run."
     )
     return [
         {
@@ -233,7 +233,7 @@ def write_markdown(summary_rows: list[dict[str, Any]], stat_rows: list[dict[str,
     stat_lines = [
         "# External Statistical Summary",
         "",
-        "This file tracks whether planned external statistical metrics have live-result inputs. Bounded smoke rows may be present, but powered annotated inference has not run.",
+        "This file tracks whether planned external statistical metrics have live-result inputs. Bounded smoke rows may be present, but powered external inference has not run.",
         "",
         markdown_table(
             ["Metric", "Planned status", "Result status", "Records"],

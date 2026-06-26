@@ -13,8 +13,8 @@ RELEASE_PDF_PATH = REPO_ROOT / "release" / "skillops-paper.pdf"
 RELEASE_SOURCE_ZIP_PATH = REPO_ROOT / "release" / "skillops-paper-source.zip"
 RELEASE_SOURCE_DIR = REPO_ROOT / "release" / "skillops-paper-source"
 
-EXPECTED_RELEASE_TAG = "v1.2.0"
-EXPECTED_VERSION_DOI = "10.5281/zenodo.20900771"
+EXPECTED_RELEASE_TAG = "v1.3.0"
+EXPECTED_REFERENCE_DOI = "10.5281/zenodo.20900771"
 EXPECTED_CONCEPT_DOI = "10.5281/zenodo.20061198"
 OLD_VERSION_DOI = "10.5281/zenodo." + "2083" + "8908"
 EXPECTED_ZIP_ENTRIES = {
@@ -42,7 +42,7 @@ class SubmissionPackageManifestTests(unittest.TestCase):
     def test_manifest_exists_and_pins_release_identity(self) -> None:
         text = MANIFEST_PATH.read_text(encoding="utf-8")
         self.assertIn(f"releases/tag/{EXPECTED_RELEASE_TAG}", text)
-        self.assertIn(EXPECTED_VERSION_DOI, text)
+        self.assertIn(EXPECTED_REFERENCE_DOI, text)
         self.assertIn(EXPECTED_CONCEPT_DOI, text)
 
     def test_manifest_hashes_match_release_files(self) -> None:
@@ -59,7 +59,8 @@ class SubmissionPackageManifestTests(unittest.TestCase):
 
     def test_manifest_distinguishes_submission_assets_from_repository_archives(self) -> None:
         text = " ".join(MANIFEST_PATH.read_text(encoding="utf-8").split())
-        self.assertIn("Use the attached release assets", text)
+        self.assertIn("Use the local files above as the submission package", text)
+        self.assertIn("next verified DOI", text)
         self.assertIn("Do not use GitHub's automatic source archives", text)
         self.assertIn("curated LaTeX package", text)
 
@@ -81,7 +82,7 @@ class SubmissionPackageManifestTests(unittest.TestCase):
         with zipfile.ZipFile(RELEASE_SOURCE_ZIP_PATH) as package:
             source_text = "\n".join(package.read(name).decode("utf-8") for name in EXPECTED_ZIP_ENTRIES)
         self.assertIn(EXPECTED_RELEASE_TAG, source_text)
-        self.assertIn(EXPECTED_VERSION_DOI, source_text)
+        self.assertIn(EXPECTED_CONCEPT_DOI, source_text)
         self.assertNotIn(OLD_VERSION_DOI, source_text)
 
 

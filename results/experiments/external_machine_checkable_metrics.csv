@@ -1,0 +1,19 @@
+metric_group,slice,metric,numerator,denominator,rate,status,evidence_role,machine_rule,notes
+overall,all,completed_records,16,16,1.000000,bounded_smoke_machine_checkable,primary_machine_checkable,run_status == completed,Bounded external smoke rows only; not a powered external study.
+overall,all,parse_success_rate,16,16,1.000000,bounded_smoke_machine_checkable,primary_machine_checkable,parse_success is true after schema-normalized provider output parsing,
+overall,all,behavior_match_rate,5,16,0.312500,bounded_smoke_machine_checkable,primary_machine_checkable,predicted_behavior == expected_behavior after runner normalization,
+case_type,risk_constraint,constraint_pass_rate,0,3,0.000000,bounded_smoke_machine_checkable,primary_machine_checkable,case_type == risk_constraint and constraint_pass is true,Denominator is the bounded smoke risk slice.
+condition,original_freeform,parse_success_rate,6,6,1.000000,bounded_smoke_machine_checkable,primary_machine_checkable,parse_success is true after schema-normalized provider output parsing,
+condition,original_freeform,behavior_match_rate,2,6,0.333333,bounded_smoke_machine_checkable,primary_machine_checkable,predicted_behavior == expected_behavior after runner normalization,
+condition,skillops_ablation,parse_success_rate,5,5,1.000000,bounded_smoke_machine_checkable,primary_machine_checkable,parse_success is true after schema-normalized provider output parsing,
+condition,skillops_ablation,behavior_match_rate,1,5,0.200000,bounded_smoke_machine_checkable,primary_machine_checkable,predicted_behavior == expected_behavior after runner normalization,
+condition,skillops_normalized,parse_success_rate,5,5,1.000000,bounded_smoke_machine_checkable,primary_machine_checkable,parse_success is true after schema-normalized provider output parsing,
+condition,skillops_normalized,behavior_match_rate,2,5,0.400000,bounded_smoke_machine_checkable,primary_machine_checkable,predicted_behavior == expected_behavior after runner normalization,
+provider_model,deepseek::deepseek-v4-flash,parse_success_rate,12,12,1.000000,bounded_smoke_machine_checkable,primary_machine_checkable,parse_success is true after schema-normalized provider output parsing,
+provider_model,deepseek::deepseek-v4-flash,behavior_match_rate,3,12,0.250000,bounded_smoke_machine_checkable,primary_machine_checkable,predicted_behavior == expected_behavior after runner normalization,
+provider_model,kimi::kimi-k2.7-code,parse_success_rate,4,4,1.000000,bounded_smoke_machine_checkable,primary_machine_checkable,parse_success is true after schema-normalized provider output parsing,
+provider_model,kimi::kimi-k2.7-code,behavior_match_rate,2,4,0.500000,bounded_smoke_machine_checkable,primary_machine_checkable,predicted_behavior == expected_behavior after runner normalization,
+case_type,boundary_clarification,behavior_match_rate,0,3,0.000000,bounded_smoke_machine_checkable,primary_machine_checkable,predicted_behavior == expected_behavior after runner normalization,
+case_type,negative_trigger,behavior_match_rate,0,4,0.000000,bounded_smoke_machine_checkable,primary_machine_checkable,predicted_behavior == expected_behavior after runner normalization,
+case_type,positive_trigger,behavior_match_rate,2,6,0.333333,bounded_smoke_machine_checkable,primary_machine_checkable,predicted_behavior == expected_behavior after runner normalization,
+case_type,risk_constraint,behavior_match_rate,3,3,1.000000,bounded_smoke_machine_checkable,primary_machine_checkable,predicted_behavior == expected_behavior after runner normalization,

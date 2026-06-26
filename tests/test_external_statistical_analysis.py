@@ -56,7 +56,7 @@ class ExternalStatisticalAnalysisTests(unittest.TestCase):
 
         annotation_rows = read_csv_rows(ANNOTATION_RELIABILITY_PATH)
         self.assertEqual(annotation_rows[0]["metric"], "annotation_reliability")
-        self.assertEqual(annotation_rows[0]["analysis_status"], "not_available")
+        self.assertEqual(annotation_rows[0]["analysis_status"], "not_used_primary_evidence")
 
         summary = SUMMARY_PATH.read_text(encoding="utf-8")
         self.assertIn("no statistical significance is claimed", summary)

@@ -3,7 +3,7 @@
 - Command run: `python scripts/run_tests.py`
 - Run date: `2026-06-26`
 - Pass/fail status: `passed`
-- Summary: `135 discovered, 135 passed`
+- Summary: `141 discovered, 141 passed`
 
 ## Tests Executed
 
@@ -28,6 +28,8 @@
 - `tests/test_arxiv_endorsement_outreach.py`
 - `tests/test_human_review_execution_packet.py`
 - `tests/test_live_model_results.py`
+- `tests/test_llm_judge_sensitivity.py`
+- `tests/test_machine_checkable_external_analysis.py`
 - `tests/test_paper_claims.py`
 - `tests/test_provider_config.py`
 - `tests/test_public_presentation.py`
@@ -63,9 +65,9 @@
   `not run`, and explicitly record missing execution layers.
 - External artifact selection and pilot plans avoid non-capability repository
   metadata such as license, font, funding, and CI workflow files.
-- External annotation execution assets provide two independent reviewer
-  assignments per case, an adjudication log template, and unavailable
-  reliability metrics until real human labels are collected.
+- External case-label and optional future review assets preserve boundaries:
+  machine-checkable metrics remain primary, while LLM-as-judge sensitivity and
+  human-review packets are kept separate from outcome claims.
 - Live raw result files retain normalized metrics and run metadata without
   provider response bodies or model response text.
 - Submission and requirements closure documents remain aligned with release
@@ -77,8 +79,8 @@
 ## What the Tests Do Not Verify
 
 - They do not run external artifact repositories against the benchmark cases.
-- They do not measure model performance, scanner accuracy, user-study outcomes,
-  or production validation.
+- They do not measure broad model performance, scanner accuracy,
+  user-study outcomes, or production validation.
 - They do not validate compiled PDF integration of the SVG figures.
 - They do not perform visual review of the compiled PDF layout.
 - They do not establish statistical significance or broad empirical generality.

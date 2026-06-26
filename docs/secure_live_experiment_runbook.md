@@ -74,12 +74,15 @@ Before committing results:
 ```powershell
 python scripts/sanitize_raw_results.py
 python scripts/summarize_external_results.py
+python scripts/run_machine_checkable_external_analysis.py
 python scripts/run_external_statistical_analysis.py
+python scripts/run_llm_judge_sensitivity.py --dry-run
 python scripts/run_tests.py
 rg -n "sk-[A-Za-z0-9]{24,}" README.md paper evidence docs benchmark experiments results scripts tests release\skillops-paper-source -S
 ```
 
 Commit only sanitized summaries, manifests, and raw outputs that pass the secret
 scan and evidence-boundary tests. Do not report external effect estimates until
-annotation, adjudication, model execution, and the preregistered statistical
-analysis are complete.
+eligibility review, machine-checkable scoring rules, model execution,
+judge-sensitivity boundaries, and the preregistered statistical analysis are
+complete.

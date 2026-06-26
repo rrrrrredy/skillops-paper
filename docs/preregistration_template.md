@@ -66,7 +66,7 @@ Secondary outcomes:
 - Token use
 - Latency
 - Reviewable failure rationale category
-- Human review time, workload, and trust calibration when the participant study is run
+- LLM-as-judge case-label stability as a secondary sensitivity check
 
 ## Analysis Plan
 
@@ -86,11 +86,16 @@ Exclude cases only for one of the following reasons:
 
 All exclusions must be reported with source id, artifact family, case type, condition, and reason.
 
-## Human Review Layer
+## LLM-as-Judge Sensitivity Layer
 
-The human review layer requires consent, compensation, and a study-specific data handling plan. Participants should have agent, tooling, or developer-workflow experience. The planned sample is 48-72 participants in a within-subject Latin-square design.
+The judge-sensitivity layer checks case-label stability only. It does not score
+model outputs and does not replace machine-checkable parse, behavior-match, or
+constraint-pass metrics. Run it with bounded provider rows and report it
+separately from primary outcomes.
 
-Do not report human-review outcomes until recruitment, consent, annotation, and adjudication are complete.
+External human review may be added later as a separate validity study for audit
+usefulness and user experience, but it is outside the current machine-only
+evidence route.
 
 ## Reporting Boundary
 

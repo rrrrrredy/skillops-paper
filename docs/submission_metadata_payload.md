@@ -14,9 +14,11 @@ venue submission systems. The upload files and hashes are fixed in
 | Author | Song Luo |
 | Contact | luosongred@gmail.com |
 | Manuscript date | June 2026 |
-| Primary artifact release | https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.2.0 |
-| Version DOI | https://doi.org/10.5281/zenodo.20900771 |
+| Target release | https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.3.0 |
+| Published reference release | https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.2.0 |
+| Published reference DOI | https://doi.org/10.5281/zenodo.20900771 |
 | Concept DOI | https://doi.org/10.5281/zenodo.20061198 |
+| Next-release DOI | Fill after publishing and verifying the next GitHub/Zenodo release. |
 | PDF asset | `release/skillops-paper.pdf` |
 | arXiv source asset | `release/skillops-paper-source.zip` |
 
@@ -33,8 +35,9 @@ summaries, repository-level consistency checks, a local security-guard pilot,
 and live model-backed runs with DeepSeek and Kimi over trigger, constraint,
 security, and memory-drift protocols. It also reports an external-validation
 readiness layer: a metadata-only third-party corpus protocol, a seeded
-24-artifact pilot plan, bounded runner readiness, and a two-annotator
-calibration worklist. The contribution is therefore a bounded engineering
+24-artifact pilot plan, bounded runner readiness, machine-checkable external
+smoke metrics, and an LLM-as-judge case-label sensitivity plan. The
+contribution is therefore a bounded engineering
 framework for making agent skills more explicit, testable, and maintainable,
 not a claim that a particular skill format universally improves model behavior.
 
@@ -43,8 +46,8 @@ not a claim that a particular skill format universally improves model behavior.
 | Field | Recommended value |
 | --- | --- |
 | Primary category | `cs.SE` |
-| Optional cross-list | `cs.AI` if agent-reliability framing is emphasized; `cs.HC` only after human-review evidence is collected |
-| Comments | Source package and reproducibility artifacts available at the GitHub release; external human annotation and powered external statistical validation are not claimed. |
+| Optional cross-list | `cs.AI` if agent-reliability framing is emphasized; `cs.HC` only after user-facing evaluation evidence is collected |
+| Comments | Source package and reproducibility artifacts available at the verified GitHub/Zenodo release; powered external statistical validation and broad user-study outcomes are not claimed. |
 | Report number | Leave blank unless a venue or institution assigns one. |
 | Journal reference | Leave blank unless accepted by a venue. |
 | License | Choose the author's intended arXiv license at upload time. |
@@ -55,7 +58,7 @@ not a claim that a particular skill format universally improves model behavior.
 | --- | --- |
 | Keywords | personal AI agents; agent skills; software engineering for AI agents; artifact lifecycle; reproducibility; evaluation harnesses; operational safety |
 | Subject areas | AI agents; software engineering for AI; human-agent interaction; evaluation and reproducibility; tool-use systems |
-| Artifact link | https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.2.0 |
+| Artifact link | Use `https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.3.0`; add the Zenodo version DOI after verification. |
 | Supplementary material | Use `release/skillops-paper-source.zip` only when source or supplementary upload is requested. |
 | Conflict and policy fields | Complete inside the authenticated venue form. |
 
@@ -66,14 +69,16 @@ artifact claims:
 
 This submission reports a personal-agent artifact lifecycle framework with
 completed internal benchmarks, local guard checks, two-provider internal live
-runs, bounded external smoke, and an auditable third-party corpus scaffold. It
-does not report a completed external human study, powered external statistical
-result, production deployment validation, or broad user-study outcome.
+runs, bounded external smoke, machine-checkable external-smoke metrics, and an
+auditable third-party corpus scaffold. It does not report a completed powered
+external study, production deployment validation, or broad user-study outcome.
 
 ## Account-Side Checks
 
-- Use the attached GitHub release PDF and source zip, not GitHub's automatic
-  source archives, for submission upload.
+- Use the curated PDF and source zip, not GitHub's automatic source archives,
+  for submission upload.
+- Publish and verify the next GitHub/Zenodo release before citing the artifact
+  DOI for the local hashes in `docs/submission_package_manifest.md`.
 - Confirm arXiv endorsement, category, license, and final submission action
   inside the author's account.
 - Confirm OpenReview venue invitation, anonymity policy, author profile,

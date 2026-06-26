@@ -48,7 +48,7 @@ class ExternalResultSummaryTests(unittest.TestCase):
 
     def test_markdown_states_no_inferential_models(self) -> None:
         text = STAT_SUMMARY_MD_PATH.read_text(encoding="utf-8")
-        self.assertIn("powered annotated inference has not run", text)
+        self.assertIn("powered external inference has not run", text)
 
 
 if __name__ == "__main__":

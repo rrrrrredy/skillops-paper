@@ -18,7 +18,7 @@ Possible alternate routes:
 | --- | --- |
 | `cs.AI` | If the submission emphasizes agent reliability and action selection. |
 | `cs.CL` | If the submission is reframed around language-agent instruction artifacts. |
-| `cs.HC` | Only after the human-review layer is completed and reported. |
+| `cs.HC` | Only after user-facing evaluation evidence is completed and reported. |
 
 ## Outreach Priority
 
@@ -50,7 +50,7 @@ I am preparing to submit a paper to arXiv and would be grateful if you would con
 
 Paper title: SkillOps: A Practical Framework for Designing, Testing, and Operating Modular Skills in Personal AI Agents
 
-Short summary: The paper studies lifecycle management for reusable personal-agent artifacts: trigger boundaries, context boundaries, execution constraints, tests, security checks, memory behavior, and retirement signals. It positions SkillOps as a practical artifact-lifecycle framework rather than a skill-library maintenance algorithm. The evidence includes internal benchmarks, two-provider live model checks, an external third-party corpus scaffold, and a planned human-reviewed external pilot with explicit claim boundaries.
+Short summary: The paper studies lifecycle management for reusable personal-agent artifacts: trigger boundaries, context boundaries, execution constraints, tests, security checks, memory behavior, and retirement signals. It positions SkillOps as a practical artifact-lifecycle framework rather than a skill-library maintenance algorithm. The evidence includes internal benchmarks, two-provider live model checks, an external third-party corpus scaffold, bounded machine-checkable external smoke metrics, and an LLM-as-judge case-label sensitivity plan with explicit claim boundaries.
 
 Why I am reaching out: your work on [SWE-agent / SWE-bench / ReAct / ToolLLM / Gorilla / AutoGen] is directly related to the paper's framing around language agents, tool-use systems, and evaluation of agent workflows.
 

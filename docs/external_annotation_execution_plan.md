@@ -1,6 +1,6 @@
 # External Annotation Execution Plan
 
-This plan converts the external pilot review packet into a concrete human-review workflow. It is an execution plan, not evidence of completed external review.
+This optional future plan converts the external pilot review packet into a concrete human-review workflow. It is not part of the current machine-first evidence route and is not evidence of completed external review.
 
 ## Inputs
 

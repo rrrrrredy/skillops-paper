@@ -3,8 +3,8 @@
 Audit date: 2026-06-26
 
 This audit maps the full author request to repository evidence. It separates
-supported paper claims from account-side, credential-side, and human-subject
-work that cannot be completed inside the repository.
+supported paper claims from account-side, credential-side, and external
+execution work that cannot be completed inside the repository.
 
 ## Status Legend
 
@@ -28,42 +28,43 @@ work that cannot be completed inside the repository.
 | Replace legacy model references and rerun with current providers | Supported | `results/experiments/live_model_summary.md`, `evidence/execution_log.md`, hygiene scans in `tests/test_public_presentation.py` | Future provider additions require fresh result summaries and claim checks. |
 | Agent and harness practice must be reflected | Supported | `paper/main.tex`, `scripts/experiment_utils.py`, `scripts/external_pilot_runner_utils.py`, `evidence/execution_matrix.md` | More production traffic would require a separate deployment study. |
 | Model-backed live experiments | Supported | DeepSeek and Kimi core live runs plus bounded external smoke in `results/experiments/raw/` and summaries | Large-scale live execution remains bounded by cost, credentials, and review. |
-| External skill corpus beyond author artifacts | Bounded | `benchmark/external_artifact_corpus_sources.csv`, `results/tables/external_artifact_selection.csv`, `results/tables/external_corpus_summary.md` | The 240-slot design contains 232 concrete metadata-only references plus 8 pending replacement slots; eligibility review, replacement, and annotation remain pending. |
-| Large-scale statistical significance | Not claimable | `results/experiments/external_statistical_analysis.md` records descriptive diagnostics and boundary language | Requires completed annotation, model execution, and preregistered inference. |
-| External user or expert study | Bounded | `docs/human_review_execution_packet.md`, `docs/annotation_guide.md`, `docs/external_annotation_execution_plan.md`, `results/tables/external_annotation_assignment_manifest.csv`, `results/tables/external_annotation_adjudication_log.csv` | Recruitment, consent, compensation, annotation, and adjudication require external participants. |
+| External skill corpus beyond author artifacts | Bounded | `benchmark/external_artifact_corpus_sources.csv`, `results/tables/external_artifact_selection.csv`, `results/tables/external_corpus_summary.md` | The 240-slot design contains 232 concrete metadata-only references plus 8 pending replacement slots; eligibility review, replacement, bounded execution, and powered analysis remain pending. |
+| Large-scale statistical significance | Not claimable | `results/experiments/external_statistical_analysis.md` and `results/experiments/external_machine_checkable_metrics.md` record descriptive diagnostics and boundary language | Requires completed powered model execution and preregistered inference. |
+| LLM-as-judge label sensitivity | Bounded | `scripts/run_llm_judge_sensitivity.py`, `experiments/prompts/llm_judge_case_label_sensitivity.md`, `results/experiments/llm_judge_sensitivity_plan.csv` | Live judge execution requires locally injected provider credentials and bounded runs. |
+| External user or expert study | Not claimable | `docs/human_review_execution_packet.md` remains an optional future validity packet | Recruitment, consent, compensation, and user-experience measurement are outside the current machine-only evidence route. |
 | Remove public writing and tool-operation traces | Supported | `tests/test_public_presentation.py`, release PDF/source package scans, repository-level text scans | Re-run scans before any new release. |
 | Distinguish this paper from the same-name 2026 work | Supported | `paper/main.tex` related-work and positioning sections | Keep the title/subtitle and abstract focused on personal-agent artifact lifecycle. |
-| Pin GitHub and Zenodo citation | Supported | `docs/submission_package_manifest.md`, `docs/publication_plan.md`, `docs/zenodo_file_state_audit.md`, release `v1.2.0`, DOI `10.5281/zenodo.20900771` | The prior DOI is an older GitHub snapshot, not binary provenance. The current Zenodo record is published and file-verified for the embedded release assets. |
+| Pin GitHub and Zenodo citation | Bounded | `docs/submission_package_manifest.md`, `docs/publication_plan.md`, `docs/zenodo_file_state_audit.md`, release `v1.2.0`, DOI `10.5281/zenodo.20900771` | The prior DOI is an older GitHub snapshot, not binary provenance. The refreshed local package needs a next release tag and Zenodo version DOI before final DOI-backed submission. The `v1.2.0` DOI remains the published reference package. |
 | Prepare arXiv route | Bounded | `release/skillops-paper-source.zip`, `docs/submission_execution_checklist.md`, `docs/submission_package_manifest.md` | Account access, endorsement, category, license, and final submission action remain author-side. |
 | Prepare OpenReview route | Bounded | `release/skillops-paper.pdf`, `docs/submission_execution_checklist.md`, `docs/publication_plan.md` | A concrete venue invitation, conflicts, declarations, and final submission action remain author-side. |
 | Prepare submission metadata | Supported | `docs/submission_metadata_payload.md` | Venue-specific form fields may still differ. |
-| Prepare account-side and external execution readiness | Supported | `docs/account_external_execution_readiness.md` | Zenodo, arXiv, OpenReview, provider keys, human reviewers, and sensitivity execution remain account-side or external-study actions. |
+| Prepare account-side and external execution readiness | Supported | `docs/account_external_execution_readiness.md` | Zenodo, arXiv, OpenReview, provider keys, LLM-as-judge live sensitivity, and powered external execution remain account-side or external-study actions. |
 | Formal venue screening | Supported | `docs/publication_plan.md` | Deadlines and calls should be rechecked before submission. |
 
 ## Evidence Summary
 
-- The release package is pinned at `v1.2.0` with Zenodo version DOI
-  `10.5281/zenodo.20900771`.
+- The previous published release is pinned at `v1.2.0` with Zenodo version DOI
+  `10.5281/zenodo.20900771`; the refreshed local package requires a next DOI
+  before final DOI-backed submission.
 - The arXiv source package contains `main.tex`, `main.bbl`, `references.bib`,
   and `README.md`.
-- Repository tests at this audit boundary: 135 discovered, 135 passed.
+- Repository tests at this audit boundary: 141 discovered, 141 passed.
 - The public package reports completed internal benchmarks, local guard checks,
-  two-provider internal live runs, bounded external smoke, and an auditable
-  external-corpus scaffold.
-- The public package does not report external human annotation, powered
-  external statistical results, production deployment validation, or broad
-  user-study outcomes.
+  two-provider internal live runs, bounded external smoke, machine-checkable
+  external-smoke metrics, and an auditable external-corpus scaffold.
+- The public package does not report powered external statistical results,
+  production deployment validation, or broad user-study outcomes.
 
 ## Recommended Order From Here
 
 1. Author-side review of `release/skillops-paper.pdf` and
    `docs/submission_execution_checklist.md`.
-2. Choose between FSE-oriented software-engineering submission and a
-   human-centered route that first completes the review layer.
+2. Choose between FSE-oriented software-engineering submission and an agent
+   systems route that emphasizes reproducible external execution.
 3. If submitting to arXiv, use `release/skillops-paper-source.zip` and the
    checklist category guidance.
 4. If submitting through OpenReview, pick a concrete venue and use
    `release/skillops-paper.pdf` plus the DOI-backed artifact link.
-5. For a stronger next public version, complete the external review layer, then
-   run the preregistered pilot and statistical analysis before publishing a new
-   verified Zenodo-backed release.
+5. For a stronger next public version, complete the 24-artifact powered
+   external pilot, LLM-as-judge sensitivity check, and preregistered
+   statistical analysis before publishing a new verified Zenodo-backed release.

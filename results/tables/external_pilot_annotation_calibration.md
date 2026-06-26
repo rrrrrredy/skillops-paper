@@ -1,6 +1,6 @@
-# External Pilot Annotation Calibration
+# External Pilot Case-Label Calibration
 
-This file defines the pending human-review worklist and calibration subset for the 24-artifact pilot. It does not report collected annotations.
+This file defines the case-label worklist and calibration subset for the 24-artifact pilot. It supports LLM-as-judge sensitivity checks and does not report model outcomes.
 
 ## Totals
 

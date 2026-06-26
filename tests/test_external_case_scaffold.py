@@ -92,7 +92,7 @@ class ExternalCaseScaffoldTests(unittest.TestCase):
         ):
             self.assertIn(expected, protocol)
 
-        self.assertIn("Two annotators independently label", guide)
+        self.assertIn("LLM-as-judge sensitivity checks", guide)
         self.assertIn("Total base cases: 960", prereg)
         self.assertIn("Static source indicators, allocation files, seed cases, and schemas", prereg)
 

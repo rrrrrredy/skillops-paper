@@ -127,7 +127,7 @@ def select_pilot_artifacts(artifacts_per_family: int) -> list[dict[str, Any]]:
                     "artifact_reference": row["artifact_reference"],
                     "random_seed": row["random_seed"],
                     "random_key": row["random_key"],
-                    "pilot_status": "selected_pending_annotation",
+                    "pilot_status": "selected_pending_label_review",
                     "selection_reason": "first_seeded_within_cap_row_per_family",
                 }
             )
@@ -155,7 +155,7 @@ def build_condition_rows(selected_artifacts: list[dict[str, Any]]) -> list[dict[
                 "condition": row["condition"],
                 "expected_behavior": row["expected_behavior"],
                 "risk_label": row["risk_label"],
-                "pilot_status": "selected_pending_annotation",
+                "pilot_status": "selected_pending_label_review",
             }
         )
     expected_count = len(selected_artifacts) * 4 * 3
@@ -184,7 +184,7 @@ def build_model_rows(condition_rows: list[dict[str, Any]]) -> list[dict[str, Any
                     "condition": row["condition"],
                     "expected_behavior": row["expected_behavior"],
                     "risk_label": row["risk_label"],
-                    "pilot_status": "selected_pending_annotation",
+                    "pilot_status": "selected_pending_label_review",
                     "evidence_boundary": "pilot_plan_not_external_effect_estimate",
                 }
             )
@@ -210,7 +210,7 @@ def write_summary(artifact_rows: list[dict[str, Any]], condition_rows: list[dict
     lines = [
         "# External Pilot Plan",
         "",
-        "This plan selects a bounded, seeded 24-artifact pilot from within-cap external candidates. It is intended to estimate annotation disagreement, parse failures, provider failures, and execution logistics; it is not a final external effect estimate.",
+        "This plan selects a bounded, seeded 24-artifact pilot from within-cap external candidates. It is intended to expose label instability, parse failures, provider failures, and execution logistics; it is not a final external effect estimate.",
         "",
         "## Totals",
         "",

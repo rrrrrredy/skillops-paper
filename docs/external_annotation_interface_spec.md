@@ -1,6 +1,6 @@
 # External Annotation Interface Spec
 
-This spec defines the minimum participant-facing interface for the external pilot annotation workflow. It is designed for a spreadsheet, form tool, or lightweight internal review page.
+This optional future spec defines the minimum participant-facing interface for an external pilot review workflow. It is not part of the current machine-first evidence route.
 
 ## Reviewer Inputs
 

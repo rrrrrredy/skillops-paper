@@ -308,10 +308,10 @@ def build_annotation_rows(records: list[dict[str, Any]]) -> list[dict[str, Any]]
         {
             "metric": "annotation_reliability",
             "records_available": len(annotated_records),
-            "analysis_status": "not_available" if not annotated_records else "requires_reliability_estimator",
-            "notes": "External live records do not include independent human annotation fields yet."
+            "analysis_status": "not_used_primary_evidence" if not annotated_records else "requires_separate_reliability_report",
+            "notes": "Primary external evidence uses machine-checkable records; independent review fields are not required for bounded smoke claims."
             if not annotated_records
-            else "Annotation fields detected; compute agreement before reporting study outcomes.",
+            else "Independent review fields detected; keep agreement reporting separate from machine-checkable outcomes.",
         }
     ]
 

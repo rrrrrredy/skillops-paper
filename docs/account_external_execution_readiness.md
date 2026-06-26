@@ -3,8 +3,10 @@
 Audit date: 2026-06-26
 
 This document lists the remaining account-side and external-study actions for
-the `v1.2.0` release. It is an execution checklist, not evidence that those
-account actions or studies have been completed. No provider keys, account
+the refreshed local submission package. The published `v1.2.0` DOI remains the
+reference package until a next release is minted and verified. It is an
+execution checklist, not evidence that those account actions or studies have
+been completed. No provider keys, account
 tokens, participant identifiers, or payment information belong in the
 repository.
 
@@ -12,23 +14,21 @@ repository.
 
 | Route | Required account-side action | Repository asset |
 | --- | --- | --- |
-| Zenodo | Authenticated record check completed: prior DOI `10.5281/zenodo.20844038` archives an older GitHub snapshot and is not binary provenance for the current PDF/source package. DOI `10.5281/zenodo.20900771` is published and file-verified for `v1.2.0`; the integration archive embeds matching current PDF/source assets. | `docs/zenodo_file_state_audit.md` |
+| Zenodo | Authenticated record check completed: prior DOI `10.5281/zenodo.20844038` archives an older GitHub snapshot and is not binary provenance for the current package. DOI `10.5281/zenodo.20900771` is published and file-verified for `v1.2.0`; the refreshed local package needs the next release DOI before final citation. | `docs/zenodo_file_state_audit.md` |
 | arXiv | Confirm account status, category route, endorsement, license, and final upload action. Use the curated source zip rather than repository archive downloads. | `release/skillops-paper-source.zip` |
 | OpenReview | Choose a concrete venue invitation, verify profile and emails, complete conflicts and policy declarations, then upload the PDF under that venue's rules. | `release/skillops-paper.pdf` |
 | Formal venue | Recheck the live call for papers, formatting requirements, anonymity policy, artifact policy, and deadline before submission. | `docs/publication_plan.md` |
 
-## Human Annotation Execution Checklist
+## Machine-Checkable And Judge-Sensitivity Execution Checklist
 
 | Step | Completion rule |
 | --- | --- |
-| Consent and data boundary | Confirm reviewer consent, compensation, data retention, and allowed artifact access before sharing packets. |
-| Calibration | Run the 32-case calibration subset first and adjudicate disagreements before opening the 96-case pilot worklist. |
-| Independent review | Use two independent reviewers per case; keep annotator fields empty until real labels are collected. |
-| Adjudication | Resolve disagreements only after both reviewers finish; record rationale without personal identifiers. |
-| Assignment package | Use `results/tables/external_annotation_assignment_manifest.csv` for the two-reviewer assignment plan and `results/tables/external_annotation_adjudication_log.csv` for disagreement resolution. |
-| Reliability | Run `python scripts/compute_external_annotation_reliability.py` after each completed export; unavailable metrics must remain unavailable until real human labels exist. |
-| Stop conditions | Stop if reviewers cannot access pinned source references, if license status blocks representation construction, or if expected-behavior labels are ambiguous after adjudication. |
-| Reporting boundary | Do not report human-review outcomes until calibration, full pilot labels, adjudication, and reliability checks are complete. |
+| Primary external-smoke metrics | Run `python scripts/run_machine_checkable_external_analysis.py` after every bounded external provider slice. |
+| Case-label sensitivity plan | Run `python scripts/run_llm_judge_sensitivity.py --dry-run` to materialize the 32-case calibration subset without credentials. |
+| Bounded judge execution | If credentials are locally available, run `python scripts/run_llm_judge_sensitivity.py --run-live --provider deepseek --model deepseek-v4-flash --sample-limit 8 --max-live-rows 8` first, then repeat with Kimi only after parsing is clean. |
+| Evidence separation | Treat `external_machine_checkable_metrics.csv` as primary external-smoke evidence and `llm_judge_sensitivity_summary.csv` as secondary label-sensitivity evidence. |
+| Stop conditions | Stop if provider output fails schema parsing, if labels are unstable across judge providers, or if any generated file contains secrets or raw model prose. |
+| Reporting boundary | Do not report broad external validation, statistical significance, or model ranking from bounded smoke or judge-sensitivity rows. |
 
 ## Provider Live Pilot Order
 
@@ -41,11 +41,12 @@ repository.
 4. Run a bounded smoke slice first, using `--run-live`, one provider, one
    model, `--sample-limit 4`, and `--max-live-rows 4`.
 5. Sanitize and summarize outputs before increasing the bound.
-6. Execute the 24-artifact pilot only after annotation/adjudication is complete
-   and the smoke slice has no parsing, schema, or secret-hygiene failures.
+6. Execute the 24-artifact pilot only after the smoke slice and judge
+   sensitivity slice have no parsing, schema, label-instability, or
+   secret-hygiene failures.
 7. Refuse unbounded provider execution; use the full external study only after
-   replacement slots, eligibility review, annotation, and preregistered
-   analysis are locked.
+   replacement slots, eligibility review, machine-checkable scoring rules, and
+   preregistered analysis are locked.
 
 ## Excluding-OpenAI Sensitivity Corpus Plan
 
@@ -59,8 +60,8 @@ sensitivity corpus that excludes `openai-agents-python` and `openai-agents-js`.
 | Exclude provider-adjacent rows | Remove source ids `openai-agents-python` and `openai-agents-js` from the sensitivity selection. |
 | Preserve study-family balance | Replace their 28 workflow-template rows with non-OpenAI workflow-template rows where possible. |
 | Expand corpus if needed | If the existing frame cannot supply replacements without exceeding owner/source caps, add new third-party workflow repositories before execution. |
-| Regenerate downstream packets | Re-run selection, sampling, annotation, representation, dry-run, pilot, and summary generators for the sensitivity frame. |
-| Keep claims separate | Report the sensitivity run as a robustness check only after it has its own eligibility review, annotation, live outputs, and statistical analysis. |
+| Regenerate downstream packets | Re-run selection, sampling, case construction, representation, dry-run, pilot, machine-checkable metrics, and judge-sensitivity generators for the sensitivity frame. |
+| Keep claims separate | Report the sensitivity run as a robustness check only after it has its own eligibility review, live outputs, machine-checkable metrics, and statistical analysis. |
 
 Suggested replacement pools include additional AutoGen examples, LangGraph
 templates, LlamaIndex workflow examples, CrewAI examples, and other public
@@ -70,5 +71,6 @@ agent-workflow repositories with license-compatible metadata access.
 
 At the current release boundary, the repository is ready for account-side
 checks and external-study execution planning. It does not contain final arXiv
-or OpenReview submission, completed human annotation, completed 24-artifact
-outcome-bearing pilot execution, or excluding-OpenAI sensitivity results.
+or OpenReview submission, completed 24-artifact outcome-bearing pilot
+execution, provider-backed LLM-as-judge sensitivity results, or
+excluding-OpenAI sensitivity results.

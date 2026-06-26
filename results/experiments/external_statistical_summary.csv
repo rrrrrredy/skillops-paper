@@ -1,7 +1,7 @@
 metric,planned_status,result_status,records_available,notes
-routing_correct,planned_no_outcomes_yet,smoke_records_present_no_powered_inference,16,Bounded smoke records are available; powered annotated inference has not run.
-clarification_correct,planned_no_outcomes_yet,smoke_records_present_no_powered_inference,16,Bounded smoke records are available; powered annotated inference has not run.
-constraint_compliance,planned_no_outcomes_yet,smoke_records_present_no_powered_inference,16,Bounded smoke records are available; powered annotated inference has not run.
-parse_success,planned_no_outcomes_yet,smoke_records_present_no_powered_inference,16,Bounded smoke records are available; powered annotated inference has not run.
-latency_ms,planned_no_outcomes_yet,smoke_records_present_no_powered_inference,16,Bounded smoke records are available; powered annotated inference has not run.
-token_count,planned_no_outcomes_yet,smoke_records_present_no_powered_inference,16,Bounded smoke records are available; powered annotated inference has not run.
+routing_correct,planned_no_outcomes_yet,smoke_records_present_no_powered_inference,16,Bounded smoke records are available; powered external inference has not run.
+clarification_correct,planned_no_outcomes_yet,smoke_records_present_no_powered_inference,16,Bounded smoke records are available; powered external inference has not run.
+constraint_compliance,planned_no_outcomes_yet,smoke_records_present_no_powered_inference,16,Bounded smoke records are available; powered external inference has not run.
+parse_success,planned_no_outcomes_yet,smoke_records_present_no_powered_inference,16,Bounded smoke records are available; powered external inference has not run.
+latency_ms,planned_no_outcomes_yet,smoke_records_present_no_powered_inference,16,Bounded smoke records are available; powered external inference has not run.
+token_count,planned_no_outcomes_yet,smoke_records_present_no_powered_inference,16,Bounded smoke records are available; powered external inference has not run.

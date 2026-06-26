@@ -386,12 +386,12 @@ Status `passed` unless noted otherwise.
 - External case-plan files define a study protocol, not measured external
   outcomes.
 - External artifact-selection files are metadata-only candidate references for
-  annotation, not validated artifacts.
+  case construction, not validated artifacts.
 - External sampling manifest files expose source/owner cap pressure, but do not
   complete replacement, eligibility review, or corpus balancing.
-- External annotation packet files define pending eligibility, replacement,
-  artifact-specific request construction, review work, and not-run condition
-  rows, not measured outcomes.
+- External case-construction packet files define pending eligibility,
+  replacement, artifact-specific request construction, case-label rows, and
+  not-run condition rows, not measured outcomes.
 - External dry-run files validate execution readiness but do not include model
   outputs or statistical outcomes.
 - External representation payloads are not-run templates and do not include
@@ -399,12 +399,11 @@ Status `passed` unless noted otherwise.
 - External payload runner dry-run output is a run plan; the separate bounded
   live smoke covers only 16 condition rows.
 - External pilot execution plan output selects a bounded 24-artifact subset,
-  but does not complete annotation, adjudication, or powered external model
-  execution.
+  but does not complete powered external model execution.
 - External pilot runner output is dry-run/readiness evidence; the current
   process did not contain provider credentials for a pilot live slice.
-- External pilot annotation calibration output is a worklist and calibration
-  subset, not collected annotation or adjudication evidence.
+- External pilot case-label calibration output is a worklist and calibration
+  subset for label-sensitivity checks, not model outcome evidence.
 - External smoke-test outputs are normalized provider records, not a powered
   external evaluation.
 - External result summaries record bounded smoke metrics, not measured

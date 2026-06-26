@@ -47,7 +47,7 @@ BASE_COLUMNS = [
     "evidence_boundary",
 ]
 
-EVIDENCE_BOUNDARY = "pilot_annotation_plan_not_collected_annotation"
+EVIDENCE_BOUNDARY = "pilot_label_sensitivity_plan_not_model_outcomes"
 
 
 def read_csv_rows(path: Path) -> list[dict[str, str]]:
@@ -138,9 +138,9 @@ def write_summary(worklist_rows: list[dict[str, Any]], calibration_rows: list[di
     family_counts = Counter(row["study_family"] for row in calibration_rows)
     case_type_counts = Counter(row["case_type"] for row in calibration_rows)
     lines = [
-        "# External Pilot Annotation Calibration",
+        "# External Pilot Case-Label Calibration",
         "",
-        "This file defines the pending human-review worklist and calibration subset for the 24-artifact pilot. It does not report collected annotations.",
+        "This file defines the case-label worklist and calibration subset for the 24-artifact pilot. It supports LLM-as-judge sensitivity checks and does not report model outcomes.",
         "",
         "## Totals",
         "",
