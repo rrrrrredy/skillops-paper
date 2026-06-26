@@ -3,24 +3,42 @@
 - Command run: `python scripts/run_tests.py`
 - Run date: `2026-06-26`
 - Pass/fail status: `passed`
-- Summary: `126 discovered, 126 passed`
+- Summary: `135 discovered, 135 passed`
 
 ## Tests Executed
 
 - `tests/test_benchmark_schema.py`
-- `tests/test_results_reproducibility.py`
-- `tests/test_paper_claims.py`
-- `tests/test_public_presentation.py`
-- `tests/test_svg_figures.py`
 - `tests/test_evidence_matrix.py`
+- `tests/test_external_annotation_execution.py`
+- `tests/test_external_annotation_packet.py`
 - `tests/test_external_artifact_selection.py`
+- `tests/test_external_case_scaffold.py`
+- `tests/test_external_condition_dry_run.py`
+- `tests/test_external_corpus.py`
+- `tests/test_external_corpus_results.py`
+- `tests/test_external_payload_runner.py`
+- `tests/test_external_pilot_annotation_calibration.py`
 - `tests/test_external_pilot_plan.py`
+- `tests/test_external_pilot_runner.py`
+- `tests/test_external_representations.py`
+- `tests/test_external_result_summary.py`
+- `tests/test_external_sampling_manifest.py`
+- `tests/test_external_smoke_plan.py`
+- `tests/test_external_statistical_analysis.py`
+- `tests/test_arxiv_endorsement_outreach.py`
+- `tests/test_human_review_execution_packet.py`
 - `tests/test_live_model_results.py`
+- `tests/test_paper_claims.py`
+- `tests/test_provider_config.py`
+- `tests/test_public_presentation.py`
 - `tests/test_requirements_closure_audit.py`
+- `tests/test_results_reproducibility.py`
 - `tests/test_secure_live_experiment_runbook.py`
 - `tests/test_submission_execution_checklist.py`
 - `tests/test_submission_metadata_payload.py`
 - `tests/test_submission_package_manifest.py`
+- `tests/test_svg_figures.py`
+- `tests/test_zenodo_file_state_audit.py`
 
 ## What the Tests Verify
 
@@ -45,10 +63,16 @@
   `not run`, and explicitly record missing execution layers.
 - External artifact selection and pilot plans avoid non-capability repository
   metadata such as license, font, funding, and CI workflow files.
+- External annotation execution assets provide two independent reviewer
+  assignments per case, an adjudication log template, and unavailable
+  reliability metrics until real human labels are collected.
 - Live raw result files retain normalized metrics and run metadata without
   provider response bodies or model response text.
 - Submission and requirements closure documents remain aligned with release
   assets, hashes, DOI, and non-automatable account boundaries.
+- The Zenodo file-state audit records the current DOI/file mismatch and blocks
+  binary-provenance claims for the current package until a new public version is
+  verified.
 
 ## What the Tests Do Not Verify
 

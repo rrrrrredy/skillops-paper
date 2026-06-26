@@ -14,8 +14,8 @@ venue submission systems. The upload files and hashes are fixed in
 | Author | Song Luo |
 | Contact | luosongred@gmail.com |
 | Manuscript date | June 2026 |
-| Primary artifact release | https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.1.0 |
-| Version DOI | https://doi.org/10.5281/zenodo.20844038 |
+| Primary artifact release | https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.2.0 |
+| Version DOI | https://doi.org/10.5281/zenodo.20900771 |
 | Concept DOI | https://doi.org/10.5281/zenodo.20061198 |
 | PDF asset | `release/skillops-paper.pdf` |
 | arXiv source asset | `release/skillops-paper-source.zip` |
@@ -55,7 +55,7 @@ not a claim that a particular skill format universally improves model behavior.
 | --- | --- |
 | Keywords | personal AI agents; agent skills; software engineering for AI agents; artifact lifecycle; reproducibility; evaluation harnesses; operational safety |
 | Subject areas | AI agents; software engineering for AI; human-agent interaction; evaluation and reproducibility; tool-use systems |
-| Artifact link | https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.1.0 |
+| Artifact link | https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.2.0 |
 | Supplementary material | Use `release/skillops-paper-source.zip` only when source or supplementary upload is requested. |
 | Conflict and policy fields | Complete inside the authenticated venue form. |
 

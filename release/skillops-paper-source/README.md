@@ -14,9 +14,9 @@ Contact: luosongred@gmail.com
 - Paper source: [paper/main.tex](paper/main.tex)
 - Compiled PDF: [release/skillops-paper.pdf](release/skillops-paper.pdf)
 - Source package: [release/skillops-paper-source.zip](release/skillops-paper-source.zip)
-- Archived public release v1.1.0:
-  [GitHub](https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.1.0),
-  [Zenodo 10.5281/zenodo.20844038](https://doi.org/10.5281/zenodo.20844038)
+- Archived public release v1.2.0:
+  [GitHub](https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.2.0),
+  [Zenodo 10.5281/zenodo.20900771](https://doi.org/10.5281/zenodo.20900771)
 - Zenodo latest-version record:
   [10.5281/zenodo.20061198](https://doi.org/10.5281/zenodo.20061198)
 
@@ -72,6 +72,8 @@ python scripts/run_external_payload_experiment.py --dry-run
 python scripts/prepare_external_pilot_plan.py
 python scripts/run_external_pilot_experiment.py --dry-run
 python scripts/generate_external_pilot_annotation_calibration.py
+python scripts/prepare_external_annotation_execution.py
+python scripts/compute_external_annotation_reliability.py
 python scripts/prepare_external_smoke_test_plan.py
 python scripts/summarize_external_results.py
 python scripts/run_external_statistical_analysis.py
@@ -145,6 +147,15 @@ state from prior pilot raw outputs.
 two-annotator review and adjudication. These files define review work only;
 they do not report collected annotations.
 
+`python scripts/prepare_external_annotation_execution.py` writes the
+two-reviewer assignment manifest, adjudication log template, and execution
+summary for the 24-artifact pilot. It uses study-local reviewer IDs only and
+does not include contact, compensation, or private-source records.
+
+`python scripts/compute_external_annotation_reliability.py` computes raw
+agreement and Cohen kappa when independent human labels are present. Without
+completed labels, it writes unavailable metrics rather than outcome claims.
+
 `python scripts/prepare_external_smoke_test_plan.py` writes a no-secret,
 bounded smoke-test plan for DeepSeek and Kimi. It records whether the required
 environment variables are available, selected payload ids, and the exact
@@ -168,7 +179,10 @@ environment variables. Raw outputs are written under `results/experiments/raw/`;
 summary from those raw files. Use `docs/secure_live_experiment_runbook.md`
 before running bounded live provider slices.
 
-For account-side upload steps, use `docs/submission_execution_checklist.md`.
+For account-side upload and external-study execution steps, use
+`docs/submission_execution_checklist.md` and
+`docs/account_external_execution_readiness.md`.
+For the Zenodo file-state audit, use `docs/zenodo_file_state_audit.md`.
 For the full request-to-evidence closure audit, use
 `docs/requirements_closure_audit.md`.
 For copy-ready submission fields, use `docs/submission_metadata_payload.md`.
@@ -198,8 +212,8 @@ artifact consistency.
 ## Citation
 
 For an immutable citation, use the Zenodo version DOI attached to the release
-tag you use. For the archived `v1.1.0` record, use
-[10.5281/zenodo.20844038](https://doi.org/10.5281/zenodo.20844038).
+tag you use. For the archived `v1.2.0` record, use
+[10.5281/zenodo.20900771](https://doi.org/10.5281/zenodo.20900771).
 
 For a moving reference to the latest archived public artifact release, use
 [10.5281/zenodo.20061198](https://doi.org/10.5281/zenodo.20061198).

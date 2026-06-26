@@ -16,9 +16,9 @@ class SubmissionExecutionChecklistTests(unittest.TestCase):
         for required in (
             "release/skillops-paper-source.zip",
             "release/skillops-paper.pdf",
-            "0E753376C3C1C16902B3A3BCA08E384AC3EE333CF6AA86A84D6C738710E80A8F",
-            "F9774684EB4BC2CBF42D69DB3C4169436F60B0C72FCA064DE776E615CD851D65",
-            "10.5281/zenodo.20844038",
+            "38833A57BF1F7001EEE72D3CF2ECD8E5E68B559D6DD17832F46F4F8D6FA46974",
+            "98957F4295EAFA777A234A77B9A75AFB4DE9294B50E60FE5B72565BD788F03B9",
+            "10.5281/zenodo.20900771",
         ):
             self.assertIn(required, text)
             self.assertIn(required, manifest)

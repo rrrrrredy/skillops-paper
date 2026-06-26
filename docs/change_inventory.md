@@ -49,6 +49,9 @@ This inventory summarizes the major changes in the current working copy.
   provider-condition rows.
 - Added 96-case pilot annotation worklist and balanced 32-case calibration
   subset for two-annotator review and adjudication.
+- Added external annotation execution plan, reviewer assignment manifest,
+  adjudication log template, participant-interface contract, and reliability
+  computation for completed human labels.
 - Added no-secret smoke-test plan.
 - Added bounded external live smoke results for 16 metadata-only condition rows.
 - Added external result and statistical summary files that separate smoke
@@ -56,15 +59,22 @@ This inventory summarizes the major changes in the current working copy.
 - Added account-side and external-study execution readiness covering Zenodo,
   arXiv, OpenReview, human annotation, bounded provider pilots, and an
   excluding-OpenAI sensitivity corpus plan.
+- Added Zenodo file-state audit showing that the prior `v1.1.0` DOI archives
+  an older GitHub snapshot and should not be used as current binary provenance.
+- Added arXiv endorsement outreach notes, prioritized candidate list, and a
+  small-batch request template.
 
 ## Tests
 
-- Expanded repository tests to cover provider configuration, live result hygiene, external corpus structure, external case scaffolding, artifact selection, annotation packets, dry-run manifests, representation payloads, pilot execution planning, pilot runner readiness, pilot annotation calibration, smoke-test planning, external result summaries, and account-side execution readiness.
-- Final status: 126 discovered, 126 passed.
+- Expanded repository tests to cover provider configuration, live result hygiene, external corpus structure, external case scaffolding, artifact selection, annotation packets, annotation execution assets, dry-run manifests, representation payloads, pilot execution planning, pilot runner readiness, pilot annotation calibration, smoke-test planning, external result summaries, Zenodo file-state auditing, arXiv endorsement outreach, and account-side execution readiness.
+- Final status: 135 discovered, 135 passed.
 
 ## Remaining Work
 
 - Conduct external human annotation and adjudication.
+- Create and verify one final Zenodo-backed public version after current files
+  are locked, because the existing `v1.1.0` Zenodo record preserves an older
+  GitHub snapshot; the reserved `v1.2.0` DOI is `10.5281/zenodo.20900771`.
 - Use the 24-artifact pilot execution plan to estimate annotation disagreement,
   parser/provider failure rates, and operational cost before a larger run.
 - Provide provider credentials in the process environment before running a
@@ -72,4 +82,5 @@ This inventory summarizes the major changes in the current working copy.
 - Execute the full external model study only after annotation and adjudication.
 - Run inferential statistical analysis only after the full external result set exists.
 - Perform one final commit and one final push for the public update.
-- Update Zenodo/GitHub release metadata when publishing a new public version.
+- Update Zenodo/GitHub release metadata and version DOI when publishing a new
+  public version.

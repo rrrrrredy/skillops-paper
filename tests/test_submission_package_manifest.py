@@ -13,8 +13,8 @@ RELEASE_PDF_PATH = REPO_ROOT / "release" / "skillops-paper.pdf"
 RELEASE_SOURCE_ZIP_PATH = REPO_ROOT / "release" / "skillops-paper-source.zip"
 RELEASE_SOURCE_DIR = REPO_ROOT / "release" / "skillops-paper-source"
 
-EXPECTED_RELEASE_TAG = "v1.1.0"
-EXPECTED_VERSION_DOI = "10.5281/zenodo.20844038"
+EXPECTED_RELEASE_TAG = "v1.2.0"
+EXPECTED_VERSION_DOI = "10.5281/zenodo.20900771"
 EXPECTED_CONCEPT_DOI = "10.5281/zenodo.20061198"
 OLD_VERSION_DOI = "10.5281/zenodo." + "2083" + "8908"
 EXPECTED_ZIP_ENTRIES = {

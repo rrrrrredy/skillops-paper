@@ -1,0 +1,5 @@
+metric,label_field,records_available,value,analysis_status,notes
+raw_agreement,expected_behavior,0,,not_available,Independent expected-behavior labels are required before reporting agreement.
+cohens_kappa,expected_behavior,0,,not_available,Independent expected-behavior labels are required before reporting agreement.
+raw_agreement,risk_label,0,,not_available,Independent risk labels are required before reporting agreement.
+cohens_kappa,risk_label,0,,not_available,Independent risk labels are required before reporting agreement.

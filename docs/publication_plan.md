@@ -4,8 +4,8 @@
 
 Use an immutable release citation for the submitted paper package:
 
-- GitHub release: https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.1.0
-- Zenodo version DOI: https://doi.org/10.5281/zenodo.20844038
+- GitHub release: https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.2.0
+- Zenodo version DOI: https://doi.org/10.5281/zenodo.20900771
 - Zenodo concept DOI: https://doi.org/10.5281/zenodo.20061198
 
 The version DOI is the right citation for a submitted paper because it fixes the
@@ -13,9 +13,10 @@ exact artifact snapshot. The concept DOI is useful as a moving reference to the
 release family.
 
 Zenodo account linking and metadata edits require an authenticated Zenodo
-session or API token. The GitHub-Zenodo release record exists for `v1.1.0`
-as record `20844038`; editing or merging older records cannot be done from the
-repository alone.
+session or API token. The new version record is reserved as `20900771` with
+version DOI `10.5281/zenodo.20900771`. The previous `v1.1.0` record
+`20844038` is retained as a historical archive and should not be used as
+current binary provenance.
 
 For subsequent public versions, do not overwrite the existing `v1.1.0` release.
 Create a new GitHub release only after the final commit and let Zenodo mint the

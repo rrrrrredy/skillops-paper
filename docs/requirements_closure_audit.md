@@ -30,10 +30,10 @@ work that cannot be completed inside the repository.
 | Model-backed live experiments | Supported | DeepSeek and Kimi core live runs plus bounded external smoke in `results/experiments/raw/` and summaries | Large-scale live execution remains bounded by cost, credentials, and review. |
 | External skill corpus beyond author artifacts | Bounded | `benchmark/external_artifact_corpus_sources.csv`, `results/tables/external_artifact_selection.csv`, `results/tables/external_corpus_summary.md` | The 240-slot design contains 232 concrete metadata-only references plus 8 pending replacement slots; eligibility review, replacement, and annotation remain pending. |
 | Large-scale statistical significance | Not claimable | `results/experiments/external_statistical_analysis.md` records descriptive diagnostics and boundary language | Requires completed annotation, model execution, and preregistered inference. |
-| External user or expert study | Bounded | `docs/human_review_execution_packet.md`, `docs/annotation_guide.md`, `results/tables/external_pilot_annotation_worklist.csv` | Recruitment, consent, compensation, annotation, and adjudication require external participants. |
+| External user or expert study | Bounded | `docs/human_review_execution_packet.md`, `docs/annotation_guide.md`, `docs/external_annotation_execution_plan.md`, `results/tables/external_annotation_assignment_manifest.csv`, `results/tables/external_annotation_adjudication_log.csv` | Recruitment, consent, compensation, annotation, and adjudication require external participants. |
 | Remove public writing and tool-operation traces | Supported | `tests/test_public_presentation.py`, release PDF/source package scans, repository-level text scans | Re-run scans before any new release. |
 | Distinguish this paper from the same-name 2026 work | Supported | `paper/main.tex` related-work and positioning sections | Keep the title/subtitle and abstract focused on personal-agent artifact lifecycle. |
-| Pin GitHub and Zenodo citation | Bounded | `docs/submission_package_manifest.md`, `docs/publication_plan.md`, release `v1.1.0`, DOI `10.5281/zenodo.20844038` | GitHub release assets are aligned; Zenodo file-state verification after asset refresh requires an authenticated Zenodo session or token. |
+| Pin GitHub and Zenodo citation | Bounded | `docs/submission_package_manifest.md`, `docs/publication_plan.md`, `docs/zenodo_file_state_audit.md`, release `v1.2.0`, DOI `10.5281/zenodo.20900771` | The prior DOI is an older GitHub snapshot, not binary provenance. The new Zenodo DOI is reserved; publish and verify the final files before using it as binary provenance. |
 | Prepare arXiv route | Bounded | `release/skillops-paper-source.zip`, `docs/submission_execution_checklist.md`, `docs/submission_package_manifest.md` | Account access, endorsement, category, license, and final submission action remain author-side. |
 | Prepare OpenReview route | Bounded | `release/skillops-paper.pdf`, `docs/submission_execution_checklist.md`, `docs/publication_plan.md` | A concrete venue invitation, conflicts, declarations, and final submission action remain author-side. |
 | Prepare submission metadata | Supported | `docs/submission_metadata_payload.md` | Venue-specific form fields may still differ. |
@@ -42,11 +42,11 @@ work that cannot be completed inside the repository.
 
 ## Evidence Summary
 
-- The release package is pinned at `v1.1.0` with Zenodo version DOI
-  `10.5281/zenodo.20844038`.
+- The release package is pinned at `v1.2.0` with Zenodo version DOI
+  `10.5281/zenodo.20900771`.
 - The arXiv source package contains `main.tex`, `main.bbl`, `references.bib`,
   and `README.md`.
-- Repository tests at this audit boundary: 126 discovered, 126 passed.
+- Repository tests at this audit boundary: 135 discovered, 135 passed.
 - The public package reports completed internal benchmarks, local guard checks,
   two-provider internal live runs, bounded external smoke, and an auditable
   external-corpus scaffold.
@@ -65,4 +65,5 @@ work that cannot be completed inside the repository.
 4. If submitting through OpenReview, pick a concrete venue and use
    `release/skillops-paper.pdf` plus the DOI-backed artifact link.
 5. For a stronger next public version, complete the external review layer,
-   then run the preregistered pilot and statistical analysis.
+   verify a new Zenodo record, then run the preregistered pilot and statistical
+   analysis.

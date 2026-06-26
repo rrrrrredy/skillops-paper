@@ -27,7 +27,7 @@ class RequirementsClosureAuditTests(unittest.TestCase):
             "docs/submission_package_manifest.md",
             "docs/account_external_execution_readiness.md",
             "docs/publication_plan.md",
-            "10.5281/zenodo.20844038",
+            "10.5281/zenodo.20900771",
         ):
             self.assertIn(required, text)
 
@@ -39,7 +39,8 @@ class RequirementsClosureAuditTests(unittest.TestCase):
             "powered external statistical results",
             "production deployment validation",
             "account access",
-            "authenticated zenodo session",
+            "older github snapshot",
+            "binary provenance",
         ):
             self.assertIn(required, text)
 
@@ -56,7 +57,7 @@ class RequirementsClosureAuditTests(unittest.TestCase):
             self.assertNotIn(prohibited, text)
 
     def test_current_test_count_is_aligned(self) -> None:
-        expected = "126 discovered, 126 passed"
+        expected = "135 discovered, 135 passed"
         for path in (AUDIT_PATH, READINESS_PATH, CHANGE_INVENTORY_PATH, TEST_REPORT_PATH):
             self.assertIn(expected, path.read_text(encoding="utf-8"))
 

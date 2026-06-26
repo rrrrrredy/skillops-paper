@@ -11,8 +11,8 @@ complete.
 
 ## Study Boundary
 
-- Target release: `v1.1.0`
-- Artifact DOI: `10.5281/zenodo.20844038`
+- Target release: `v1.2.0`
+- Artifact DOI: `10.5281/zenodo.20900771`
 - Candidate packet: `results/tables/external_pilot_annotation_worklist.csv`
 - Calibration packet: `results/tables/external_pilot_annotation_calibration.csv`
 - Main annotation packet: `results/tables/external_annotation_packet.csv`

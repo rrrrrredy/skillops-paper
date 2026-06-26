@@ -4,12 +4,12 @@ Audit date: 2026-06-26
 
 ## Fixed Package Inputs
 
-Use these files from the `v1.1.0` release assets:
+Use these files from the `v1.2.0` release assets:
 
 | Target | File | SHA-256 |
 | --- | --- | --- |
-| arXiv source upload | `release/skillops-paper-source.zip` | `0E753376C3C1C16902B3A3BCA08E384AC3EE333CF6AA86A84D6C738710E80A8F` |
-| OpenReview PDF upload | `release/skillops-paper.pdf` | `F9774684EB4BC2CBF42D69DB3C4169436F60B0C72FCA064DE776E615CD851D65` |
+| arXiv source upload | `release/skillops-paper-source.zip` | `38833A57BF1F7001EEE72D3CF2ECD8E5E68B559D6DD17832F46F4F8D6FA46974` |
+| OpenReview PDF upload | `release/skillops-paper.pdf` | `98957F4295EAFA777A234A77B9A75AFB4DE9294B50E60FE5B72565BD788F03B9` |
 
 The arXiv source package contains `main.tex`, `main.bbl`,
 `references.bib`, and `README.md`. Use the attached release asset, not GitHub's
@@ -70,7 +70,7 @@ Account-side checklist:
 4. Enter title, abstract, author list, keywords, subject areas, conflicts, and
    artifact links exactly as required by the venue form.
 5. Add the immutable artifact DOI:
-   `https://doi.org/10.5281/zenodo.20844038`.
+   `https://doi.org/10.5281/zenodo.20900771`.
 6. Attach supplementary files only if the venue form requests them.
 7. Review venue policy fields, author declarations, conflicts, and anonymity
    settings before final submission.

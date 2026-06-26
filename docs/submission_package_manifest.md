@@ -4,20 +4,22 @@ Audit date: 2026-06-25
 
 ## Immutable Artifact Citation
 
-- GitHub release: https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.1.0
-- Zenodo version DOI: https://doi.org/10.5281/zenodo.20844038
+- GitHub release: https://github.com/rrrrrredy/skillops-paper/releases/tag/v1.2.0
+- Zenodo version DOI: https://doi.org/10.5281/zenodo.20900771
 - Zenodo concept DOI: https://doi.org/10.5281/zenodo.20061198
 
-The GitHub release assets are the submission binaries named below. If Zenodo
-is used as binary provenance rather than citation metadata, verify the
-account-side Zenodo file state after any release-asset refresh.
+The GitHub release assets are the submission binaries named below. The
+account-side Zenodo file-state audit found that prior DOI
+`10.5281/zenodo.20844038` archives an older GitHub snapshot. The current
+package uses reserved version DOI `10.5281/zenodo.20900771`; verify the
+published Zenodo files before using that DOI as final binary provenance.
 
 ## Files to Submit
 
 | File | Purpose | SHA-256 |
 | --- | --- | --- |
-| `release/skillops-paper.pdf` | PDF upload for OpenReview or venue review systems | `F9774684EB4BC2CBF42D69DB3C4169436F60B0C72FCA064DE776E615CD851D65` |
-| `release/skillops-paper-source.zip` | LaTeX source package for arXiv-style source upload | `0E753376C3C1C16902B3A3BCA08E384AC3EE333CF6AA86A84D6C738710E80A8F` |
+| `release/skillops-paper.pdf` | PDF upload for OpenReview or venue review systems | `98957F4295EAFA777A234A77B9A75AFB4DE9294B50E60FE5B72565BD788F03B9` |
+| `release/skillops-paper-source.zip` | LaTeX source package for arXiv-style source upload | `38833A57BF1F7001EEE72D3CF2ECD8E5E68B559D6DD17832F46F4F8D6FA46974` |
 
 Use the attached release assets above as the submission package. Do not use
 GitHub's automatic source archives as the arXiv source package; those archives
@@ -46,9 +48,10 @@ clean temporary directory outside the repository and running Tectonic on
 ## Evidence Boundary
 
 The package supports completed internal benchmarks, local guard checks,
-two-provider internal live runs, bounded external smoke, and an auditable
-third-party corpus scaffold. It does not claim a completed external human study,
-powered external statistical result, or production deployment validation.
+two-provider internal live runs, bounded external smoke, an auditable
+third-party corpus scaffold, and an executable external annotation assignment
+package. It does not claim a completed external human study, powered external
+statistical result, or production deployment validation.
 
 ## Live Pilot Boundary
 

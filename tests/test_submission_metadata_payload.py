@@ -13,10 +13,10 @@ CHECKLIST_PATH = REPO_ROOT / "docs" / "submission_execution_checklist.md"
 
 
 TITLE = "SkillOps: A Practical Framework for Designing, Testing, and Operating Modular Skills in Personal AI Agents"
-VERSION_DOI = "10.5281/zenodo.20844038"
+VERSION_DOI = "10.5281/zenodo.20900771"
 CONCEPT_DOI = "10.5281/zenodo.20061198"
-PDF_HASH = "F9774684EB4BC2CBF42D69DB3C4169436F60B0C72FCA064DE776E615CD851D65"
-SOURCE_HASH = "0E753376C3C1C16902B3A3BCA08E384AC3EE333CF6AA86A84D6C738710E80A8F"
+PDF_HASH = "98957F4295EAFA777A234A77B9A75AFB4DE9294B50E60FE5B72565BD788F03B9"
+SOURCE_HASH = "38833A57BF1F7001EEE72D3CF2ECD8E5E68B559D6DD17832F46F4F8D6FA46974"
 
 
 def normalized(text: str) -> str:
@@ -37,7 +37,7 @@ class SubmissionMetadataPayloadTests(unittest.TestCase):
         payload = PAYLOAD_PATH.read_text(encoding="utf-8")
         manifest = MANIFEST_PATH.read_text(encoding="utf-8")
         for required in (
-            "releases/tag/v1.1.0",
+            "releases/tag/v1.2.0",
             VERSION_DOI,
             CONCEPT_DOI,
             "release/skillops-paper.pdf",
