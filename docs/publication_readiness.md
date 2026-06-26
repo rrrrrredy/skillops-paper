@@ -15,8 +15,8 @@ Audit date: 2026-06-26
 | Submission asset boundary | Passed | The attached release PDF and source zip are the submission package; automatic repository source archives are not used for arXiv submission. |
 | Submission execution checklist | Passed | `docs/submission_execution_checklist.md` records account-side arXiv and OpenReview actions, official references, and non-automatable boundaries. |
 | Account and external execution readiness | Passed | `docs/account_external_execution_readiness.md` records account-side blockers, human annotation sequencing, bounded provider pilot order, and excluding-OpenAI sensitivity planning. |
-| Versioned release | Pending final publish | GitHub release `v1.2.0` and Zenodo record `20900771` are the intended final public version for this package. |
-| Zenodo file-state audit | New DOI reserved | Zenodo record `20900771` reserves version DOI `10.5281/zenodo.20900771`; prior record `20844038` archives an older GitHub snapshot, is not binary provenance for the current PDF, and is documented in `docs/zenodo_file_state_audit.md`. |
+| Versioned release | Passed | GitHub release `v1.2.0` exists with the current PDF/source assets and Zenodo record `20900771` is published. |
+| Zenodo file-state audit | Published and verified | Zenodo record `20900771` has DOI `10.5281/zenodo.20900771` and a GitHub-integration archive whose embedded PDF/source assets match the release hashes; prior record `20844038` archives an older GitHub snapshot and is not binary provenance for the current PDF. |
 | Public trace scan | Passed | No matches for removed model names, prepublication markers, or machine-writing traces in scanned public paths. |
 | Whitespace check | Passed with Windows line-ending warnings | `git diff --check` exits 0; warnings are CRLF conversion notices. |
 | External corpus boundary | Passed with replacement slots disclosed | Third-party artifact outputs are metadata-only and do not copy source prose or code; the 240-slot design currently has 232 concrete references and 8 pending replacement slots. |
@@ -94,7 +94,6 @@ For a public paper update, the strongest defensible positioning is:
 | --- | --- |
 | External statistical validation | Complete human annotation/adjudication and run the planned external statistical analysis. |
 | Excluding-OpenAI sensitivity corpus | Replace OpenAI Agents SDK rows with non-OpenAI workflow-template rows, then regenerate and run a separate sensitivity frame. |
-| Zenodo final binary provenance | Create one final new public version after the current files are locked, then verify the new Zenodo record. |
 | arXiv submission | Requires account access and category endorsement or an endorsed category choice. |
 | OpenReview submission | Requires selecting an active venue or workshop invitation. |
 | Conference submission | Requires target venue selection, formatting check, and deadlines. |
@@ -105,6 +104,6 @@ For a public paper update, the strongest defensible positioning is:
 2. Submit the source package through the chosen venue workflow.
 3. For arXiv, use an endorsed category or obtain endorsement before upload.
 4. For OpenReview, select a concrete venue or workshop invitation before upload.
-5. For the next public artifact version, create a new release only after all
+5. For any later public artifact version, create a new release only after all
    paper/package edits are final, then verify the new Zenodo file state before
    updating the version DOI in submission materials.

@@ -12,7 +12,7 @@ repository.
 
 | Route | Required account-side action | Repository asset |
 | --- | --- | --- |
-| Zenodo | Authenticated record check completed: prior DOI `10.5281/zenodo.20844038` archives an older GitHub snapshot and is not binary provenance for the current PDF/source package. New version DOI `10.5281/zenodo.20900771` is reserved for the current package; verify the final published files before using it as binary provenance. | `docs/zenodo_file_state_audit.md` |
+| Zenodo | Authenticated record check completed: prior DOI `10.5281/zenodo.20844038` archives an older GitHub snapshot and is not binary provenance for the current PDF/source package. DOI `10.5281/zenodo.20900771` is published and file-verified for `v1.2.0`; the integration archive embeds matching current PDF/source assets. | `docs/zenodo_file_state_audit.md` |
 | arXiv | Confirm account status, category route, endorsement, license, and final upload action. Use the curated source zip rather than repository archive downloads. | `release/skillops-paper-source.zip` |
 | OpenReview | Choose a concrete venue invitation, verify profile and emails, complete conflicts and policy declarations, then upload the PDF under that venue's rules. | `release/skillops-paper.pdf` |
 | Formal venue | Recheck the live call for papers, formatting requirements, anonymity policy, artifact policy, and deadline before submission. | `docs/publication_plan.md` |
@@ -69,7 +69,6 @@ agent-workflow repositories with license-compatible metadata access.
 ## Completion Boundary
 
 At the current release boundary, the repository is ready for account-side
-checks and external-study execution planning. It does not contain completed
-final Zenodo DOI verification for the latest file state, final arXiv or
-OpenReview submission, completed human annotation, completed 24-artifact
+checks and external-study execution planning. It does not contain final arXiv
+or OpenReview submission, completed human annotation, completed 24-artifact
 outcome-bearing pilot execution, or excluding-OpenAI sensitivity results.

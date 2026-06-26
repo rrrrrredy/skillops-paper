@@ -11,8 +11,9 @@ Audit date: 2026-06-25
 The GitHub release assets are the submission binaries named below. The
 account-side Zenodo file-state audit found that prior DOI
 `10.5281/zenodo.20844038` archives an older GitHub snapshot. The current
-package uses reserved version DOI `10.5281/zenodo.20900771`; verify the
-published Zenodo files before using that DOI as final binary provenance.
+version DOI `10.5281/zenodo.20900771` is published and file-verified: Zenodo's
+GitHub-integration archive embeds `release/skillops-paper.pdf` and
+`release/skillops-paper-source.zip` with the hashes listed below.
 
 ## Files to Submit
 

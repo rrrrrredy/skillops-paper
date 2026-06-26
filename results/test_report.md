@@ -70,9 +70,9 @@
   provider response bodies or model response text.
 - Submission and requirements closure documents remain aligned with release
   assets, hashes, DOI, and non-automatable account boundaries.
-- The Zenodo file-state audit records the current DOI/file mismatch and blocks
-  binary-provenance claims for the current package until a new public version is
-  verified.
+- The Zenodo file-state audit records the historical DOI/file mismatch and
+  verifies that the current Zenodo archive embeds release assets matching the
+  package manifest.
 
 ## What the Tests Do Not Verify
 

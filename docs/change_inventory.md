@@ -61,6 +61,8 @@ This inventory summarizes the major changes in the current working copy.
   excluding-OpenAI sensitivity corpus plan.
 - Added Zenodo file-state audit showing that the prior `v1.1.0` DOI archives
   an older GitHub snapshot and should not be used as current binary provenance.
+- Verified the `v1.2.0` Zenodo record and confirmed that its GitHub-integration
+  archive embeds the current release PDF/source assets.
 - Added arXiv endorsement outreach notes, prioritized candidate list, and a
   small-batch request template.
 
@@ -72,15 +74,11 @@ This inventory summarizes the major changes in the current working copy.
 ## Remaining Work
 
 - Conduct external human annotation and adjudication.
-- Create and verify one final Zenodo-backed public version after current files
-  are locked, because the existing `v1.1.0` Zenodo record preserves an older
-  GitHub snapshot; the reserved `v1.2.0` DOI is `10.5281/zenodo.20900771`.
 - Use the 24-artifact pilot execution plan to estimate annotation disagreement,
   parser/provider failure rates, and operational cost before a larger run.
 - Provide provider credentials in the process environment before running a
   bounded pilot live slice.
 - Execute the full external model study only after annotation and adjudication.
 - Run inferential statistical analysis only after the full external result set exists.
-- Perform one final commit and one final push for the public update.
-- Update Zenodo/GitHub release metadata and version DOI when publishing a new
-  public version.
+- Update Zenodo/GitHub release metadata and version DOI only when publishing a
+  later public version.

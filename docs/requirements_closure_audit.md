@@ -33,7 +33,7 @@ work that cannot be completed inside the repository.
 | External user or expert study | Bounded | `docs/human_review_execution_packet.md`, `docs/annotation_guide.md`, `docs/external_annotation_execution_plan.md`, `results/tables/external_annotation_assignment_manifest.csv`, `results/tables/external_annotation_adjudication_log.csv` | Recruitment, consent, compensation, annotation, and adjudication require external participants. |
 | Remove public writing and tool-operation traces | Supported | `tests/test_public_presentation.py`, release PDF/source package scans, repository-level text scans | Re-run scans before any new release. |
 | Distinguish this paper from the same-name 2026 work | Supported | `paper/main.tex` related-work and positioning sections | Keep the title/subtitle and abstract focused on personal-agent artifact lifecycle. |
-| Pin GitHub and Zenodo citation | Bounded | `docs/submission_package_manifest.md`, `docs/publication_plan.md`, `docs/zenodo_file_state_audit.md`, release `v1.2.0`, DOI `10.5281/zenodo.20900771` | The prior DOI is an older GitHub snapshot, not binary provenance. The new Zenodo DOI is reserved; publish and verify the final files before using it as binary provenance. |
+| Pin GitHub and Zenodo citation | Supported | `docs/submission_package_manifest.md`, `docs/publication_plan.md`, `docs/zenodo_file_state_audit.md`, release `v1.2.0`, DOI `10.5281/zenodo.20900771` | The prior DOI is an older GitHub snapshot, not binary provenance. The current Zenodo record is published and file-verified for the embedded release assets. |
 | Prepare arXiv route | Bounded | `release/skillops-paper-source.zip`, `docs/submission_execution_checklist.md`, `docs/submission_package_manifest.md` | Account access, endorsement, category, license, and final submission action remain author-side. |
 | Prepare OpenReview route | Bounded | `release/skillops-paper.pdf`, `docs/submission_execution_checklist.md`, `docs/publication_plan.md` | A concrete venue invitation, conflicts, declarations, and final submission action remain author-side. |
 | Prepare submission metadata | Supported | `docs/submission_metadata_payload.md` | Venue-specific form fields may still differ. |
@@ -64,6 +64,6 @@ work that cannot be completed inside the repository.
    checklist category guidance.
 4. If submitting through OpenReview, pick a concrete venue and use
    `release/skillops-paper.pdf` plus the DOI-backed artifact link.
-5. For a stronger next public version, complete the external review layer,
-   verify a new Zenodo record, then run the preregistered pilot and statistical
-   analysis.
+5. For a stronger next public version, complete the external review layer, then
+   run the preregistered pilot and statistical analysis before publishing a new
+   verified Zenodo-backed release.

@@ -84,7 +84,7 @@ participants:
   final submission action;
 - OpenReview account/profile verification, venue invitation selection, conflict
   declarations, policy declarations, and final submission action;
-- Zenodo account-side metadata edits;
+- future Zenodo account-side metadata edits;
 - external human-review recruitment, consent, compensation, annotation, and
   adjudication;
 - outcome-bearing live pilot execution with locally injected provider
@@ -98,4 +98,4 @@ git status --short --branch
 rg -n "sk-[A-Za-z0-9]{24,}|Bearer [A-Za-z0-9._-]{20,}|AKIA[0-9A-Z]{16}" README.md paper evidence docs benchmark experiments results scripts tests release\skillops-paper-source release\main.bbl -S
 ```
 
-The expected test count at this package boundary is 121.
+The expected test count at this package boundary is 135.

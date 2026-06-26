@@ -13,10 +13,11 @@ exact artifact snapshot. The concept DOI is useful as a moving reference to the
 release family.
 
 Zenodo account linking and metadata edits require an authenticated Zenodo
-session or API token. The new version record is reserved as `20900771` with
-version DOI `10.5281/zenodo.20900771`. The previous `v1.1.0` record
-`20844038` is retained as a historical archive and should not be used as
-current binary provenance.
+session or API token. The `v1.2.0` version record is published as `20900771`
+with version DOI `10.5281/zenodo.20900771`; the GitHub-integration archive
+embeds release assets whose hashes match `docs/submission_package_manifest.md`.
+The previous `v1.1.0` record `20844038` is retained as a historical archive and
+should not be used as current binary provenance.
 
 For subsequent public versions, do not overwrite the existing `v1.1.0` release.
 Create a new GitHub release only after the final commit and let Zenodo mint the
