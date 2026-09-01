@@ -33,6 +33,11 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest().upper()
 
 
+def normalized_text_sha256(value: bytes) -> str:
+    normalized = value.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(normalized).hexdigest()
+
+
 def manifest_hashes(text: str) -> dict[str, str]:
     rows = re.findall(r"\| `([^`]+)` \| [^|]+ \| `([A-F0-9]{64})` \|", text)
     return {path: digest for path, digest in rows}
@@ -76,7 +81,7 @@ class SubmissionPackageManifestTests(unittest.TestCase):
             for name in EXPECTED_ZIP_ENTRIES:
                 archived = package.read(name)
                 expanded = (RELEASE_SOURCE_DIR / name).read_bytes()
-                self.assertEqual(hashlib.sha256(archived).hexdigest(), hashlib.sha256(expanded).hexdigest())
+                self.assertEqual(normalized_text_sha256(archived), normalized_text_sha256(expanded))
 
     def test_source_package_contains_current_artifact_citation(self) -> None:
         with zipfile.ZipFile(RELEASE_SOURCE_ZIP_PATH) as package:

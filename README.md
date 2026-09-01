@@ -76,6 +76,7 @@ python scripts/summarize_external_results.py
 python scripts/run_machine_checkable_external_analysis.py
 python scripts/run_external_statistical_analysis.py
 python scripts/run_llm_judge_sensitivity.py --dry-run
+python scripts/analyze_runtime_evolution_ledger.py --input <skill-impact-ledger.json> --output-dir <summary-directory>
 python scripts/run_tests.py
 ```
 
@@ -170,6 +171,13 @@ statistical significance claims.
 `python scripts/run_llm_judge_sensitivity.py --dry-run` prepares the
 LLM-as-judge case-label sensitivity route. Live judging is secondary evidence
 only and requires explicit bounded provider execution.
+
+`python scripts/analyze_runtime_evolution_ledger.py` is the file-only boundary
+to Runtime Evolution Workbench. It verifies every `digest_material`, the
+forward hash chain, and the terminal digest before producing descriptive JSON,
+CSV, and Markdown summaries for task quality, tool and token cost, rule length,
+rollback events, and cross-model transfer. It never reads the workbench
+database and grants no approval or publication authority.
 
 The provider-backed commands require the corresponding provider credentials in
 environment variables. Raw outputs are written under `results/experiments/raw/`;
